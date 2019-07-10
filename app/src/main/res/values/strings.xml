@@ -1,0 +1,129 @@
+<resources>
+    <string name="app_name">Bohemea</string>
+    <string name="facebook_app_id" translatable="false">1518499574947975</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb1518499574947975</string>
+
+    <!-- Fragment Strings -->
+    <string name="reset_request_fragment" translatable="false">reset_request</string>
+    <string name="update_password_fragment" translatable="false">update_password</string>
+    <string name="forget_password_saveInst" translatable="false">forget_password_saved_fragment</string>
+    <string name="food_catrgory_model" translatable="false">food_category</string>
+    <string name="foodCategoriesFragment_name" translatable="false">Category</string>
+    <string name="foodItemFragment_name" translatable="false">food_item</string>
+
+    <!--Parcelable-->
+    <string name="reservation_bundle" translatable="false">reservation</string>
+
+
+    <!--General Strings-->
+    <string name="internet_off">Something want wrong please check your internet connection and try again later</string>
+    <string name="error">Something want wrong please try again later</string>
+    <string name="phone_number_empty">Can\'t be empty</string>
+
+
+    <!--FCM-->
+    <string name="notifications_admin_channel_name" >Global channel</string>
+    <string name="notifications_admin_channel_description" >Notifications sent from the app admin</string>
+    <string name="notification_reservation_channel_name" >Reservation Channel</string>
+    <string name="notification_reservation_channel_description" >Info about your reservation status</string>
+
+
+    <!--alert phone-->
+    <string name="alert_phone_et_hint">Enter Your Phone Number …</string>
+    <string name="alert_phone_required">*required</string>
+    <string name="alert_phone_done_btn">Done</string>
+
+    <!--Login\Register Strings-->
+    <string name="a_login_password">Password</string>
+    <string name="a_login_new_user">New User Register Here</string>
+    <string name="a_login_or">OR</string>
+    <string name="a_login_sign_in">Sign In</string>
+    <string name="a_login_username_email">Username or E-mail</string>
+    <string name="a_login_email_hint">E-mail</string>
+    <string name="a_login_forgot_password">Forgot your password?</string>
+    <string name="a_login_press_here">Press here</string>
+    <string name="alert_phone_title">One more step …</string>
+    <string name="a_register_phone_number">Phone Number</string>
+    <string name="a_register_sign_up">Sign Up</string>
+    <string name="a_register_username">Username</string>
+    <string name="a_register_email_facebook_used_error">this email is used  by facebook registered account , please choose another one or log in using your facebook account</string>
+    <string name="a_register_email_used_error">This email is taken by another account , please choose another one or log in using your facebook account</string>
+    <string name="a_login_invaled_password">Invalid email and password combination , check your info and try again</string>
+    <string name="a_register_password_short">Password is to short</string>
+    <string name="a_register_invalid_email_form">Invalid E-mail Address</string>
+    <string name="a_login_wc_back">Welcome Back</string>
+    <string name="a_register_successfully">Register Successfully</string>
+
+    <!--forgetPassword Fragments-->
+    <string name="f_reset_request_cheack_email_toast">Please Check Your Email</string>
+    <string name="f_reset_emailEdt_error_msg">Email cannot be empty</string>
+    <string name="f_reset_request_wrong_email">Wrong Email</string>
+    <string name="f_update_update_your_password">Update Your Password</string>
+    <string name="f_update_password_enter_email">Enter Your Email</string>
+    <string name="a_forget_password_send_request">Send Request</string>
+    <string name="a_update_password_code">Code</string>
+    <string name="f_update_password_new_password">Enter Your New Password Here</string>
+    <string name="f_update_new_pass__small_hint">Password</string>
+    <string name="f_update_successful">Password Updated Successfully</string>
+    <string name="f_update_wrong_code">Wrong code , please check your email again</string>
+    <string name="f_update_resend_code">Resend code</string>
+    <string name="f_update_code_old">this code is older than 24 hours , please resend a new one</string>
+
+
+    <!--main activity strings-->
+    <string name="a_main_reservation_btn">Make a Reservation</string>
+
+    <!--Reservation system strings-->
+    <string name="f_data_header">Its just gonna\ntake a minute</string>
+    <string name="f_data_chair_number">Enter a number</string>
+    <string name="f_data_date">Date</string>
+    <string name="f_data_time">Starts at:</string>
+    <string name="f_table_header">Pick Your Favorite Table</string>
+    <string name="table_frag_alert_send_table_number">Table Number: %1$s</string>
+    <string name="table_frag_alert_send_message">Are you sure that you want to choose this table</string>
+    <string name="table_frag_alert_send_yesBtn">Yes</string>
+    <string name="table_frag_alert_send_cancel_btn">Cancel</string>
+    <string name="alert_done_menu_btn">MENU</string>
+    <string name="alert_done_menu">Now go and check our menu</string>
+
+
+    <!--Menu Strings-->
+    <string name="f_foodItem_add">Added To Cart</string>
+    <string name="foodDetailActivity_food_price">%1$d  S.P</string>
+    <string name="f_food_dialog_quantity">Quantity</string>
+    <string name="f_food_dialog_closeBtn">Close</string>
+    <string name="f_food_dialag_add_btn">Add to Cart</string>
+
+
+    <!--Cart Strings-->
+    <string name="total_cart_text">Total: %1$d  S.P</string>
+    <string name="cart_done_dailog_done">Close</string>
+    <string name="cart_act_btn_make_res_first">Make a Reservation First</string>
+    <string name="cart_snackbar_remove">removed from cart!</string>
+    <string name="cart_snackbar_undo">UNDO</string>
+    <string name="a_cart_place_btn">Place Order</string>
+    <string name="a_cart_addmore_btn">Add more items</string>
+    <string name="a_cart_back_menu_btn">Back to Menu</string>
+    <string name="a_cart_empty_text">Looks Like You Haven\'t Made Your Choice Yet …</string>
+    <string name="cart_update_dialog_cancel">Cancel</string>
+    <string name="cart_update_dialog_update">Update</string>
+    <string name="food_menu_adapter_price_text">Price: %1$d  S.P</string>
+
+
+    <!--Alert Done-->
+    <string name="alert_done_all_done">All Done!</string>
+    <string name="alert_done_send_notification">We will send you a notification when your reservation approved</string>
+    <string name="alert_done_reservation_history">*go to your profile to check your reservation history</string>
+
+
+    <!--Profile Strings-->
+    <string name="update_phone_done">Done</string>
+    <string name="alert_confirm_password_title">One more step …</string>
+    <string name="a_profile_text_header1">Profile</string>
+    <string name="a_profile_text_header2">settings</string>
+    <string name="a_preferences_phone_edt">Edit your phone number</string>
+    <string name="a_preferences_email_edit">Change Your Email</string>
+    <string name="a_preferences_password_edt">Change Your Password</string>
+    <string name="token_dosenot_ready">Your internet connection is slow please wait please a minute and try again</string>
+
+</resources>

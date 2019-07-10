@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:layout_marginTop="16dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_phone_black_24dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edtPhoneLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/alert_phone_et_hint"
+            android:textColorHint="@color/colorPrimaryText"
+            app:errorEnabled="true"
+            app:helperText="@string/alert_phone_required">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtPhone"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:inputType="phone"
+                android:textColor="@color/colorPrimaryText" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+   <TextView
+       android:id="@+id/login"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_below="@+id/linearLayout2"
+       android:layout_alignParentEnd="true"
+       android:text="@string/alert_phone_done_btn"
+       android:textColor="@color/black"
+       android:layout_marginEnd="16dp"
+       android:textSize="30dp"
+       android:layout_marginBottom="16dp"
+       android:layout_marginTop="16dp" />
+
+
+</RelativeLayout>
