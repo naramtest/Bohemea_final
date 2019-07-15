@@ -3,6 +3,7 @@ package com.emargystudio.bohemea.ViewHolders;
 import android.content.Context;
 
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class FoodCategoryAdapter  extends RecyclerView.Adapter<FoodCategoryAdapter.FoodCategoryViewHolder>{
@@ -27,10 +29,12 @@ public class FoodCategoryAdapter  extends RecyclerView.Adapter<FoodCategoryAdapt
     List<FoodCategory> foodCategories;
     private View.OnClickListener mOnItemClickListener;
     private Context context;
+    private String lang;
 
     public FoodCategoryAdapter(List<FoodCategory> foodCategories, Context context) {
         this.foodCategories = foodCategories;
         this.context = context;
+        lang = Locale.getDefault().getLanguage();
     }
 
     @NonNull
@@ -46,8 +50,15 @@ public class FoodCategoryAdapter  extends RecyclerView.Adapter<FoodCategoryAdapt
 
         FoodCategory foodCategory = foodCategories.get(position);
         Picasso.get().load(foodCategory.getImage_url()).into(holder.categoryImage);
-        holder.item_count.setText(foodCategory.getItem_count()+" items");
-        holder.category_name.setText(foodCategory.getName());
+        holder.item_count.setText(String.format(context.getString(R.string.food_category_item_count),foodCategory.getItem_count()));
+
+        if(lang.equals("ar")){
+            holder.category_name.setText(foodCategory.getAr_name());
+
+        }else if (lang.equals("en")){
+            holder.category_name.setText(foodCategory.getName());
+
+        }
 
     }
 

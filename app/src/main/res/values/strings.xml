@@ -93,6 +93,7 @@
     <string name="f_food_dialog_quantity">Quantity</string>
     <string name="f_food_dialog_closeBtn">Close</string>
     <string name="f_food_dialag_add_btn">Add to Cart</string>
+    <string name="food_category_item_count">%1$d  items</string>
 
 
     <!--Cart Strings-->

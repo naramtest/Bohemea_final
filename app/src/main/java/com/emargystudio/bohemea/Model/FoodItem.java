@@ -19,10 +19,10 @@ public class FoodItem implements Parcelable {
     private String image_url;
     private String description;
     private int price;
-    private int discount;
 
 
-    public FoodItem(int id, int food_id, int category_id, String name, String image_url, String description, int price, int discount) {
+
+    public FoodItem(int id, int food_id, int category_id, String name, String image_url, String description, int price) {
         this.id = id;
         this.food_id = food_id;
         this.category_id = category_id;
@@ -30,18 +30,17 @@ public class FoodItem implements Parcelable {
         this.image_url = image_url;
         this.description = description;
         this.price = price;
-        this.discount = discount;
+
     }
 
     @Ignore
-    public FoodItem(int food_id, int category_id, String name, String image_url, String description, int price, int discount) {
+    public FoodItem(int food_id, int category_id, String name, String image_url, String description, int price) {
         this.food_id = food_id;
         this.category_id = category_id;
         this.name = name;
         this.image_url = image_url;
         this.description = description;
         this.price = price;
-        this.discount = discount;
     }
 
     @Ignore
@@ -53,7 +52,7 @@ public class FoodItem implements Parcelable {
         image_url = in.readString();
         description = in.readString();
         price = in.readInt();
-        discount = in.readInt();
+
     }
 
     public static final Creator<FoodItem> CREATOR = new Creator<FoodItem>() {
@@ -124,13 +123,7 @@ public class FoodItem implements Parcelable {
         this.price = price;
     }
 
-    public int getDiscount() {
-        return discount;
-    }
 
-    public void setDiscount(int discount) {
-        this.discount = discount;
-    }
 
     @Override
     public int describeContents() {
@@ -146,7 +139,6 @@ public class FoodItem implements Parcelable {
         dest.writeString(image_url);
         dest.writeString(description);
         dest.writeInt(price);
-        dest.writeInt(discount);
     }
 
 }

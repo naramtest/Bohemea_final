@@ -6,13 +6,14 @@ import android.os.Parcelable;
 public class FoodCategory implements Parcelable {
 
     private int id , item_count;
-    private String name , image_url;
+    private String name ,ar_name, image_url;
 
 
-    public FoodCategory(int id, int item_count, String name, String image_url) {
+    public FoodCategory(int id, int item_count, String name, String ar_name, String image_url) {
         this.id = id;
         this.item_count = item_count;
         this.name = name;
+        this.ar_name = ar_name;
         this.image_url = image_url;
     }
 
@@ -20,6 +21,7 @@ public class FoodCategory implements Parcelable {
         id = in.readInt();
         item_count = in.readInt();
         name = in.readString();
+        ar_name = in.readString();
         image_url = in.readString();
     }
 
@@ -59,6 +61,14 @@ public class FoodCategory implements Parcelable {
         this.name = name;
     }
 
+    public String getAr_name() {
+        return ar_name;
+    }
+
+    public void setAr_name(String ar_name) {
+        this.ar_name = ar_name;
+    }
+
     public String getImage_url() {
         return image_url;
     }
@@ -77,6 +87,7 @@ public class FoodCategory implements Parcelable {
         dest.writeInt(id);
         dest.writeInt(item_count);
         dest.writeString(name);
+        dest.writeString(ar_name);
         dest.writeString(image_url);
     }
 }

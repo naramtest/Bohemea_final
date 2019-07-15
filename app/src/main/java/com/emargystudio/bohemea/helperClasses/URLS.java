@@ -17,8 +17,8 @@ public class URLS {
     public static final String pre_order = "http://naramalkoht.live/bohemea_final/reservation/pre_order.php";
     public static final String send_reservation   = "http://naramalkoht.live/bohemea_final/reservation/make_reservation.php";
     public static final String reservation_query   = "http://naramalkoht.live/bohemea_final/reservation/reservation_query.php?year=";
-
-    public static final String food_menu_query = "http://naramalkoht.live/bohemea/food_menu_query.php?category_id=";
+    public static final String food_menu_query = "http://naramalkoht.live/bohemea_final/food_menu/food_menu_query.php?category_id=";
+    public static final String food_menu_query_ar = "http://naramalkoht.live/bohemea_final/food_menu/food_menu_query_ar.php?category_id=";
 
     public static final String user_default_photo = "http://naramalkoht.live/bohemea/default_pics.png";
 

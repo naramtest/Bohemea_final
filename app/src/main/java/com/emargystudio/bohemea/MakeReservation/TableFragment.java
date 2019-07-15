@@ -4,6 +4,7 @@ package com.emargystudio.bohemea.MakeReservation;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
@@ -12,6 +13,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +31,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.devs.vectorchildfinder.VectorChildFinder;
+import com.devs.vectorchildfinder.VectorDrawableCompat;
 import com.emargystudio.bohemea.LocalDataBases.AppDatabase;
 import com.emargystudio.bohemea.LocalDataBases.AppExecutors;
 import com.emargystudio.bohemea.MainActivity;
@@ -59,7 +65,9 @@ import static com.emargystudio.bohemea.helperClasses.Common.res_id;
 
 public class TableFragment extends Fragment {
 
-    private TabLayout tabLayout;
+
+    private ImageView imageView;
+    private TextView headerTxt1,headerTxt2;
 
 
     //var
@@ -86,8 +94,21 @@ public class TableFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        TextView textView = view.findViewById(R.id.textView);
-        tabLayout = view.findViewById(R.id.tableLayout);
+
+        //tabLayout = view.findViewById(R.id.tableLayout);
+        imageView = view.findViewById(R.id.imageView);
+        headerTxt1 = view.findViewById(R.id.header1);
+        headerTxt2 = view.findViewById(R.id.header2);
+
+        Typeface face_light = Typeface.createFromAsset(getContext().getAssets(),"fonts/Kabrio-Light.ttf");
+        Typeface face_book = Typeface.createFromAsset(getContext().getAssets(),"fonts/Kabrio-Book.ttf");
+        headerTxt1.setTypeface(face_light);
+        headerTxt2.setTypeface(face_book);
+
+
+
+
+
 
         tableArray = new ArrayList<>();
         foodList = new ArrayList<>();
@@ -106,10 +127,6 @@ public class TableFragment extends Fragment {
 
         loadListFood();
 
-        if (getActivity() != null) {
-            Typeface face = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Kabrio_Regular.ttf");
-            textView.setTypeface(face);
-        }
     }
 
 
@@ -148,7 +165,7 @@ public class TableFragment extends Fragment {
                                     }
                                 }
 
-                                initTabLayout();
+                                //initTabLayout();
 
                             } else {
                                 Toast.makeText(getContext(), Objects.requireNonNull(getContext()).getString(R.string.internet_off), Toast.LENGTH_SHORT).show();
@@ -172,31 +189,42 @@ public class TableFragment extends Fragment {
     }
 
 
-    private void initTabLayout() {
-
-        for (int i = 0; i < 10; i++) {
-            if (!tableArray.contains(i + 1)) {
-                tabLayout.addTab(tabLayout.newTab().setText(String.valueOf(i + 1)));
-            }
-        }
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                alertSend(user.getUserId(), reservation, Objects.requireNonNull(tab.getText()).toString(), "No movie");
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-    }
+//    private void initTabLayout() {
+//
+//        for (int i = 0; i < 10; i++) {
+//            if (!tableArray.contains(i + 1)) {
+//                tabLayout.addTab(tabLayout.newTab().setText(String.valueOf(i + 1)));
+//            }
+//        }
+//
+//
+//
+//
+//
+//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab) {
+//                //alertSend(user.getUserId(), reservation, Objects.requireNonNull(tab.getText()).toString(), "No movie");
+//
+//                VectorChildFinder vector = new VectorChildFinder(getContext(), R.drawable.ic_group_190, imageView);
+//
+//                VectorDrawableCompat.VFullPath path1 = vector.findPathByName("path1");
+//                path1.setFillColor(Color.YELLOW);
+//                imageView.invalidate();
+//            }
+//
+//            @Override
+//            public void onTabUnselected(TabLayout.Tab tab) {
+//
+//            }
+//
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab) {
+//                alertSend(user.getUserId(), reservation, Objects.requireNonNull(tab.getText()).toString(), "No movie");
+//
+//            }
+//        });
+//    }
 
 
     private void alertSend(final int user_id, final Reservation reservation, final String table_id, final String movie_name) {
@@ -224,11 +252,15 @@ public class TableFragment extends Fragment {
     }
 
 
+
+
+
     private void sendReservation(final int user_id, final Reservation reservation, final String table_id, final String movie_name) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URLS.send_reservation,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.d("ninar", "onResponse: "+response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (!jsonObject.getBoolean("error")) {

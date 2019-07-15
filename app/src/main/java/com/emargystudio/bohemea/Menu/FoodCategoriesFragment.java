@@ -5,15 +5,18 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.TransitionInflater;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -35,7 +38,6 @@ import java.util.ArrayList;
 
 public class FoodCategoriesFragment extends Fragment {
 
-    private static final String TAG = "FoodCategoriesFragment";
 
     private ArrayList<FoodCategory> foodCategories;
     private FoodCategoryAdapter foodCategoryAdapter;
@@ -48,10 +50,11 @@ public class FoodCategoriesFragment extends Fragment {
             int position = viewHolder.getAdapterPosition();
             // viewHolder.getItemId();
             // viewHolder.getItemViewType();
-            // viewHolder.itemView;
             FoodCategory foodCategory = foodCategories.get(position);
             Bundle args = new Bundle();
             args.putParcelable(getString(R.string.food_catrgory_model), foodCategory);
+
+
             FoodItemFragment foodItemFragment = new FoodItemFragment();
             foodItemFragment.setArguments(args);
             if (getActivity()!=null) {
@@ -106,6 +109,7 @@ public class FoodCategoriesFragment extends Fragment {
                                     foodCategories.add(new FoodCategory(jsonObjectSingleCategory.getInt("id"),
                                             jsonObjectSingleCategory.getInt("item_count"),
                                             jsonObjectSingleCategory.getString("name"),
+                                            jsonObjectSingleCategory.getString("ar_name"),
                                             jsonObjectSingleCategory.getString("image_url")));
 
                                 }

@@ -3,6 +3,7 @@ package com.emargystudio.bohemea.Menu;
 
 import android.app.Dialog;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,7 +11,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.TransitionInflater;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +32,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.emargystudio.bohemea.LocalDataBases.AppDatabase;
 import com.emargystudio.bohemea.LocalDataBases.AppExecutors;
-import com.emargystudio.bohemea.LocalDataBases.FoodViewModel;
 import com.emargystudio.bohemea.Model.FoodCategory;
 import com.emargystudio.bohemea.Model.FoodItem;
 import com.emargystudio.bohemea.Model.FoodOrder;
@@ -45,6 +47,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
@@ -53,9 +56,11 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class FoodItemFragment extends Fragment {
 
+    private static final String TAG = "FoodItemFragment";
 
-    private TextView priceTxt , nameTxt , descriptionTxt , quantityTxt;
-    private ImageView food_image;
+
+    private TextView priceTxt , nameTxt , descriptionTxt , quantityTxt,category_name;
+    private ImageView food_image ,category_image;
     private Button add_btn , cancel_btn;
     private ElegantNumberButton numberButton;
 
@@ -86,6 +91,7 @@ public class FoodItemFragment extends Fragment {
     }
 
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -100,14 +106,34 @@ public class FoodItemFragment extends Fragment {
         mDb = AppDatabase.getInstance(getApplicationContext());
 
         RecyclerView recyclerView = view.findViewById(R.id.food_category_rv);
+        category_name = view.findViewById(R.id.category_name);
+        category_image = view.findViewById(R.id.category_image);
+
+
         foodItems = new ArrayList<>();
         foodItemAdapter = new FoodItemAdapter(foodItems,getContext());
+        String lang = Locale.getDefault().getLanguage();
 
 
         try {
             FoodCategory foodCategory = getCategoryFromBundle();
             if (foodCategory !=null) {
-                foodQuery(foodCategory.getId());
+
+                Picasso.get().load(foodCategory.getImage_url()).into(category_image);
+                if(lang.equals("ar")){
+                    Log.d(TAG, "onCreate: "+"arabic");
+                    category_name.setText(foodCategory.getAr_name());
+
+                    foodQuery_ar(foodCategory.getId());
+                }else if (lang.equals("en")){
+                    Log.d(TAG, "onCreate: "+"english");
+                    String lower = foodCategory.getName().toLowerCase();
+                    String upperString = lower.substring(0,1).toUpperCase() + lower.substring(1);
+                    category_name.setText(upperString);
+                    foodQuery(foodCategory.getId());
+                }
+
+
 
             }
         }catch (NullPointerException e){
@@ -149,8 +175,7 @@ public class FoodItemFragment extends Fragment {
                                             jfood.getString("name"),
                                             jfood.getString("image_url"),
                                             jfood.getString("description"),
-                                            jfood.getInt("price"),
-                                            jfood.getInt("discount")));
+                                            jfood.getInt("price")));
                                 }
 
                                 foodItemAdapter.notifyDataSetChanged();
@@ -174,6 +199,55 @@ public class FoodItemFragment extends Fragment {
 
     }
 
+    private void foodQuery_ar(int category_id){
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URLS.food_menu_query_ar+category_id,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+
+                            if(!jsonObject.getBoolean("error")){
+
+                                JSONArray jsonObjectCategory =  jsonObject.getJSONArray("food_menu");
+
+
+                                for(int i = 0 ; i<jsonObjectCategory.length(); i++){
+                                    JSONObject jfood = jsonObjectCategory.getJSONObject(i);
+
+
+                                    foodItems.add(new FoodItem(jfood.getInt("id"),
+                                            jfood.getInt("category_id"),
+                                            jfood.getString("ar_name"),
+                                            jfood.getString("image_url"),
+                                            jfood.getString("ar_description"),
+                                            jfood.getInt("price")));
+
+                                    Log.d(TAG, "onResponse: "+jfood.getString("ar_description"));
+                                }
+
+                                foodItemAdapter.notifyDataSetChanged();
+                            }else{
+                                Toast.makeText(getContext(),getString(R.string.internet_off),Toast.LENGTH_LONG).show();
+                            }
+
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getContext(),getString(R.string.internet_off),Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
+        VolleyHandler.getInstance(getContext()).addRequetToQueue(stringRequest);
+
+    }
 
     private FoodCategory getCategoryFromBundle(){
 
@@ -240,6 +314,7 @@ public class FoodItemFragment extends Fragment {
         descriptionTxt.setTypeface(faceLight);
         cancel_btn.setTypeface(faceLight);
         add_btn.setTypeface(face);
+        category_name.setTypeface(face);
     }
 
     private void initDialogViews(Dialog dialog) {
@@ -251,11 +326,12 @@ public class FoodItemFragment extends Fragment {
         add_btn    = dialog.findViewById(R.id.add_toCart_btn);
         cancel_btn = dialog.findViewById(R.id.cancel_btn);
         numberButton = dialog.findViewById(R.id.number_button);
+
     }
 
     private void addToCart(FoodItem foodItem) {
         int food_id = foodItem.getId();
-        int discount = foodItem.getDiscount();
+
         int quantity = Integer.parseInt(numberButton.getNumber());
         int price = foodItem.getPrice();
         Common.total = (Common.total)+(price*quantity);
@@ -264,7 +340,7 @@ public class FoodItemFragment extends Fragment {
         String food_name = foodItem.getName();
 
 
-        final FoodOrder foodOrder = new FoodOrder(res_id,food_id,food_name,quantity,price,discount,food_image,"");
+        final FoodOrder foodOrder = new FoodOrder(res_id,food_id,food_name,quantity,price,food_image,"");
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {

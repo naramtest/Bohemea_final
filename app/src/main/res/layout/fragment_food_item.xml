@@ -4,14 +4,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Menu.FoodItemFragment"
-    android:background="@drawable/main_bg">
 
+    >
+
+    <ImageView
+        android:id="@+id/category_image"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:src="@drawable/test"
+        android:scaleType="centerCrop"
+        />
+
+    <TextView
+        android:id="@+id/category_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:textSize="28sp"
+        android:textStyle="bold"
+
+        />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/menu_list_bg"
+        android:scaleType="fitXY"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/food_category_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
         android:clipToPadding="false"
+        android:layout_marginStart="16dp"
         android:background="@android:color/transparent"
         android:paddingBottom="100dp"/>
 
