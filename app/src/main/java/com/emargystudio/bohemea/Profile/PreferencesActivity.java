@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.SharedElementCallback;
 import android.content.Context;
 
 import android.content.Intent;
@@ -33,15 +34,18 @@ import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.emargystudio.bohemea.Login.LoginActivity;
 import com.emargystudio.bohemea.Model.User;
 import com.emargystudio.bohemea.R;
+import com.emargystudio.bohemea.helperClasses.Common;
 import com.emargystudio.bohemea.helperClasses.SharedPreferenceManger;
 import com.emargystudio.bohemea.helperClasses.URLS;
 import com.emargystudio.bohemea.helperClasses.VolleyHandler;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
@@ -63,12 +67,13 @@ public class PreferencesActivity extends AppCompatActivity {
     private static final String KEY_PASSWORD = "new_password";
 
     ImageView user_image ;
-    TextView user_name;
+    TextView change_image;
     TextView header1, header2;
     TextInputEditText editPhone , editPassword , editEmail;
     LinearLayout phoneLayout, passwordLayout , emailLayout;
     ImageView phoneBtn , emailBtn , passwordBtn;
     ProgressBar progressBar;
+    FloatingActionButton saveUpdatesButton;
 
     //dialog views
     ImageView  upload_image ;
@@ -98,48 +103,40 @@ public class PreferencesActivity extends AppCompatActivity {
 
         setupLayout();
 
-        phoneBtn.setOnClickListener(new View.OnClickListener() {
+
+
+        saveUpdatesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+                //update email
+                String email = editEmail.getText().toString();
+                if(!email.isEmpty() || !email.equals("")){
+                    updateEmail(user.getUserId(),user.getUserEmail(),email);
+                }
+
+                //update phone number
+
                 String phone = editPhone.getText().toString();
                 if (!phone.isEmpty() || !phone.equals("")){
 
                     updatePhone(user.getUserId(),phone);
                 }
-            }
-        });
 
-        emailBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = editEmail.getText().toString();
-                if(!email.isEmpty() || !email.equals("")){
-                    updateEmail(user.getUserId(),user.getUserEmail(),email);
-                }
-            }
-        });
 
-        passwordBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+
+                //update password
                 String password = editPassword.getText().toString();
                 if (!password.isEmpty() || !password.equals("")){
 
                     updatePasswordDialog(password,user.getUserEmail());
-               }
+                }
 
             }
         });
 
-        user_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent galleryIntent = new Intent();
-                galleryIntent.setType("image/*");
-                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(galleryIntent, "Select Image"), GALLARY_PICK);
-            }
-        });
+
 
 
 
@@ -159,7 +156,9 @@ public class PreferencesActivity extends AppCompatActivity {
                                 user.setUserPhoneNumber(user_phone);
                                 sharedPreferenceManger.logUserOut();
                                 sharedPreferenceManger.storeUserData(user);
-                                editPhone.setText(getString(R.string.update_phone_done));
+                                editPhone.setHint(getString(R.string.update_phone_done));
+
+                                Toast.makeText(PreferencesActivity.this, getString(R.string.update_phone_done), Toast.LENGTH_SHORT).show();
 
 
                             }else{
@@ -200,7 +199,9 @@ public class PreferencesActivity extends AppCompatActivity {
                                 user.setUserEmail(user_email);
                                 sharedPreferenceManger.logUserOut();
                                 sharedPreferenceManger.storeUserData(user);
-                                editEmail.setText(R.string.update_phone_done);
+                                editEmail.setHint(R.string.update_phone_done);
+                                Toast.makeText(PreferencesActivity.this, getString(R.string.update_phone_done), Toast.LENGTH_SHORT).show();
+
 
                             }
 
@@ -290,8 +291,10 @@ public class PreferencesActivity extends AppCompatActivity {
                             //error = 2 : wrong code or password
                             //error = 3 : missing some request var
                             if (response.getInt("error")==0){
-
+                                SharedPreferenceManger sharedPreferenceManger = SharedPreferenceManger.getInstance(PreferencesActivity.this);
                                 Toast.makeText(PreferencesActivity.this, getString(R.string.f_update_successful), Toast.LENGTH_SHORT).show();
+                                sharedPreferenceManger.logUserOut();
+                                sharedPreferenceManger.logUserDeleteTokens();
                                 Intent intent = new Intent(PreferencesActivity.this, LoginActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
@@ -331,7 +334,7 @@ public class PreferencesActivity extends AppCompatActivity {
 
     private void setupLayout() {
         user_image = findViewById(R.id.circleImageView);
-        user_name  = findViewById(R.id.user_name);
+        change_image  = findViewById(R.id.change_image);
         progressBar = findViewById(R.id.progressBar3);
         header1    = findViewById(R.id.text_header1);
         header2    = findViewById(R.id.text_header2);
@@ -344,6 +347,8 @@ public class PreferencesActivity extends AppCompatActivity {
         phoneBtn =    findViewById(R.id.phoneBtn);
         emailBtn = findViewById(R.id.emailBtn);
         passwordBtn = findViewById(R.id.passwordBtn);
+        saveUpdatesButton = findViewById(R.id.next_fab);
+
 
 
         Typeface face_Bold = Typeface.createFromAsset(PreferencesActivity.this.getAssets(),"fonts/Kabrio-Bold.ttf");
@@ -351,7 +356,7 @@ public class PreferencesActivity extends AppCompatActivity {
         Typeface akrobat_Regular = Typeface.createFromAsset(PreferencesActivity.this.getAssets(),"fonts/Akrobat-Regular.otf");
 
         header1.setTypeface(face_Bold);
-        user_name.setTypeface(face_Bold);
+        change_image.setTypeface(face_Bold);
         header2.setTypeface(face_Light);
         editEmail.setTypeface(akrobat_Regular);
         editPassword.setTypeface(akrobat_Regular);
@@ -359,12 +364,45 @@ public class PreferencesActivity extends AppCompatActivity {
 
 
         Picasso.get().load(user.getUserPhoto()).into(user_image);
-        user_name.setText(user.getUserName());
+
 
 
         if(user.getIs_facebook()== 1){
-            passwordLayout.setVisibility(View.GONE);
-            emailLayout.setVisibility(View.GONE);
+
+            editPassword.setClickable(false);
+            editPassword.setFocusable(false);
+            editPassword.setCursorVisible(false);
+            editPassword.setFocusableInTouchMode(false);
+            editPassword.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(PreferencesActivity.this, "This field is not for facebook register users", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            editEmail.setClickable(false);
+            editEmail.setFocusable(false);
+            editEmail.setCursorVisible(false);
+            editEmail.setFocusableInTouchMode(false);
+            editEmail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(PreferencesActivity.this, "This field is not for facebook register users", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            change_image.setText(user.getUserName());
+
+        }else {
+            change_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent galleryIntent = new Intent();
+                    galleryIntent.setType("image/*");
+                    galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(Intent.createChooser(galleryIntent, "Select Image"), GALLARY_PICK);
+                }
+            });
         }
     }
 
@@ -396,20 +434,22 @@ public class PreferencesActivity extends AppCompatActivity {
 
                                 String image_url  = jsonObject.getString("image");
                                 Toast.makeText(PreferencesActivity.this,"Image uploaded successfully!",Toast.LENGTH_LONG).show();
-                                Log.d(TAG, "onResponse: "+image_url);
                                 user.setUserPhoto(image_url);
                                 sharedPreferenceManger.logUserOut();
                                 //Picasso.get().load(user.getUserPhoto()).into(user_image);
                                 sharedPreferenceManger.storeUserData(user);
+                                Common.isImageChanged = true;
 
                             }else{
+
+                                Log.d(TAG, "onResponse: "+response);
 
                                 Toast.makeText(PreferencesActivity.this,jsonObject.getString("message"),Toast.LENGTH_LONG).show();
                             }
                             Picasso.get().load(user.getUserPhoto()).into(user_image);
 
                         }catch (JSONException e){
-                            e.printStackTrace();
+                            Log.d(TAG, "onResponse: "+e.getMessage());
                         }
                     }
                 },
@@ -417,7 +457,9 @@ public class PreferencesActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressBar.setVisibility(View.GONE);
-                        Toast.makeText(PreferencesActivity.this,error.getMessage(),Toast.LENGTH_LONG).show();
+                        Log.d(TAG, "onResponse: "+error);
+
+                        Toast.makeText(PreferencesActivity.this,getString(R.string.internet_off),Toast.LENGTH_LONG).show();
 
                     }
                 }
@@ -434,6 +476,23 @@ public class PreferencesActivity extends AppCompatActivity {
                 return  imageMap;
             }
         };//end of string Request
+
+        stringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 30000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 30000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
 
         VolleyHandler.getInstance(PreferencesActivity.this).addRequetToQueue(stringRequest);
 

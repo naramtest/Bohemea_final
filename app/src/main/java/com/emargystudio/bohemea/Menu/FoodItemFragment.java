@@ -2,6 +2,7 @@ package com.emargystudio.bohemea.Menu;
 
 
 import android.app.Dialog;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -63,6 +64,7 @@ public class FoodItemFragment extends Fragment {
     private ImageView food_image ,category_image;
     private Button add_btn , cancel_btn;
     private ElegantNumberButton numberButton;
+    int itemCount = 0;
 
 
     private ArrayList<FoodItem> foodItems;
@@ -297,6 +299,13 @@ public class FoodItemFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 addToCart(foodItem);
+                itemCount+=1;
+                if (itemCount==1){
+                    ((MenuActivity)getActivity()).spaceNavigationView.showBadgeAtIndex(1, itemCount, Color.RED);
+                }else {
+                    ((MenuActivity)getActivity()).spaceNavigationView.changeBadgeTextAtIndex(1, itemCount);
+                }
+
                 dialog.dismiss();
             }
         });

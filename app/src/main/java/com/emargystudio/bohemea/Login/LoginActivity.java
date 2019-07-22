@@ -94,6 +94,7 @@ public class LoginActivity extends AppCompatActivity {
         sharedPreferenceManger = new SharedPreferenceManger(LoginActivity.this);
 
 
+
         registerNewUserTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,11 +140,14 @@ public class LoginActivity extends AppCompatActivity {
                             if (!jsonObject.getBoolean("error")){
                                 JSONObject jsonObjectUser =  jsonObject.getJSONObject("user");
 
-                                User user = new User(jsonObjectUser.getInt("id"),jsonObjectUser.getString("user_name"),jsonObjectUser.getString("user_email")
-                                        ,jsonObjectUser.getString("user_photo"),jsonObjectUser.getInt("user_phone_number"),jsonObjectUser.getInt("is_facebook"));
+                                User user = new User(jsonObjectUser.getInt("id"),jsonObjectUser.getString("user_name"),
+                                        jsonObjectUser.getString("user_email")
+                                        ,jsonObjectUser.getString("user_photo"),jsonObjectUser.getInt("user_phone_number"),
+                                        jsonObjectUser.getInt("is_facebook"),jsonObjectUser.getInt("is_blocked"));
 
                                 //store user data inside sharedPreferences
                                 sharedPreferenceManger.storeUserData(user);
+                                sharedPreferenceManger.storeUserStatus(jsonObjectUser.getInt("is_blocked"));
                                 mainActivityIntent();
                             }
 
@@ -168,6 +172,7 @@ public class LoginActivity extends AppCompatActivity {
                 userData.put("user_photo",profile_image);
                 userData.put("user_phone_number",phone_number);
                 userData.put("is_facebook","1");
+                userData.put("is_blocked","0");
                 return  userData;
             }
         };//end of string Request
@@ -198,8 +203,13 @@ public class LoginActivity extends AppCompatActivity {
                                     addYourPhoneNumberDialog(name,email,profile_image);
                                 }else {
 
-                                    User user = new User(jsonObjectUser.getInt("id"), jsonObjectUser.getString("user_name"), jsonObjectUser.getString("user_email")
-                                            , jsonObjectUser.getString("user_photo"), jsonObjectUser.getInt("user_phone_number"),jsonObjectUser.getInt("is_facebook"));
+                                    User user = new User(jsonObjectUser.getInt("id"),
+                                            jsonObjectUser.getString("user_name"),
+                                            jsonObjectUser.getString("user_email"),
+                                            jsonObjectUser.getString("user_photo"),
+                                            jsonObjectUser.getInt("user_phone_number"),
+                                            jsonObjectUser.getInt("is_facebook"),
+                                            jsonObjectUser.getInt("is_blocked"));
 
                                     //store user data inside sharedPreferences
                                     JSONArray tokensJsonArray = jsonObject.getJSONArray("tokens");
@@ -214,6 +224,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                     }
                                     sharedPreferenceManger.storeUserData(user);
+                                    sharedPreferenceManger.storeUserStatus(jsonObjectUser.getInt("is_blocked"));
                                     if (sharedPreferenceManger.getDeviceToken()!=null){
                                         if (!Common.isNewToken){
                                             if (!tokens.contains(sharedPreferenceManger.getDeviceToken())){
@@ -273,14 +284,18 @@ public class LoginActivity extends AppCompatActivity {
                                 JSONObject jsonObjectUser = response.getJSONObject("user");
 
 
-                                    User user = new User(jsonObjectUser.getInt("id"), jsonObjectUser.getString("user_name"), jsonObjectUser.getString("user_email")
-                                            , jsonObjectUser.getString("user_photo"), jsonObjectUser.getInt("user_phone_number"),jsonObjectUser.getInt("is_facebook"));
+                                    User user = new User(jsonObjectUser.getInt("id"),
+                                            jsonObjectUser.getString("user_name"),
+                                            jsonObjectUser.getString("user_email"),
+                                            jsonObjectUser.getString("user_photo"),
+                                            jsonObjectUser.getInt("user_phone_number"),
+                                            jsonObjectUser.getInt("is_facebook"),
+                                            jsonObjectUser.getInt("is_blocked"));
 
                                     JSONArray tokensJsonArray = response.getJSONArray("tokens");
                                     for (int i=0 ; i<tokensJsonArray.length();i++){
                                         JSONObject tokenJSONObject = tokensJsonArray.getJSONObject(i);
                                         String token = tokenJSONObject.getString("token");
-                                        Log.d(TAG, "onResponse: "+token);
                                         tokens.add(token);
                                     }
                                     if (tokens.size()>0){
@@ -290,12 +305,10 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.makeText(LoginActivity.this, getString(R.string.a_login_wc_back)+" "+user.getUserName(), Toast.LENGTH_SHORT).show();
                                     //store user data inside sharedPreferences
                                     sharedPreferenceManger.storeUserData(user);
+                                    sharedPreferenceManger.storeUserStatus(jsonObjectUser.getInt("is_blocked"));
                                     if (sharedPreferenceManger.getDeviceToken()!=null){
-                                        Log.d(TAG, "onResponse: "+1);
                                         if (!Common.isNewToken){
-                                            Log.d(TAG, "onResponse: "+2);
                                             if (!tokens.contains(sharedPreferenceManger.getDeviceToken())){
-                                                Log.d(TAG, "onResponse: "+3);
                                                 registerToken(user.getUserId(),sharedPreferenceManger.getDeviceToken());
                                             }
                                         }

@@ -45,9 +45,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     @Override
     public void onBindViewHolder(@NonNull final CartViewHolder holder, final int position) {
 
-        Picasso.get().load(foodOrders.get(position).getFood_image()).resize(200,200).into(holder.cartImage);
+        Picasso.get().load(foodOrders.get(position).getFood_image()).into(holder.cartImage);
         holder.cartName.setText(foodOrders.get(position).getFood_name());
-        holder.cartPrice.setText(String.format(context.getString(R.string.foodDetailActivity_food_price),foodOrders.get(position).getPrice()));
+        int total = foodOrders.get(position).getPrice()*foodOrders.get(position).getQuantity();
+        holder.cartPrice.setText(String.format(context.getString(R.string.foodDetailActivity_food_price),total));
 
         holder.deleteCart.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -27,7 +27,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-
+        tools:targetApi="lollipop"
+        android:elevation="20dp"
         android:src="@drawable/logo" />
 
 
@@ -165,6 +166,7 @@
         android:layout_below="@id/facbook"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
+        android:background="@drawable/ripple"
         android:text="@string/a_login_new_user"
         android:textColor="#ffffff"
         android:textSize="16sp" />

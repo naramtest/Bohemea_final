@@ -19,20 +19,19 @@ public class URLS {
     public static final String reservation_query   = "http://naramalkoht.live/bohemea_final/reservation/reservation_query.php?year=";
     public static final String food_menu_query = "http://naramalkoht.live/bohemea_final/food_menu/food_menu_query.php?category_id=";
     public static final String food_menu_query_ar = "http://naramalkoht.live/bohemea_final/food_menu/food_menu_query_ar.php?category_id=";
+    public static final String fast_order = "http://naramalkoht.live/bohemea_final/reservation/fast_order.php";
+    public static final String user_reservation = "http://naramalkoht.live/bohemea_final/reservation/user_reservation.php?user_id=";
+    public static final String reservation_query_id = "http://naramalkoht.live/bohemea_final/reservation/reservation_query_id.php?user_id=";
+    public static final String order_query_id = "http://naramalkoht.live/bohemea_final/reservation/order_query_id.php?res_id=";
+    public static final String edit_order = "http://naramalkoht.live/bohemea_final/reservation/edit_order.php";
+    public static final String cancelReservation = "http://naramalkoht.live/bohemea_final/reservation/cancel_reservation.php?res_id=";
+
 
     public static final String user_default_photo = "http://naramalkoht.live/bohemea/default_pics.png";
+    public static final String home_images = "http://naramalkoht.live/bohemea/home_images.php";
 
-    public static final String tables_query   = "http://naramalkoht.ml/bohemea/table_query.php";
 
 
-    public static final String reservation_query_id = "http://naramalkoht.ml/bohemea/reservation_query_id.php?user_id=";
-    public static final String order_query_id = "http://naramalkoht.ml/bohemea/order_query_id.php?res_id=";
-    public static final String cancelReservation = "http://naramalkoht.ml/bohemea/cancel_reservation.php?res_id=";
-    public static final String edit_order = "http://naramalkoht.ml/bohemea/edit_order.php";
-    public static final String home_images = "http://naramalkoht.ml/bohemea/home_images.php";
-    public static final String popular_movie_query = "http://naramalkoht.ml/bohemea/popular_movie_query.php";
-    public static final String new_movies_query = "http://naramalkoht.ml/bohemea/new_movies_query.php";
-    public static final String movies_suggestion = "http://naramalkoht.ml/bohemea/movies_suggestion.php";
 
 
 }

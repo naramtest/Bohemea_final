@@ -10,6 +10,7 @@ public class Common {
     public static boolean isOrdered = false;
     public static boolean isSended = false;
     public Context context;
+    public static boolean isImageChanged = false;
 
     public static boolean isCahnged = false;
 

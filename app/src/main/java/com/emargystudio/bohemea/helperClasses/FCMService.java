@@ -21,7 +21,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.emargystudio.bohemea.Cinema.CinemaActivity;
+import com.emargystudio.bohemea.History.HistoryActivity;
 import com.emargystudio.bohemea.LocalDataBases.AppExecutors;
 import com.emargystudio.bohemea.MainActivity;
 import com.emargystudio.bohemea.Model.User;
@@ -172,7 +172,7 @@ public class FCMService extends FirebaseMessagingService {
                         String user_id = remoteMessage.getData().get("user_id");
                         String result = remoteMessage.getData().get("result");
 
-                        Intent intent = new Intent(this, CinemaActivity.class);
+                        Intent intent = new Intent(this, HistoryActivity.class);
                         intent.putExtra("res_id",res_id);
                         intent.putExtra("user_id",user_id);
                         intent.putExtra("result",result);

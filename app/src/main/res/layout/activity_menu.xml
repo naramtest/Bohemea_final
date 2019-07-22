@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Menu.MenuActivity"
-    android:background="@drawable/main_bg">
+    android:background="@drawable/cart_bg">
 
 
     <FrameLayout
@@ -15,6 +15,7 @@
     </FrameLayout>
 
     <com.luseen.spacenavigation.SpaceNavigationView
+        android:layoutDirection="ltr"
         android:id="@+id/space"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

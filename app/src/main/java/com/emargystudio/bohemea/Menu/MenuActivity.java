@@ -12,7 +12,7 @@ import android.os.Bundle;
 
 
 import com.emargystudio.bohemea.Cart.CartActivity;
-import com.emargystudio.bohemea.Cinema.CinemaActivity;
+import com.emargystudio.bohemea.History.HistoryActivity;
 import com.emargystudio.bohemea.MainActivity;
 
 
@@ -26,7 +26,7 @@ import com.luseen.spacenavigation.SpaceOnClickListener;
 
 public class MenuActivity extends AppCompatActivity {
 
-    SpaceNavigationView spaceNavigationView;
+    public SpaceNavigationView spaceNavigationView;
     Fragment fragment;
     Fragment foodCategoriesFragment;
     Fragment foodItemFragment;
@@ -64,8 +64,8 @@ public class MenuActivity extends AppCompatActivity {
     private void bottomNavigationInit(Bundle savedInstanceState , final Activity activityA) {
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
         spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.ic_home));
-        spaceNavigationView.addSpaceItem(new SpaceItem("CINEMA", R.drawable.ic_clapperboard));
         spaceNavigationView.addSpaceItem(new SpaceItem("CART", R.drawable.ic_shopping_cart));
+        spaceNavigationView.addSpaceItem(new SpaceItem("HISTORY", R.drawable.ic_history));
         spaceNavigationView.addSpaceItem(new SpaceItem("PROFILE", R.drawable.ic_man_user));
         spaceNavigationView.showIconOnly();
         spaceNavigationView.changeCurrentItem(-1);
@@ -75,6 +75,10 @@ public class MenuActivity extends AppCompatActivity {
             public void onCentreButtonClick() {
                 spaceNavigationView.setActiveSpaceItemColor(ContextCompat.getColor(MenuActivity.this,R.color.inactive_color));
                 spaceNavigationView.changeCurrentItem(-1);
+                foodItemFragment = getSupportFragmentManager().findFragmentByTag(getString(R.string.foodItemFragment_name));
+                if (foodItemFragment != null && foodItemFragment.isVisible()){
+                    getSupportFragmentManager().popBackStack();
+                }
             }
 
             @Override
@@ -84,11 +88,11 @@ public class MenuActivity extends AppCompatActivity {
                         startActivity(new Intent(activityA,MainActivity.class));
                         break;
 
-                    case 1:
-                        startActivity(new Intent(activityA,CinemaActivity.class));
+                    case 2:
+                        startActivity(new Intent(activityA, HistoryActivity.class));
                         break;
 
-                    case 2:
+                    case 1:
                         startActivity(new Intent(activityA, CartActivity.class));
                         break;
 

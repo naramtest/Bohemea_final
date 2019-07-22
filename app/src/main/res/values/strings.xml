@@ -22,10 +22,10 @@
 
 
     <!--FCM-->
-    <string name="notifications_admin_channel_name" >Global channel</string>
-    <string name="notifications_admin_channel_description" >Notifications sent from the app admin</string>
-    <string name="notification_reservation_channel_name" >Reservation Channel</string>
-    <string name="notification_reservation_channel_description" >Info about your reservation status</string>
+    <string name="notifications_admin_channel_name">Global channel</string>
+    <string name="notifications_admin_channel_description">Notifications sent from the app admin</string>
+    <string name="notification_reservation_channel_name">Reservation Channel</string>
+    <string name="notification_reservation_channel_description">Info about your reservation status</string>
 
 
     <!--alert phone-->
@@ -72,6 +72,12 @@
 
     <!--main activity strings-->
     <string name="a_main_reservation_btn">Make a Reservation</string>
+    <string name="blocked_account">Your Account has been blocked</string>
+    <string name="a_main_ads">ADS</string>
+    <string name="a_main_bohemea_address">Street addresses: 445 Mount Eden Road, Mount Eden, Auckland</string>
+
+
+
 
     <!--Reservation system strings-->
     <string name="f_data_header">Its just gonna\ntake a minute</string>
@@ -109,6 +115,7 @@
     <string name="cart_update_dialog_cancel">Cancel</string>
     <string name="cart_update_dialog_update">Update</string>
     <string name="food_menu_adapter_price_text">Price: %1$d  S.P</string>
+    <string name="a_cart_fast_order_done">Thank You For Using Our App, Your Order Will Be Ready As Soon AS possible</string>
 
 
     <!--Alert Done-->
@@ -126,5 +133,35 @@
     <string name="a_preferences_email_edit">Change Your Email</string>
     <string name="a_preferences_password_edt">Change Your Password</string>
     <string name="token_dosenot_ready">Your internet connection is slow please wait please a minute and try again</string>
+    <string name="f_table_choose_table_first">Please Choose Table First</string>
+    <string name="a_white_blocked_text">Your Account Has Been Temporarily Blocked</string>
+    <string name="a_white_call_btn">Call us</string>
+
+
+    <!--History Strings-->
+    <string name="res_history_list_empty_warning">You haven\'t made any reservation yet ....</string>
+    <string name="total_res_history_j">Total: %1$d  S.P</string>
+
+
+    <!--history_summary_middle_part-->
+    <string name="history_summary_no_orders">No Orders</string>
+    <string name="history_summary_submit_btn">Submit</string>
+    <string name="res_history_show_btn">SHOW</string>
+
+
+
+    <!--order_history-->
+    <string name="order_history_header">Order Summary</string>
+    <string name="order_history_name">Name</string>
+    <string name="order_history_total">Total</string>
+    <string name="order_history_cancelBtn">Cancel This Reservation</string>
+
+    <!--orderHistoryFragment java-->
+    <string name="order_his_f_update_done">done</string>
+    <string name="order_his_f_totalTxt">%1$d  S.P</string>
+    <string name="order_his_cancel_dialog_message">Are you sure you want to cancel this reservation</string>
+    <string name="order_his_cancel_dialog_no">No</string>
+    <string name="order_his_cancel_dialog_yes">Yse</string>
+    <string name="order_his_cancel_dialog_done">Done</string>
 
 </resources>

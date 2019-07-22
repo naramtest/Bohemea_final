@@ -50,7 +50,7 @@
         tools:targetApi="lollipop" />
 
     <TextView
-        android:id="@+id/user_name"
+        android:id="@+id/change_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -59,6 +59,12 @@
         android:elevation="12dp"
         android:textColor="#ffffff"
         android:textSize="18sp"
+        android:background="@drawable/change_image_btn"
+        android:text="Change Image"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
         app:layout_constraintEnd_toStartOf="@+id/circleImageView"
         app:layout_constraintStart_toEndOf="@+id/circleImageView"
         app:layout_constraintTop_toBottomOf="@+id/circleImageView"
@@ -73,7 +79,7 @@
         android:weightSum="4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/user_name">
+        app:layout_constraintTop_toBottomOf="@id/change_image">
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -83,7 +89,7 @@
             android:layout_weight="3"
             android:hint="@string/a_preferences_phone_edt"
             android:textColorHint="@color/f_data_hint"
-            app:boxBackgroundColor="@color/data_edt_bg"
+            app:boxBackgroundColor="#A6FFD8FF"
             app:boxCornerRadiusBottomEnd="35dp"
             app:boxCornerRadiusTopEnd="35dp"
             app:errorEnabled="false"
@@ -115,7 +121,6 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:padding="8dp"
-            android:background="@drawable/ripple"
             android:elevation="6dp"
             android:src="@drawable/ic_check_mark_white"
             tools:targetApi="lollipop"
@@ -144,7 +149,7 @@
             android:layout_weight="3"
             android:hint="@string/a_preferences_email_edit"
             android:textColorHint="@color/f_data_hint"
-            app:boxBackgroundColor="@color/data_edt_bg"
+            app:boxBackgroundColor="#A6FFD8FF"
             app:boxCornerRadiusBottomEnd="35dp"
             app:boxCornerRadiusTopEnd="35dp"
             app:errorEnabled="false"
@@ -174,7 +179,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:padding="8dp"
-            android:background="@drawable/ripple"
+
             android:elevation="6dp"
             android:src="@drawable/ic_check_mark_white"
             tools:targetApi="lollipop"
@@ -200,7 +205,7 @@
             android:layout_weight="3"
             android:hint="@string/a_preferences_password_edt"
             android:textColorHint="@color/f_data_hint"
-            app:boxBackgroundColor="@color/data_edt_bg"
+            app:boxBackgroundColor="#A6FFD8FF"
             app:boxCornerRadiusBottomEnd="35dp"
             app:boxCornerRadiusTopEnd="35dp"
             app:errorEnabled="false"
@@ -229,7 +234,6 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:padding="8dp"
-            android:background="@drawable/ripple"
             android:src="@drawable/ic_check_mark_white"
             tools:ignore="ContentDescription" />
     </LinearLayout>
@@ -244,5 +248,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/next_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_right_arrow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

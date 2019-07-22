@@ -5,14 +5,22 @@ import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ForegroundColorSpan;
+import android.text.util.Linkify;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.emargystudio.bohemea.Cart.CartActivity;
-import com.emargystudio.bohemea.Cinema.CinemaActivity;
+import com.emargystudio.bohemea.History.HistoryActivity;
 import com.emargystudio.bohemea.Login.LoginActivity;
 import com.emargystudio.bohemea.MainActivity;
 import com.emargystudio.bohemea.Menu.MenuActivity;
@@ -31,9 +39,9 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     SpaceNavigationView spaceNavigationView;
-    TextView header1, header2,user_name,preference,logout,helpCenter;
+    TextView header1, header2,user_name,preference,logout , emargyTxt;
     CircleImageView user_image;
-    LinearLayout preference_container, logout_container, help_container ;
+    LinearLayout preference_container, logout_container ;
 
     User user;
     SharedPreferenceManger sharedPreferenceManger;
@@ -83,22 +91,46 @@ public class ProfileActivity extends AppCompatActivity {
         header2    = findViewById(R.id.text_header2);
         preference = findViewById(R.id.preferences_txt);
         logout     = findViewById(R.id.logout_txt);
-        helpCenter = findViewById(R.id.help_txt);
+        emargyTxt  = findViewById(R.id.textView);
+
+
         preference_container = findViewById(R.id.preferences_container);
         logout_container = findViewById(R.id.log_out_container);
-        help_container       = findViewById(R.id.help_container);
+
 
         Typeface face_Bold = Typeface.createFromAsset(ProfileActivity.this.getAssets(),"fonts/Kabrio-Bold.ttf");
         Typeface face_Light = Typeface.createFromAsset(ProfileActivity.this.getAssets(),"fonts/Kabrio-Light.ttf");
+        Typeface face_book = Typeface.createFromAsset(ProfileActivity.this.getAssets(),"fonts/Akrobat-Bold.otf");
+
+        emargyTxt.setTypeface(face_book);
+
         header1.setTypeface(face_Bold);
         user_name.setTypeface(face_Bold);
         header2.setTypeface(face_Light);
         preference.setTypeface(face_Light);
-        helpCenter.setTypeface(face_Light);
+
+
+        String firstPart = "Developed and designed by: ";
+        String secondPart = "Emargy Studio";
+        String fullString = firstPart+" "+secondPart;
+        Spannable spannable = new SpannableString(fullString);
+        spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#7b3b8f")), firstPart.length(), fullString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        emargyTxt.setText(spannable, TextView.BufferType.SPANNABLE);
+
+        emargyTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://emargystudio.com/"));
+                startActivity(browserIntent);
+            }
+        });
+
         logout.setTypeface(face_Light);
 
         Picasso.get().load(user.getUserPhoto()).into(user_image);
         user_name.setText(user.getUserName());
+
+
 
 
 
@@ -109,8 +141,8 @@ public class ProfileActivity extends AppCompatActivity {
     private void bottomNavigationInit(Bundle savedInstanceState , final Activity activityA) {
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
         spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.ic_home));
-        spaceNavigationView.addSpaceItem(new SpaceItem("CINEMA", R.drawable.ic_clapperboard));
         spaceNavigationView.addSpaceItem(new SpaceItem("CART", R.drawable.ic_shopping_cart));
+        spaceNavigationView.addSpaceItem(new SpaceItem("HISTORY", R.drawable.ic_history));
         spaceNavigationView.addSpaceItem(new SpaceItem("PROFILE", R.drawable.ic_man_user));
         spaceNavigationView.showIconOnly();
         spaceNavigationView.setCentreButtonIconColorFilterEnabled(false);
@@ -132,12 +164,14 @@ public class ProfileActivity extends AppCompatActivity {
                         break;
 
                     case 1:
-                        startActivity(new Intent(activityA,CinemaActivity.class));
+                        startActivity(new Intent(activityA, CartActivity.class));
                         break;
 
                     case 2:
-                        startActivity(new Intent(activityA, CartActivity.class));
+                        startActivity(new Intent(activityA, HistoryActivity.class));
                         break;
+
+
 
                 }
 
@@ -160,5 +194,9 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         spaceNavigationView.changeCurrentItem(3);
+        if (Common.isImageChanged){
+            Picasso.get().load(user.getUserPhoto()).into(user_image);
+            Common.isImageChanged = false;
+        }
     }
 }

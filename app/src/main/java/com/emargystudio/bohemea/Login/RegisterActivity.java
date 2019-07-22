@@ -96,8 +96,13 @@ public class RegisterActivity extends AppCompatActivity {
                                 JSONObject jsonObject = new JSONObject(response);
                                 if (!jsonObject.getBoolean("error")) {
                                     JSONObject jsonObjectUser = jsonObject.getJSONObject("user");
-                                    User user = new User(jsonObjectUser.getInt("id"), jsonObjectUser.getString("user_name"), jsonObjectUser.getString("user_email")
-                                            , jsonObjectUser.getString("user_photo"), jsonObjectUser.getInt("user_phone_number"), jsonObjectUser.getInt("is_facebook"));
+                                    User user = new User(jsonObjectUser.getInt("id"),
+                                            jsonObjectUser.getString("user_name"),
+                                            jsonObjectUser.getString("user_email"),
+                                            jsonObjectUser.getString("user_photo"),
+                                            jsonObjectUser.getInt("user_phone_number"),
+                                            jsonObjectUser.getInt("is_facebook"),
+                                            jsonObjectUser.getInt("is_blocked"));
                                     //store user data inside sharedPreferences
                                     SharedPreferenceManger.getInstance(getApplicationContext()).storeUserData(user);
                                     Toast.makeText(RegisterActivity.this, getString(R.string.a_register_successfully), Toast.LENGTH_SHORT).show();
@@ -144,6 +149,7 @@ public class RegisterActivity extends AppCompatActivity {
                     userData.put("password", password);
                     userData.put("user_photo", URLS.user_default_photo);
                     userData.put("is_facebook", "2");
+                    userData.put("is_blocked", "0");
                     return userData;
                 }
             };//end of string Request

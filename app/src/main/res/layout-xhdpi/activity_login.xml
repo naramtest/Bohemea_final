@@ -27,7 +27,9 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:src="@drawable/logo" />
+        android:src="@drawable/logo"
+        tools:targetApi="lollipop"
+        android:elevation="20dp"/>
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -164,6 +166,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:text="@string/a_login_new_user"
+        android:background="@drawable/ripple"
+
         android:textColor="#ffffff"
         android:textSize="14sp" />
 

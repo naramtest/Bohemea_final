@@ -23,7 +23,7 @@
 
     <style name="date" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
             <item name="boxStrokeColor">#FFD8FF</item>
-            <item name="boxStrokeWidth">2dp</item>
+            <item name="boxStrokeWidth">1dp</item>
     </style>
 
 
@@ -34,4 +34,9 @@
     </style>
 
 
+    <style name="SummaryText" >
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
 </resources>

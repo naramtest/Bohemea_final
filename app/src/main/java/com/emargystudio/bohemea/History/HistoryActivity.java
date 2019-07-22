@@ -1,8 +1,10 @@
-package com.emargystudio.bohemea.Cinema;
+package com.emargystudio.bohemea.History;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 
 import android.annotation.SuppressLint;
@@ -28,9 +30,11 @@ import com.luseen.spacenavigation.SpaceNavigationView;
 import com.luseen.spacenavigation.SpaceOnClickListener;
 
 
-public class CinemaActivity extends AppCompatActivity {
+public class HistoryActivity extends AppCompatActivity {
 
     SpaceNavigationView spaceNavigationView;
+    Fragment ReservationFragment;
+    Fragment OrderFragment;
 
     //intent var
     String res_id,user_id,result;
@@ -40,7 +44,7 @@ public class CinemaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cinema_activity);
         spaceNavigationView =  findViewById(R.id.space);
-        bottomNavigationInit(savedInstanceState ,CinemaActivity.this);
+        bottomNavigationInit(savedInstanceState , HistoryActivity.this);
 
 
 
@@ -52,7 +56,19 @@ public class CinemaActivity extends AppCompatActivity {
         }
 
         if (result!=null && result.equals("2")){
-            addYourPhoneNumberDialog();
+            reservationDeclinedDialog();
+        }
+
+        if (savedInstanceState != null) {
+
+            ReservationFragment = getSupportFragmentManager().getFragment(savedInstanceState, "myFragmentName");
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.your_placeholder, ReservationFragment);
+            ft.commit();
+        }else {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.your_placeholder, new ReservationFragment(), "Reservation");
+            ft.commit();
         }
 
     }
@@ -62,16 +78,16 @@ public class CinemaActivity extends AppCompatActivity {
     private void bottomNavigationInit(Bundle savedInstanceState , final Activity activityA) {
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
         spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.ic_home));
-        spaceNavigationView.addSpaceItem(new SpaceItem("CINEMA", R.drawable.ic_clapperboard));
         spaceNavigationView.addSpaceItem(new SpaceItem("CART", R.drawable.ic_shopping_cart));
+        spaceNavigationView.addSpaceItem(new SpaceItem("HISTORY", R.drawable.ic_history));
         spaceNavigationView.addSpaceItem(new SpaceItem("PROFILE", R.drawable.ic_man_user));
         spaceNavigationView.showIconOnly();
         spaceNavigationView.setCentreButtonIconColorFilterEnabled(false);
-        spaceNavigationView.changeCurrentItem(1);
+        spaceNavigationView.changeCurrentItem(2);
         spaceNavigationView.setSpaceOnClickListener(new SpaceOnClickListener() {
             @Override
             public void onCentreButtonClick() {
-                spaceNavigationView.setActiveSpaceItemColor(ContextCompat.getColor(CinemaActivity.this,R.color.inactive_color));
+                spaceNavigationView.setActiveSpaceItemColor(ContextCompat.getColor(HistoryActivity.this,R.color.inactive_color));
                 spaceNavigationView.changeCurrentItem(-1);
                 startActivity(new Intent(activityA, MenuActivity.class));
 
@@ -86,7 +102,7 @@ public class CinemaActivity extends AppCompatActivity {
                         break;
 
 
-                    case 2:
+                    case 1:
                         startActivity(new Intent(activityA, CartActivity.class));
                         break;
 
@@ -108,16 +124,23 @@ public class CinemaActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         spaceNavigationView.onSaveInstanceState(outState);
+        ReservationFragment = getSupportFragmentManager().findFragmentByTag("Reservation");
+        OrderFragment = getSupportFragmentManager().findFragmentByTag("Order");
+        if (ReservationFragment != null && ReservationFragment.isVisible()) {
+            getSupportFragmentManager().putFragment(outState, "myFragmentName", ReservationFragment);
+        }else if (OrderFragment != null && OrderFragment.isVisible()){
+            getSupportFragmentManager().putFragment(outState, "myFragmentName", OrderFragment);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        spaceNavigationView.changeCurrentItem(1);
+        spaceNavigationView.changeCurrentItem(2);
     }
 
-    public void addYourPhoneNumberDialog(){
-        final AlertDialog.Builder alert = new AlertDialog.Builder(CinemaActivity.this);
+    public void reservationDeclinedDialog(){
+        final AlertDialog.Builder alert = new AlertDialog.Builder(HistoryActivity.this);
         LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         @SuppressLint("InflateParams") View alertLayout = li.inflate(R.layout.reservation_dialog_decline, null);
         TextView number = alertLayout.findViewById(R.id.number1);
@@ -130,7 +153,7 @@ public class CinemaActivity extends AppCompatActivity {
         goToReservationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CinemaActivity.this, ReservationActivity.class));
+                startActivity(new Intent(HistoryActivity.this, ReservationActivity.class));
             }
         });
 

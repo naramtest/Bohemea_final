@@ -125,24 +125,45 @@
 
         </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/continue_cart_btn"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/blue_violet_btn"
-            android:layout_marginTop="16dp"
-            android:text="@string/a_cart_place_btn"
-            android:layout_marginStart="72dp"
-            android:layout_marginEnd="72dp"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
             android:layout_marginBottom="16dp"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            />
+            android:layout_marginTop="16dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/order_now_btn"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@drawable/blue_violet_btn"
+                android:text="ORDER NOW"
+                android:layout_marginEnd="8dp"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/order_for_later_btn"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@drawable/blue_violet_btn"
+                android:text="FOR LATER"
+                android:layout_marginStart="8dp"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+        </LinearLayout>
+
 
     </LinearLayout>
 
 
     <com.luseen.spacenavigation.SpaceNavigationView
+        android:layoutDirection="ltr"
         android:id="@+id/space"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,15 +14,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,6 +45,7 @@ import com.emargystudio.bohemea.helperClasses.CommonReservation;
 import com.emargystudio.bohemea.helperClasses.SharedPreferenceManger;
 import com.emargystudio.bohemea.helperClasses.URLS;
 import com.emargystudio.bohemea.helperClasses.VolleyHandler;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 
@@ -67,7 +67,9 @@ public class TableFragment extends Fragment {
 
 
     private ImageView imageView;
-    private TextView headerTxt1,headerTxt2;
+    private TabLayout tabLayout;
+    private ImageButton backBtn;
+    private FloatingActionButton sendBtn;
 
 
     //var
@@ -76,6 +78,8 @@ public class TableFragment extends Fragment {
     private User user;
     private AppDatabase mDb;
     private List<FoodOrder> foodList;
+    private int tablesNumber = 13; //should be changed when a table is add
+    private String selectedTable = "0";
 
 
     public TableFragment() {
@@ -95,19 +99,7 @@ public class TableFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
 
-        //tabLayout = view.findViewById(R.id.tableLayout);
-        imageView = view.findViewById(R.id.imageView);
-        headerTxt1 = view.findViewById(R.id.header1);
-        headerTxt2 = view.findViewById(R.id.header2);
-
-        Typeface face_light = Typeface.createFromAsset(getContext().getAssets(),"fonts/Kabrio-Light.ttf");
-        Typeface face_book = Typeface.createFromAsset(getContext().getAssets(),"fonts/Kabrio-Book.ttf");
-        headerTxt1.setTypeface(face_light);
-        headerTxt2.setTypeface(face_book);
-
-
-
-
+        initVIews(view);
 
 
         tableArray = new ArrayList<>();
@@ -127,6 +119,46 @@ public class TableFragment extends Fragment {
 
         loadListFood();
 
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().popBackStack();
+            }
+        });
+
+        sendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!selectedTable.equals("0")){
+                    alertSend(user.getUserId(), reservation, selectedTable,"no movie");
+                }else {
+                    Toast.makeText(getContext(), getString(R.string.f_table_choose_table_first), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
+    private void initVIews(@NonNull View view) {
+        tabLayout = view.findViewById(R.id.tabLayout);
+        imageView = view.findViewById(R.id.imageView);
+        TextView headerTxt1 = view.findViewById(R.id.header1);
+        TextView headerTxt2 = view.findViewById(R.id.header2);
+        TextView taken = view.findViewById(R.id.taken_txt);
+        TextView available = view.findViewById(R.id.available_txt);
+        TextView selected = view.findViewById(R.id.selected_txt);
+        backBtn  = view.findViewById(R.id.backBtn);
+        sendBtn  = view.findViewById(R.id.send_btn);
+
+        Typeface face_light = Typeface.createFromAsset(getContext().getAssets(),"fonts/Kabrio-Light.ttf");
+        Typeface face_book = Typeface.createFromAsset(getContext().getAssets(),"fonts/Kabrio-Book.ttf");
+        Typeface face_bold = Typeface.createFromAsset(getContext().getAssets(),"fonts/Kabrio-Bold.ttf");
+        headerTxt1.setTypeface(face_light);
+        headerTxt2.setTypeface(face_book);
+        taken.setTypeface(face_bold);
+        available.setTypeface(face_bold);
+        selected.setTypeface(face_bold);
     }
 
 
@@ -156,7 +188,6 @@ public class TableFragment extends Fragment {
 
                                 for (int i = 0; i < jsonArrayReservation.length(); i++) {
                                     JSONObject jsonObjectSingleRes = jsonArrayReservation.getJSONObject(i);
-                                    Log.i("jsonObjectSingleRes", jsonObjectSingleRes.toString());
 
                                     double startHour = jsonObjectSingleRes.getDouble("hours");
                                     double endHour = jsonObjectSingleRes.getDouble("end_hour");
@@ -165,7 +196,7 @@ public class TableFragment extends Fragment {
                                     }
                                 }
 
-                                //initTabLayout();
+                                initTabLayout();
 
                             } else {
                                 Toast.makeText(getContext(), Objects.requireNonNull(getContext()).getString(R.string.internet_off), Toast.LENGTH_SHORT).show();
@@ -189,42 +220,71 @@ public class TableFragment extends Fragment {
     }
 
 
-//    private void initTabLayout() {
-//
-//        for (int i = 0; i < 10; i++) {
-//            if (!tableArray.contains(i + 1)) {
-//                tabLayout.addTab(tabLayout.newTab().setText(String.valueOf(i + 1)));
-//            }
-//        }
-//
-//
-//
-//
-//
-//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//                //alertSend(user.getUserId(), reservation, Objects.requireNonNull(tab.getText()).toString(), "No movie");
-//
-//                VectorChildFinder vector = new VectorChildFinder(getContext(), R.drawable.ic_group_190, imageView);
-//
-//                VectorDrawableCompat.VFullPath path1 = vector.findPathByName("path1");
-//                path1.setFillColor(Color.YELLOW);
-//                imageView.invalidate();
-//            }
-//
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {
-//
-//            }
-//
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//                alertSend(user.getUserId(), reservation, Objects.requireNonNull(tab.getText()).toString(), "No movie");
-//
-//            }
-//        });
-//    }
+    private void initTabLayout() {
+
+        final VectorChildFinder vector = new VectorChildFinder(getContext(), R.drawable.ic_group_190, imageView);
+        for (int i = 0; i < tablesNumber; i++) {
+            if (!tableArray.contains(i + 1)) {
+                tabLayout.addTab(tabLayout.newTab().setText(String.valueOf(i + 1)));
+            }else {
+                int pathNumber = i+1;
+                String pathName  = "path"+pathNumber;
+
+                VectorDrawableCompat.VFullPath path1 = vector.findPathByName(pathName);
+                path1.setFillColor(Color.RED);
+                imageView.invalidate();
+            }
+        }
+
+        LinearLayout linearLayout = (LinearLayout)tabLayout.getChildAt(0);
+        linearLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setColor(Color.BLACK);
+        drawable.setSize(1, 1);
+        linearLayout.setDividerPadding(10);
+        linearLayout.setDividerDrawable(drawable);
+
+
+
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                //alertSend(user.getUserId(), reservation, Objects.requireNonNull(tab.getText()).toString(), "No movie");
+
+                String pathName  = "path"+tab.getText().toString();
+
+                selectedTable=tab.getText().toString();
+
+                VectorDrawableCompat.VFullPath path1 = vector.findPathByName(pathName);
+                path1.setFillColor(Color.GREEN);
+                imageView.invalidate();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                String pathName  = "path"+tab.getText().toString();
+
+
+                VectorDrawableCompat.VFullPath path1 = vector.findPathByName(pathName);
+                path1.setFillColor(Color.WHITE);
+                imageView.invalidate();
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                if (tab.getPosition()==0){
+                    String pathName  = "path"+tab.getText().toString();
+                    selectedTable=tab.getText().toString();
+                    VectorDrawableCompat.VFullPath path1 = vector.findPathByName(pathName);
+                    path1.setFillColor(Color.GREEN);
+                    imageView.invalidate();
+                }
+                //alertSend(user.getUserId(), reservation, Objects.requireNonNull(tab.getText()).toString(), "No movie");
+
+            }
+        });
+    }
 
 
     private void alertSend(final int user_id, final Reservation reservation, final String table_id, final String movie_name) {
@@ -260,7 +320,6 @@ public class TableFragment extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("ninar", "onResponse: "+response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (!jsonObject.getBoolean("error")) {

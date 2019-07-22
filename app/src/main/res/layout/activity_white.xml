@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WhiteActivity"
+    android:background="@drawable/cart_bg">
+
+
+    <RelativeLayout
+        android:id="@+id/block_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="75dp">
+
+
+        <ImageView
+            android:id="@+id/empty_cart_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_remove_user"
+            tools:ignore="ContentDescription"
+            android:layout_above="@id/block_text"
+            android:layout_marginBottom="16dp"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/block_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_centerInParent="true"
+            android:layout_marginStart="32dp" android:layout_marginEnd="32dp"
+            android:gravity="center_horizontal"
+            android:text="@string/a_white_blocked_text"
+            android:textColor="#ffffff"
+            android:textSize="22sp" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/call_us_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/block_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/blue_violet_btn"
+            android:paddingEnd="48dp"
+            android:paddingStart="48dp"
+            android:text="@string/a_white_call_btn"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

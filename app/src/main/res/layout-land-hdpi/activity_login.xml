@@ -17,7 +17,9 @@
         android:layout_gravity="center"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:src="@drawable/logo" />
+        android:src="@drawable/logo"
+        tools:targetApi="lollipop"
+        android:elevation="20dp"/>
 
 
 <RelativeLayout
@@ -177,6 +179,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:text="@string/a_login_new_user"
+        android:background="@drawable/ripple"
+
         android:textColor="#ffffff"
         android:textSize="16sp" />
 

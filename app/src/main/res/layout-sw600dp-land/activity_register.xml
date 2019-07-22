@@ -16,7 +16,9 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_gravity="center"
-        android:src="@drawable/logo" />
+        android:src="@drawable/logo"
+        tools:targetApi="lollipop"
+        android:elevation="20dp"/>
 
 
 <RelativeLayout

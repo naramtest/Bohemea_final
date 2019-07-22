@@ -15,7 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
-
+        tools:targetApi="lollipop"
+        android:elevation="20dp"
         android:src="@drawable/logo" />
 
 
@@ -177,6 +178,8 @@
         android:layout_marginTop="10dp"
         android:padding="20dp"
         android:text="@string/a_login_new_user"
+        android:background="@drawable/ripple"
+
         android:textColor="#ffffff"
         android:textSize="30sp" />
 

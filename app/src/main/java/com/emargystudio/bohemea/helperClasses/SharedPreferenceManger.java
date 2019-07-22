@@ -20,6 +20,9 @@ public class SharedPreferenceManger {
     private static final String PASSWORD_DATA = "PASSWORDDATA";
     private static final String USER_TOKENS = "USERTOKENS";
     private static final String DEVICE_TOKENS = "DEVICETOKENS";
+    private static final String USER_STATUS = "USERSTATUSE";
+    private static final String FIRST_TIME = "FIRSTTIME";
+
 
     private static final String USERNAME = "username";
     private static final String EMAIL = "email";
@@ -27,8 +30,10 @@ public class SharedPreferenceManger {
     private static final String IMAGE = "image";
     private static final String ID = "id";
     private static final String IS_FACEBOOK = "is_facebook";
+    private static final String IS_BLOCKED = "is_blocked";
     private static final String PHONE_NUMBER = "phone_number";
     private static final String PASSWORD_DATE = "password_date";
+    private static final String IS_FIRST_TIME = "is_first_time";
 
 
     private static final String TOKENS = "tokens";
@@ -59,8 +64,33 @@ public class SharedPreferenceManger {
         editor.putInt(ID,user.getUserId());
         editor.putInt(PHONE_NUMBER,user.getUserPhoneNumber());
         editor.putInt(IS_FACEBOOK,user.getIs_facebook());
+        editor.putInt(IS_BLOCKED,user.getIs_blocked());
         editor.apply();
 
+    }
+
+    public void storeUserStatus(int isBlocked){
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(USER_STATUS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(IS_BLOCKED,isBlocked);
+        editor.apply();
+    }
+
+    public void storeFirstUse(int is_first_time){
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(FIRST_TIME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(IS_FIRST_TIME,is_first_time);
+        editor.apply();
+    }
+
+    public int getFirstTime(){
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(FIRST_TIME, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(IS_FIRST_TIME,0);
+    }
+
+    public int getUserStatus(){
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(USER_STATUS, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(IS_BLOCKED,0);
     }
 
     public void storeUserTokens(int userId , ArrayList<String> tokens){
@@ -103,9 +133,13 @@ public class SharedPreferenceManger {
 
     public User getUserData(){
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
-        return new User(sharedPreferences.getInt(ID,-1),sharedPreferences.getString(USERNAME,null),
-                sharedPreferences.getString(EMAIL,null),sharedPreferences.getString(IMAGE,null),
-                sharedPreferences.getInt(PHONE_NUMBER,0),sharedPreferences.getInt(IS_FACEBOOK,3));
+        return new User(sharedPreferences.getInt(ID,-1),
+                sharedPreferences.getString(USERNAME,null),
+                sharedPreferences.getString(EMAIL,null),
+                sharedPreferences.getString(IMAGE,null),
+                sharedPreferences.getInt(PHONE_NUMBER,0),
+                sharedPreferences.getInt(IS_FACEBOOK,3),
+                sharedPreferences.getInt(IS_BLOCKED,0));
     }
 
     public void logUserOut(){
@@ -134,14 +168,7 @@ public class SharedPreferenceManger {
         return false;
     }
 
-    public void updatPhoneNumber(int phone_number){
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(PHONE_NUMBER,phone_number);
-        editor.apply();
 
-
-    }
 
     public void passwordRequestDate(PasswordRequest passwordRequest){
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(PASSWORD_DATA, Context.MODE_PRIVATE);
