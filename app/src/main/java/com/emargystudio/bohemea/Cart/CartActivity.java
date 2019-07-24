@@ -61,9 +61,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import static com.emargystudio.bohemea.helperClasses.Common.total;
 
@@ -285,10 +289,14 @@ public class CartActivity extends AppCompatActivity {
                 Common.isOrdered = false;
                 emptyCart.setVisibility(View.VISIBLE);
                 fullCart.setVisibility(View.GONE);
+                orderNowBtn.setVisibility(View.GONE);
+                orderForLaterBtn.setVisibility(View.GONE);
 
             } else {
                 emptyCart.setVisibility(View.GONE);
                 fullCart.setVisibility(View.VISIBLE);
+                orderNowBtn.setVisibility(View.VISIBLE);
+                orderForLaterBtn.setVisibility(View.VISIBLE);
                 if (sharedPreferenceManger.getFirstTime() == 0){
                     alertFirstTime();
                     sharedPreferenceManger.storeFirstUse(1);
@@ -352,6 +360,11 @@ public class CartActivity extends AppCompatActivity {
 
 
     private void sendFastOrder(){
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        sdf.setTimeZone(TimeZone.getDefault());
+        Date date = Calendar.getInstance().getTime();
+        final String currentTime = sdf.format(date);
+
         Gson gson = new Gson();
         final String newDataArray = gson.toJson(fastOrders);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URLS.fast_order,
@@ -386,6 +399,8 @@ public class CartActivity extends AppCompatActivity {
                 param.put("array", newDataArray);
                 param.put("total", String.valueOf(total));
                 param.put("is_fast","1");
+                param.put("date",currentTime);
+                param.put("status","0");//0 waiting ; 1=approved 2 = canceled
                 param.put("user_id", String.valueOf(user.getUserId()));// array is key which we will use on server side
 
                 return param;

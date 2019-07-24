@@ -6,7 +6,7 @@
     android:id="@+id/coordinator_layout"
     android:layout_height="match_parent"
     tools:context=".Cart.CartActivity"
-    android:background="@drawable/cart_bg">
+    android:background="@drawable/cart_land_bg">
 
     <!--Empty Layout-->
     <RelativeLayout
@@ -63,53 +63,59 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:visibility="visible"
         android:id="@+id/cart_full"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@android:color/transparent"
-        android:orientation="vertical"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:weightSum="3"
         app:layout_constraintBottom_toTopOf="@+id/space"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:orientation="vertical"
+            android:layout_marginBottom="8dp"
+
+            android:layout_height="match_parent">
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/cart_rv"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginTop="32dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:background="@drawable/cart_rv_bg"
-            android:paddingTop="32dp"
             android:paddingStart="12dp"
-            android:paddingBottom="12dp"
-            android:paddingEnd="12dp">
+            android:paddingTop="32dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="12dp">
 
         </androidx.recyclerview.widget.RecyclerView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
             android:background="@drawable/cart_total_bg"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="8dp">
+            android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/add_more_cart_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/blue_violet_btn"
-                android:text="@string/a_cart_addmore_btn"
-                android:paddingEnd="20dp"
-                android:paddingStart="20dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:layout_marginStart="16dp"
+                android:background="@drawable/blue_violet_btn"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:text="@string/a_cart_addmore_btn"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp" />
 
@@ -117,49 +123,58 @@
                 android:id="@+id/cart_total_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textSize="22sp"
-                android:textColor="#7b3b8f"
-                android:gravity="center_vertical|end"
                 android:layout_marginEnd="18dp"
-                />
+                android:gravity="center_vertical|end"
+                android:textColor="#7b3b8f"
+                android:textSize="22sp" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp">
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="8dp"
+            android:layout_height="match_parent"
+            >
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/order_now_btn"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/blue_violet_btn"
+                android:layout_above="@id/divider"
+                android:background="@drawable/cart_btn"
                 android:text="@string/a_cart_order_now_btn"
-                android:layout_marginEnd="8dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="16dp"
                 android:textColor="#FFFFFF"
+                android:elevation="6dp"
                 android:textSize="16sp"
-                />
+                tools:targetApi="lollipop" />
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_centerInParent="true"/>
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/order_for_later_btn"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="16dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/blue_violet_btn"
+                android:layout_below="@id/divider"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/cart_btn"
                 android:text="@string/a_cart_for_later_btn"
-                android:layout_marginStart="8dp"
                 android:textColor="#FFFFFF"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-
+                android:elevation="6dp"
+                android:textSize="16sp"
+                tools:targetApi="lollipop" />
+        </RelativeLayout>
     </LinearLayout>
+
+
 
 
     <com.luseen.spacenavigation.SpaceNavigationView
@@ -177,6 +192,7 @@
         app:inactive_centre_button_icon_color="@color/colorAccent"
         app:space_item_icon_size="@dimen/space_item_icon_default_size"
         app:space_item_icon_only_size="@dimen/space_item_icon_only_size"/>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

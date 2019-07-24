@@ -163,5 +163,7 @@
     <string name="order_his_cancel_dialog_no">No</string>
     <string name="order_his_cancel_dialog_yes">Yse</string>
     <string name="order_his_cancel_dialog_done">Done</string>
+    <string name="a_cart_order_now_btn">ORDER NOW</string>
+    <string name="a_cart_for_later_btn">FOR LATER</string>
 
 </resources>
