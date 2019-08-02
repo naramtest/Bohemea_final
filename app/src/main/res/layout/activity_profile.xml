@@ -46,16 +46,17 @@
                 android:id="@+id/text_header1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Profile "
+                android:text="@string/a_profile_text_header1"
                 android:textColor="#ffffff"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
                 />
 
             <TextView
+                android:layout_marginStart="8dp"
                 android:id="@+id/text_header2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="settings"
+                android:text="@string/a_profile_text_header2"
                 android:textColor="#ffffff"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
                 />
@@ -67,6 +68,7 @@
             android:layout_width="220dp"
             android:layout_height="220dp"
             android:elevation="16dp"
+            tools:targetApi="lollipop"
             android:layout_below="@id/text_header"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="70dp"
@@ -83,6 +85,7 @@
             android:textColor="#ffffff"
             android:textSize="22sp"
             android:elevation="12dp"
+            tools:targetApi="lollipop"
             tools:text="Naram Alkoht" />
 
         <View
@@ -116,7 +119,7 @@
                 android:layout_weight="1"
                 android:paddingTop="20dp"
                 android:paddingBottom="20dp"
-                android:text="Sittings"
+                android:text="@string/a_profile_sittings"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
                 android:textColor="#ffffff"
                 />
@@ -159,7 +162,7 @@
                 android:paddingTop="20dp"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
                 android:paddingBottom="20dp"
-                android:text="Log Out"
+                android:text="@string/a_profile_log_out"
 
                 />
 
@@ -191,7 +194,6 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="48dp"
                 android:layout_marginEnd="16dp"
-
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"

@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.app.SharedElementCallback;
 import android.content.Context;
 
 import android.content.Intent;
@@ -19,7 +18,6 @@ import android.os.Bundle;
 
 import android.provider.MediaStore;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -31,7 +29,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
@@ -57,20 +54,24 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 
 public class PreferencesActivity extends AppCompatActivity {
 
-    private static final String TAG = "PreferencesActivity";
     private static final String KEY_EMAIL = "email";
     private static final String KEY_PASSWORD = "new_password";
+
+    String lang = Locale.getDefault().getLanguage();
+
 
     ImageView user_image ;
     TextView change_image;
     TextView header1, header2;
     TextInputEditText editPhone , editPassword , editEmail;
     LinearLayout phoneLayout, passwordLayout , emailLayout;
+    TextInputLayout phoneInputLayout ,emailInputLayout,passwordInputLayout;
     ImageView phoneBtn , emailBtn , passwordBtn;
     ProgressBar progressBar;
     FloatingActionButton saveUpdatesButton;
@@ -163,12 +164,12 @@ public class PreferencesActivity extends AppCompatActivity {
 
                             }else{
 
-                                    Toast.makeText(PreferencesActivity.this, getString(R.string.internet_off), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(PreferencesActivity.this, getString(R.string.error), Toast.LENGTH_SHORT).show();
 
                             }
                         }catch (JSONException e){
 
-                                Toast.makeText(PreferencesActivity.this, getString(R.string.internet_off), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PreferencesActivity.this, getString(R.string.error), Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
@@ -242,8 +243,6 @@ public class PreferencesActivity extends AppCompatActivity {
         @SuppressLint("InflateParams") View alertLayout = li.inflate(R.layout.alert_confirm_password, null);
         final EditText confirmPasswordEdt = alertLayout.findViewById(R.id.confirm_password_edt);
         TextView doneBtn = alertLayout.findViewById(R.id.done);
-
-        final TextInputLayout layout = alertLayout.findViewById(R.id.confirm_password_layout);
 
         // this is set the view from XML inside AlertDialog
         alert.setView(alertLayout);
@@ -348,12 +347,26 @@ public class PreferencesActivity extends AppCompatActivity {
         emailBtn = findViewById(R.id.emailBtn);
         passwordBtn = findViewById(R.id.passwordBtn);
         saveUpdatesButton = findViewById(R.id.next_fab);
+        phoneInputLayout = findViewById(R.id.phone_input_layout);
+        emailInputLayout = findViewById(R.id.email_input_layout);
+        passwordInputLayout = findViewById(R.id.password_input_layout);
 
 
+        Typeface face_Bold;
+        Typeface face_Light;
+        Typeface akrobat_Regular;
 
-        Typeface face_Bold = Typeface.createFromAsset(PreferencesActivity.this.getAssets(),"fonts/Kabrio-Bold.ttf");
-        Typeface face_Light = Typeface.createFromAsset(PreferencesActivity.this.getAssets(),"fonts/Kabrio-Light.ttf");
-        Typeface akrobat_Regular = Typeface.createFromAsset(PreferencesActivity.this.getAssets(),"fonts/Akrobat-Regular.otf");
+        if (lang.equals("ar")){
+            face_Bold = Typeface.createFromAsset(PreferencesActivity.this.getAssets(),"fonts/Cairo-Bold.ttf");
+            face_Light = Typeface.createFromAsset(PreferencesActivity.this.getAssets(),"fonts/Cairo-Light.ttf");
+            akrobat_Regular = Typeface.createFromAsset(PreferencesActivity.this.getAssets(),"fonts/Cairo-Regular.ttf");
+
+        }else {
+            face_Bold = Typeface.createFromAsset(PreferencesActivity.this.getAssets(),"fonts/Kabrio-Bold.ttf");
+            face_Light = Typeface.createFromAsset(PreferencesActivity.this.getAssets(),"fonts/Kabrio-Light.ttf");
+            akrobat_Regular = Typeface.createFromAsset(PreferencesActivity.this.getAssets(),"fonts/Akrobat-Regular.otf");
+
+        }
 
         header1.setTypeface(face_Bold);
         change_image.setTypeface(face_Bold);
@@ -361,11 +374,22 @@ public class PreferencesActivity extends AppCompatActivity {
         editEmail.setTypeface(akrobat_Regular);
         editPassword.setTypeface(akrobat_Regular);
         editPhone.setTypeface(akrobat_Regular);
+        phoneInputLayout.setTypeface(akrobat_Regular);
+        emailInputLayout.setTypeface(akrobat_Regular);
+        passwordInputLayout.setTypeface(akrobat_Regular);
+
 
 
         Picasso.get().load(user.getUserPhoto()).into(user_image);
 
 
+        if (lang.equals("ar")){
+            saveUpdatesButton.setRotation(180);
+            editEmail.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+            editPassword.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+            editPhone.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+
+        }
 
         if(user.getIs_facebook()== 1){
 
@@ -376,7 +400,7 @@ public class PreferencesActivity extends AppCompatActivity {
             editPassword.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(PreferencesActivity.this, "This field is not for facebook register users", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PreferencesActivity.this, getString(R.string.a_pre_bohemea_user_only), Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -387,7 +411,7 @@ public class PreferencesActivity extends AppCompatActivity {
             editEmail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(PreferencesActivity.this, "This field is not for facebook register users", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PreferencesActivity.this, getString(R.string.a_pre_bohemea_user_only), Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -412,7 +436,7 @@ public class PreferencesActivity extends AppCompatActivity {
 
         progressBar.setVisibility(View.VISIBLE);
         if(!OkToUpload){
-            Toast.makeText(PreferencesActivity.this,"There is no image to upload!",Toast.LENGTH_LONG).show();
+            Toast.makeText(PreferencesActivity.this,getString(R.string.a_pre_no_image),Toast.LENGTH_LONG).show();
 
             return;
         }
@@ -433,7 +457,7 @@ public class PreferencesActivity extends AppCompatActivity {
                             if(!jsonObject.getBoolean("error")){
 
                                 String image_url  = jsonObject.getString("image");
-                                Toast.makeText(PreferencesActivity.this,"Image uploaded successfully!",Toast.LENGTH_LONG).show();
+                                Toast.makeText(PreferencesActivity.this,getString(R.string.a_pre_uploded_successflly),Toast.LENGTH_LONG).show();
                                 user.setUserPhoto(image_url);
                                 sharedPreferenceManger.logUserOut();
                                 //Picasso.get().load(user.getUserPhoto()).into(user_image);
@@ -442,14 +466,13 @@ public class PreferencesActivity extends AppCompatActivity {
 
                             }else{
 
-                                Log.d(TAG, "onResponse: "+response);
 
                                 Toast.makeText(PreferencesActivity.this,jsonObject.getString("message"),Toast.LENGTH_LONG).show();
                             }
                             Picasso.get().load(user.getUserPhoto()).into(user_image);
 
                         }catch (JSONException e){
-                            Log.d(TAG, "onResponse: "+e.getMessage());
+                            Toast.makeText(PreferencesActivity.this, getString(R.string.error), Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
@@ -457,8 +480,6 @@ public class PreferencesActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressBar.setVisibility(View.GONE);
-                        Log.d(TAG, "onResponse: "+error);
-
                         Toast.makeText(PreferencesActivity.this,getString(R.string.internet_off),Toast.LENGTH_LONG).show();
 
                     }
@@ -468,7 +489,7 @@ public class PreferencesActivity extends AppCompatActivity {
         ){
 
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String,String> imageMap = new HashMap<>();
                 imageMap.put("image_encoded",imageToString);
                 imageMap.put("user_id",String.valueOf(user_id));
@@ -489,7 +510,7 @@ public class PreferencesActivity extends AppCompatActivity {
             }
 
             @Override
-            public void retry(VolleyError error) throws VolleyError {
+            public void retry(VolleyError error) {
 
             }
         });
@@ -517,7 +538,7 @@ public class PreferencesActivity extends AppCompatActivity {
                     if(bitmap != null){
                         uploadImageDialog();
                     }else{
-                        Toast.makeText(PreferencesActivity.this,"Couldn't get bitmap of image",Toast.LENGTH_LONG).show();
+                        Toast.makeText(PreferencesActivity.this,getString(R.string.error),Toast.LENGTH_LONG).show();
                     } //String path = getPath(PreferencesActivity.this,uri);
 
                 } catch (IOException e) {
@@ -533,7 +554,9 @@ public class PreferencesActivity extends AppCompatActivity {
 
     public void uploadImageDialog(){
         final Dialog dialog = new Dialog(PreferencesActivity.this);
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        if (dialog.getWindow()!=null) {
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        }
         dialog.setContentView(R.layout.update_image_dialog);
 
 
@@ -590,9 +613,8 @@ public class PreferencesActivity extends AppCompatActivity {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG,50,baos);
         byte[] imageByteArray = baos.toByteArray();
-        String result =  Base64.encodeToString(imageByteArray,Base64.DEFAULT);
 
-        return result;
+        return Base64.encodeToString(imageByteArray,Base64.DEFAULT);
 
     }
 

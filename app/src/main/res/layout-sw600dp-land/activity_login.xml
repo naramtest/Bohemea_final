@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_background"
+    android:background="@drawable/login_land_bg"
     tools:context=".Login.LoginActivity"
     android:orientation="horizontal"
     android:weightSum="3">
@@ -17,7 +17,9 @@
         android:layout_marginTop="40dp"
         tools:targetApi="lollipop"
         android:elevation="20dp"
-        android:src="@drawable/logo" />
+        android:src="@drawable/logo_larg"
+        android:layout_marginStart="16dp"
+        />
 
 
 <RelativeLayout

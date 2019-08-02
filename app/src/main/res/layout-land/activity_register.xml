@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_background"
+    android:background="@drawable/login_land_bg"
     tools:context=".Login.RegisterActivity"
     android:orientation="horizontal"
     android:weightSum="3">
@@ -14,8 +14,8 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/logo"
+        android:src="@drawable/logo_larg"
+        android:layout_marginStart="16dp"
         tools:targetApi="lollipop"
         android:elevation="20dp"/>
 

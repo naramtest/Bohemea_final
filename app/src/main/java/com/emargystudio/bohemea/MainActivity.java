@@ -7,9 +7,12 @@ import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -31,6 +34,7 @@ import com.emargystudio.bohemea.ViewHolders.SliderAdapterExample;
 import com.emargystudio.bohemea.helperClasses.SharedPreferenceManger;
 import com.emargystudio.bohemea.helperClasses.URLS;
 import com.emargystudio.bohemea.helperClasses.VolleyHandler;
+import com.google.gson.JsonArray;
 import com.luseen.spacenavigation.SpaceItem;
 import com.luseen.spacenavigation.SpaceNavigationView;
 import com.luseen.spacenavigation.SpaceOnClickListener;
@@ -43,6 +47,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -56,6 +61,10 @@ public class MainActivity extends AppCompatActivity {
     TextView address;
     private ArrayList<String> images = new ArrayList<>();
 
+    String lang = Locale.getDefault().getLanguage();
+    double versionName;
+    int isImportant ; // 1 = true 0 = false
+
 
 
     SpaceNavigationView spaceNavigationView;
@@ -67,9 +76,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
         //views init
         viewsInit();
+        needUpdate();
 
         //go to the reservation activity to make a reservation
         makeReservationBtn.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
 
         //call the setup method for init bottom navigation view
         bottomNavigationInit(savedInstanceState,MainActivity.this);
-
 
 
         //allow only logged in users to enter app
@@ -102,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
-
         //call image query method
         imageQuery();
 
@@ -114,9 +121,17 @@ public class MainActivity extends AppCompatActivity {
         sliderView         = findViewById(R.id.imageSlider);
         address =findViewById(R.id.textView);
 
+        Typeface face ;
+        Typeface face_book;
+        if (lang.equals("ar")){
+            face = Typeface.createFromAsset(MainActivity.this.getAssets(),"fonts/Cairo-Regular.ttf");
+            face_book = Typeface.createFromAsset(MainActivity.this.getAssets(),"fonts/Cairo-Bold.ttf");
+            address.setTextSize(16);
+        }else {
+            face = Typeface.createFromAsset(MainActivity.this.getAssets(),"fonts/Kabrio_Regular.ttf");
+            face_book = Typeface.createFromAsset(MainActivity.this.getAssets(),"fonts/Akrobat-Bold.otf");
+        }
 
-        Typeface face = Typeface.createFromAsset(MainActivity.this.getAssets(),"fonts/Kabrio_Regular.ttf");
-        Typeface face_book = Typeface.createFromAsset(MainActivity.this.getAssets(),"fonts/Akrobat-Bold.otf");
         makeReservationBtn.setTypeface(face);
         address.setTypeface(face_book);
     }
@@ -166,6 +181,55 @@ public class MainActivity extends AppCompatActivity {
         VolleyHandler.getInstance(MainActivity.this).addRequetToQueue(stringRequest);
     }
 
+    public void needUpdate(){
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URLS.check_for_update,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        long runningVersionName;
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+
+                            if(!jsonObject.getBoolean("error")){
+                                JSONArray jsonArray = jsonObject.getJSONArray("appUpdate");
+                                for(int i = 0 ; i<jsonArray.length(); i++){
+                                    JSONObject jsonUpdate = jsonArray.getJSONObject(i);
+                                    versionName = jsonUpdate.getDouble("versionNumber");
+                                    isImportant = jsonUpdate.getInt("is_important");
+                                }
+
+                                if (isImportant == 1){
+                                    PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+                                    runningVersionName = pInfo.versionCode;
+                                    Log.d("naram", "onResponse: "+runningVersionName);
+                                    if (versionName>runningVersionName){
+                                        Intent intent = new Intent(MainActivity.this, WhiteActivity.class);
+                                        intent.putExtra("versionName",versionName);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                }
+                            }
+                        }catch (JSONException e){
+                            setupSlider();
+                            e.printStackTrace();
+                        } catch (PackageManager.NameNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        setupSlider();
+                    }
+                }
+        );
+        VolleyHandler.getInstance(MainActivity.this).addRequetToQueue(stringRequest);
+
+
+    }
 
     //setup bottom navigation
     private void bottomNavigationInit(Bundle savedInstanceState , final Activity activityA) {

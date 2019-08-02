@@ -2,6 +2,8 @@
   <dictionary name="naram">
     <words>
       <w>datebase</w>
+      <w>mysq</w>
+      <w>mysqite</w>
       <w>strtext</w>
     </words>
   </dictionary>

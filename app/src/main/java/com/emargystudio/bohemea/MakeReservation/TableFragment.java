@@ -56,6 +56,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -80,6 +81,8 @@ public class TableFragment extends Fragment {
     private List<FoodOrder> foodList;
     private int tablesNumber = 13; //should be changed when a table is add
     private String selectedTable = "0";
+
+    String lang = Locale.getDefault().getLanguage();
 
 
     public TableFragment() {
@@ -151,6 +154,12 @@ public class TableFragment extends Fragment {
         backBtn  = view.findViewById(R.id.backBtn);
         sendBtn  = view.findViewById(R.id.send_btn);
 
+        if (lang.equals("ar")){
+            sendBtn.setRotation(180);
+            backBtn.setRotation(0);
+        }
+
+
         Typeface face_light = Typeface.createFromAsset(getContext().getAssets(),"fonts/Kabrio-Light.ttf");
         Typeface face_book = Typeface.createFromAsset(getContext().getAssets(),"fonts/Kabrio-Book.ttf");
         Typeface face_bold = Typeface.createFromAsset(getContext().getAssets(),"fonts/Kabrio-Bold.ttf");
@@ -189,27 +198,29 @@ public class TableFragment extends Fragment {
                                 for (int i = 0; i < jsonArrayReservation.length(); i++) {
                                     JSONObject jsonObjectSingleRes = jsonArrayReservation.getJSONObject(i);
 
-                                    double startHour = jsonObjectSingleRes.getDouble("hours");
-                                    double endHour = jsonObjectSingleRes.getDouble("end_hour");
-                                    if (reservation.getStartHour() >= startHour && reservation.getStartHour() <= endHour) {
-                                        tableArray.add(jsonObjectSingleRes.getInt("table_id"));
+                                    if (jsonObjectSingleRes.getInt("status") == 0 ||jsonObjectSingleRes.getInt("status") == 1) {
+                                        double startHour = jsonObjectSingleRes.getDouble("hours");
+                                        double endHour = jsonObjectSingleRes.getDouble("end_hour");
+                                        if (reservation.getStartHour() >= startHour && reservation.getStartHour() <= endHour) {
+                                            tableArray.add(jsonObjectSingleRes.getInt("table_id"));
+                                        }
                                     }
                                 }
 
                                 initTabLayout();
 
                             } else {
-                                Toast.makeText(getContext(), Objects.requireNonNull(getContext()).getString(R.string.internet_off), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), getString(R.string.internet_off), Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
-                            Toast.makeText(getContext(), Objects.requireNonNull(getContext()).getString(R.string.internet_off), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), getString(R.string.internet_off), Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getContext(), Objects.requireNonNull(getContext()).getString(R.string.internet_off), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getString(R.string.internet_off), Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -222,7 +233,7 @@ public class TableFragment extends Fragment {
 
     private void initTabLayout() {
 
-        final VectorChildFinder vector = new VectorChildFinder(getContext(), R.drawable.ic_group_190, imageView);
+        final VectorChildFinder vector = new VectorChildFinder(getContext(), R.drawable.ic_group_192, imageView);
         for (int i = 0; i < tablesNumber; i++) {
             if (!tableArray.contains(i + 1)) {
                 tabLayout.addTab(tabLayout.newTab().setText(String.valueOf(i + 1)));
@@ -232,6 +243,7 @@ public class TableFragment extends Fragment {
 
                 VectorDrawableCompat.VFullPath path1 = vector.findPathByName(pathName);
                 path1.setFillColor(Color.RED);
+
                 imageView.invalidate();
             }
         }
@@ -250,7 +262,6 @@ public class TableFragment extends Fragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                //alertSend(user.getUserId(), reservation, Objects.requireNonNull(tab.getText()).toString(), "No movie");
 
                 String pathName  = "path"+tab.getText().toString();
 
@@ -334,18 +345,18 @@ public class TableFragment extends Fragment {
                                 sendNotification(user_id,jsonObjectUser.getInt("res_id"),"reservation_channel");
 
                             } else {
-                                Toast.makeText(getContext(), Objects.requireNonNull(getContext()).getString(R.string.internet_off), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), getString(R.string.internet_off), Toast.LENGTH_SHORT).show();
                             }
 
                         } catch (JSONException e) {
-                            Toast.makeText(getContext(), Objects.requireNonNull(getContext()).getString(R.string.internet_off), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), getString(R.string.internet_off), Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getContext(), Objects.requireNonNull(getContext()).getString(R.string.internet_off), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getString(R.string.internet_off), Toast.LENGTH_SHORT).show();
                     }
                 }
         ) {
@@ -376,9 +387,9 @@ public class TableFragment extends Fragment {
         String url = "https://fcm.googleapis.com/fcm/send";
         try {
             //Populate the request parameters
-            String hour = CommonReservation.changeHourFormat(reservation.getStartHour());
+            String hour = CommonReservation.changeHourFormat(getContext(),reservation.getStartHour());
             data.put("title", "Bohemea Art Cafe");
-            data.put("message", "user "+user.getUserName()+" Reservation date "+reservation.getMonth()+"/"+reservation.getDay()+"/"+hour);
+            data.put("message", "User "+user.getUserName()+" Reservation date "+reservation.getMonth()+"/"+reservation.getDay()+"/"+hour);
             data.put("android_channel_id",channel);
             data.put("user_id",String.valueOf(user_id));
             data.put("res_id",String.valueOf(res_id));
@@ -485,7 +496,7 @@ public class TableFragment extends Fragment {
                 public void onClick(View v) {
                     Intent intent = new Intent(getContext(), MenuActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    Objects.requireNonNull(getContext()).startActivity(intent);
+                    getContext().startActivity(intent);
                 }
             });
             alert.setNegativeButton(R.string.table_frag_alert_send_cancel_btn, new DialogInterface.OnClickListener() {
@@ -493,7 +504,7 @@ public class TableFragment extends Fragment {
                 public void onClick(DialogInterface dialog, int which) {
                     Intent intent = new Intent(getContext(), MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    Objects.requireNonNull(getContext()).startActivity(intent);
+                    getContext().startActivity(intent);
                 }
             });
             AlertDialog dialog = alert.create();

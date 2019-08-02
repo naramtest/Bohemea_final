@@ -3,29 +3,47 @@ package com.emargystudio.bohemea.helperClasses;
 
 import android.app.Activity;
 
+import android.content.Context;
+import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
+
+import com.emargystudio.bohemea.R;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-
+import java.util.Locale;
 
 
 public class CommonReservation {
 
 
 
-    public static String changeHourFormat(double hour){
+    public static String changeHourFormat(Context context, double hour){
         String stringHour ;
+        String lang = Locale.getDefault().getLanguage();
         if (hour >= 0 && hour <=12 ){
-            String am = "AM";
-            String sHour = String.valueOf(hour).replace(".",":");
-            stringHour = sHour + " " + am;
+            String am = context.getString(R.string.am_string);
+            String sHour;
+            if (lang.equals("ar")){
+                sHour = String.valueOf(hour).replace("٫", ":");
+
+            }else {
+                sHour = String.valueOf(hour).replace("٫", ":");
+            }
+            stringHour =" " + sHour +  am;
 
         }else {
-            String am = "PM";
+            String am = context.getString(R.string.pm_string);
             double dHour = round(hour-12.00,2);
             String result = String.format("%.2f", dHour);
-            String sHour = result.replace(".",":");
+            String sHour;
+            if (lang.equals("ar")){
+                Log.d("Arabic", "changeHourFormat: "+result);
+                sHour = result.replace("٫", ":");
+
+            }else {
+                sHour = result.replace("٫", ":");
+            }
             stringHour = sHour + " " + am;
         }
         return  stringHour;

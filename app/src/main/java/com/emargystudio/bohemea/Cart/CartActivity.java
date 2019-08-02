@@ -26,9 +26,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.emargystudio.bohemea.History.HistoryActivity;
@@ -47,6 +49,7 @@ import com.emargystudio.bohemea.R;
 import com.emargystudio.bohemea.ViewHolders.CartAdapter;
 import com.emargystudio.bohemea.ViewHolders.NewReservationAdapter;
 import com.emargystudio.bohemea.helperClasses.Common;
+import com.emargystudio.bohemea.helperClasses.CommonReservation;
 import com.emargystudio.bohemea.helperClasses.SharedPreferenceManger;
 import com.emargystudio.bohemea.helperClasses.URLS;
 import com.emargystudio.bohemea.helperClasses.VolleyHandler;
@@ -74,18 +77,27 @@ import static com.emargystudio.bohemea.helperClasses.Common.total;
 public class CartActivity extends AppCompatActivity {
 
 
+    //bottom navigation
     SpaceNavigationView spaceNavigationView;
 
     private List<FoodOrder> foodOrders;
     private ArrayList<Reservation> reservations = new ArrayList<>();
     private List<FastOrder> fastOrders = new ArrayList<>();
+
+    // adapter for food item list on the cart activity
     private CartAdapter cartAdapter;
+    // adapter for list of reservation when pressing on for later button
     private NewReservationAdapter newReservationAdapter;
-    int total1;
+
+    // to calculate the total price of all the item on the cart list
+    private int total1;
+
 
     private AppDatabase mDb;
     private User user;
     private SharedPreferenceManger sharedPreferenceManger;
+
+    String lang = Locale.getDefault().getLanguage();
 
     //widgets
     TextView empty_cart_text, total_text;
@@ -95,6 +107,8 @@ public class CartActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     private ConstraintLayout coordinatorLayout;
 
+
+    //for later list of reservation on click listener
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -102,10 +116,6 @@ public class CartActivity extends AppCompatActivity {
             RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) view.getTag();
             int position = viewHolder.getAdapterPosition();
             sendOrder(reservations.get(position).getRes_id());
-
-
-
-
 
         }
     };
@@ -117,6 +127,8 @@ public class CartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
 
         foodOrders = new ArrayList<>();
+
+        //add on click lister for the edit and delete item on every item on the cart list
         cartAdapter = new CartAdapter(CartActivity.this, new CartAdapter.DetailsAdapterListener() {
             @Override
             public void deleteCartItem(RecyclerView.ViewHolder v, int position) {
@@ -169,14 +181,15 @@ public class CartActivity extends AppCompatActivity {
         newReservationAdapter = new NewReservationAdapter(reservations,CartActivity.this);
 
 
+
+        // init setup for the activity
+        initViewAndTypeFaces();
+        bottomNavigationInit(savedInstanceState, CartActivity.this);
         sharedPreferenceManger = SharedPreferenceManger.getInstance(CartActivity.this);
         mDb = AppDatabase.getInstance(CartActivity.this);
         user= sharedPreferenceManger.getUserData();
-        initViewAndTypeFaces();
 
-
-        bottomNavigationInit(savedInstanceState, CartActivity.this);
-
+        //setup rv
         recyclerView.setLayoutManager(new LinearLayoutManager(CartActivity.this));
         recyclerView.setAdapter(cartAdapter);
 
@@ -185,6 +198,8 @@ public class CartActivity extends AppCompatActivity {
         checkEmpty();
 
 
+
+        //listener for all the button
         addMoreBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -213,7 +228,6 @@ public class CartActivity extends AppCompatActivity {
 
             }
         });
-
         orderForLaterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -222,10 +236,9 @@ public class CartActivity extends AppCompatActivity {
         });
 
 
-
-
     }
 
+    //init views in the activity
     private void initViewAndTypeFaces() {
         spaceNavigationView = findViewById(R.id.space);
         recyclerView = findViewById(R.id.cart_rv);
@@ -240,9 +253,24 @@ public class CartActivity extends AppCompatActivity {
         emptyCartBtn = findViewById(R.id.empty_cart_btn);
         coordinatorLayout = findViewById(R.id.coordinator_layout);
 
-        Typeface face_Regular = Typeface.createFromAsset(CartActivity.this.getAssets(), "fonts/Akrobat-Regular.otf");
-        Typeface face_ExtraBold = Typeface.createFromAsset(CartActivity.this.getAssets(), "fonts/Akrobat-ExtraBold.otf");
-        Typeface face_Bold = Typeface.createFromAsset(CartActivity.this.getAssets(), "fonts/Akrobat-Bold.otf");
+        Typeface face_Regular ;
+        Typeface face_ExtraBold;
+        Typeface face_Bold ;
+
+        if (lang.equals("ar")){
+            face_Regular = Typeface.createFromAsset(CartActivity.this.getAssets(), "fonts/Cairo-Regular.ttf");
+            face_ExtraBold = Typeface.createFromAsset(CartActivity.this.getAssets(), "fonts/Cairo-Bold.ttf");
+            face_Bold = Typeface.createFromAsset(CartActivity.this.getAssets(), "fonts/Cairo-SemiBold.ttf");
+
+            recyclerView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            total_text.setTextSize(16);
+        }else{
+            face_Regular = Typeface.createFromAsset(CartActivity.this.getAssets(), "fonts/Akrobat-Regular.otf");
+            face_ExtraBold = Typeface.createFromAsset(CartActivity.this.getAssets(), "fonts/Akrobat-ExtraBold.otf");
+            face_Bold = Typeface.createFromAsset(CartActivity.this.getAssets(), "fonts/Akrobat-Bold.otf");
+
+        }
+
 
         empty_cart_text.setTypeface(face_Regular);
         total_text.setTypeface(face_ExtraBold);
@@ -254,9 +282,7 @@ public class CartActivity extends AppCompatActivity {
     }
 
 
-
-
-
+    //use view model with mysqLite to auto load all the item on the list
     private void loadListFood() {
         MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
@@ -265,7 +291,6 @@ public class CartActivity extends AppCompatActivity {
             public void onChanged(@Nullable List<FoodOrder> foodOrders1) {
 
                 total1 = 0;
-
                 foodOrders = foodOrders1;
                 cartAdapter.setTasks(foodOrders);
                 cartAdapter.notifyDataSetChanged();
@@ -279,6 +304,53 @@ public class CartActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    private void sendNotification( int res_id, String channel) {
+
+        JSONObject data = new JSONObject();
+        JSONObject notification_data = new JSONObject();
+        String url = "https://fcm.googleapis.com/fcm/send";
+        try {
+            //Populate the request parameters
+
+            data.put("title", "Bohemea Art Cafe");
+            data.put("message", "Fast order by "+user.getUserName());
+            data.put("android_channel_id",channel);
+            data.put("res_id",String.valueOf(res_id));
+
+            notification_data.put("data", data);
+            notification_data.put("to","/topics/reservation");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest
+                (Request.Method.POST, url, notification_data, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }){
+            @Override
+            public Map<String, String> getHeaders() {
+                String api_key_header_value = "Key=AAAAMsoSJbQ:APA91bEiYfFYyjyCcgbOvepKtd111o4S_QbZW5yGoZJzXkUJFYQen7-by5lcUGTYP02lVFMuNIyzUUy1oOeGOYHzz6cdqHqixXNbTApdqw7SY4t5B5qwhIwvIXrO-ht1BzKslbq7_O2x";
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", api_key_header_value);
+                return headers;
+            }
+        };
+
+        // Access the RequestQueue through your VolleyHandler class.
+        VolleyHandler.getInstance(CartActivity.this).addRequetToQueue(jsArrayRequest);
 
     }
 
@@ -306,6 +378,7 @@ public class CartActivity extends AppCompatActivity {
     }
 
 
+    //this dialog is showing when send pre order from for later button
     public void alertDone() {
         AlertDialog.Builder alert = new AlertDialog.Builder(CartActivity.this);
         LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -324,6 +397,7 @@ public class CartActivity extends AppCompatActivity {
 
     }
 
+    //this dialog shows only the first time this app opened
     public void alertFirstTime() {
         AlertDialog.Builder alert = new AlertDialog.Builder(CartActivity.this);
         LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -340,6 +414,8 @@ public class CartActivity extends AppCompatActivity {
 
     }
 
+
+    //when sending order from the order now button
     public void alertFastOrderDone() {
         AlertDialog.Builder alert = new AlertDialog.Builder(CartActivity.this);
         LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -358,105 +434,8 @@ public class CartActivity extends AppCompatActivity {
 
     }
 
-
-    private void sendFastOrder(){
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        sdf.setTimeZone(TimeZone.getDefault());
-        Date date = Calendar.getInstance().getTime();
-        final String currentTime = sdf.format(date);
-
-        Gson gson = new Gson();
-        final String newDataArray = gson.toJson(fastOrders);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLS.fast_order,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        total = 0;
-                        total_text.setText(String.format(getString(R.string.total_cart_text), total1));
-                        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                mDb.orderDao().deleteAllFood();
-                            }
-                        });
-
-                        alertFastOrderDone();
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        error.getMessage();
-                    }
-                }
-        ) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> param = new HashMap<>();
-                param.put("array", newDataArray);
-                param.put("total", String.valueOf(total));
-                param.put("is_fast","1");
-                param.put("date",currentTime);
-                param.put("status","0");//0 waiting ; 1=approved 2 = canceled
-                param.put("user_id", String.valueOf(user.getUserId()));// array is key which we will use on server side
-
-                return param;
-            }
-        };//end of string Request
-
-        VolleyHandler.getInstance(getApplicationContext()).addRequetToQueue(stringRequest);
-
-    }
-
-    private void sendOrder(final int resId) {
-        Gson gson = new Gson();
-        final String newDataArray = gson.toJson(foodOrders);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLS.pre_order,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        total = 0;
-                        total_text.setText(String.format(getString(R.string.total_cart_text), total1));
-                        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                mDb.orderDao().deleteAllFood();
-                            }
-                        });
-
-                        alertDone();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        error.getMessage();
-                    }
-                }
-        ) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> param = new HashMap<>();
-                param.put("array", newDataArray);
-                param.put("total", String.valueOf(total));
-                param.put("is_fast", "0"); //0 = full reservation ;1=fast order at the restaurant
-                param.put("res_id", String.valueOf(resId));// array is key which we will use on server side
-
-                return param;
-            }
-        };//end of string Request
-
-        VolleyHandler.getInstance(getApplicationContext()).addRequetToQueue(stringRequest);
-
-
-    }
-
-
+    //this dialog show when pressing on edit button on the list
+    //allow user to edit his order
     private void showDialog(final FoodOrder foodOrder , final int position) {
         final AlertDialog.Builder alert = new AlertDialog.Builder(CartActivity.this);
         LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -520,6 +499,116 @@ public class CartActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    //send fast order request to dataBase
+    private void sendFastOrder(){
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        sdf.setTimeZone(TimeZone.getDefault());
+        Date date = Calendar.getInstance().getTime();
+        final String currentTime = sdf.format(date);
+
+        Gson gson = new Gson();
+        final String newDataArray = gson.toJson(fastOrders);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLS.fast_order,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        total = 0;
+                        total_text.setText(String.format(getString(R.string.total_cart_text), total1));
+                        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                mDb.orderDao().deleteAllFood();
+                            }
+                        });
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            int res_id = jsonObject.getInt("res_id");
+                            sendNotification(res_id,"fast_order_channel");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        alertFastOrderDone();
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        error.getMessage();
+                    }
+                }
+        ) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> param = new HashMap<>();
+                param.put("array", newDataArray);
+                param.put("total", String.valueOf(total));
+                param.put("is_fast","1");
+                param.put("date",currentTime);
+                param.put("status","0");//0 waiting ; 1=approved 2 = canceled
+                param.put("user_id", String.valueOf(user.getUserId()));// array is key which we will use on server side
+
+                return param;
+            }
+        };//end of string Request
+
+        VolleyHandler.getInstance(getApplicationContext()).addRequetToQueue(stringRequest);
+
+    }
+
+    //send pre order request to dataBase
+    private void sendOrder(final int resId) {
+        Gson gson = new Gson();
+        final String newDataArray = gson.toJson(foodOrders);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLS.pre_order,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        total = 0;
+                        total_text.setText(String.format(getString(R.string.total_cart_text), total1));
+                        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                mDb.orderDao().deleteAllFood();
+                            }
+                        });
+
+                        alertDone();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        error.getMessage();
+                    }
+                }
+        ) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> param = new HashMap<>();
+                param.put("array", newDataArray);
+                param.put("total", String.valueOf(total));
+                param.put("is_fast", "0"); //0 = full reservation ;1=fast order at the restaurant
+                param.put("res_id", String.valueOf(resId));// array is key which we will use on server side
+
+                return param;
+            }
+        };//end of string Request
+
+        VolleyHandler.getInstance(getApplicationContext()).addRequetToQueue(stringRequest);
+
+
+    }
+
+
+
 
 
     //show dialog contain list of the user reservation and an option to make a new one
@@ -597,15 +686,15 @@ public class CartActivity extends AppCompatActivity {
 
                             }
                         } catch (JSONException e) {
-                            Log.i("cart", "onResponse: "+e.getMessage());
+                            Toast.makeText(CartActivity.this, getString(R.string.error), Toast.LENGTH_SHORT).show();
+
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.i("cart", "onResponse: "+error.getMessage());
-
+                        Toast.makeText(CartActivity.this, getString(R.string.internet_off), Toast.LENGTH_SHORT).show();
                     }
                 }
 

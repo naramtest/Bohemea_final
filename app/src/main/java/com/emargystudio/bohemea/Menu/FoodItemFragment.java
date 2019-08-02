@@ -123,12 +123,10 @@ public class FoodItemFragment extends Fragment {
 
                 Picasso.get().load(foodCategory.getImage_url()).into(category_image);
                 if(lang.equals("ar")){
-                    Log.d(TAG, "onCreate: "+"arabic");
                     category_name.setText(foodCategory.getAr_name());
 
                     foodQuery_ar(foodCategory.getId());
                 }else if (lang.equals("en")){
-                    Log.d(TAG, "onCreate: "+"english");
                     String lower = foodCategory.getName().toLowerCase();
                     String upperString = lower.substring(0,1).toUpperCase() + lower.substring(1);
                     category_name.setText(upperString);

@@ -6,7 +6,6 @@
     android:layout_marginTop="15dp"
     android:layout_marginStart="16dp"
     android:layout_marginEnd="16dp"
-
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@android:color/transparent" >
 
@@ -38,7 +37,6 @@
 
 
                 <TextView
-
                     android:id="@+id/res_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -54,6 +52,7 @@
                     android:layout_gravity="center_vertical"
                     tools:text="total: 0 P.S"
                     android:layout_marginTop="8dp"
+                    android:gravity="start"
                     android:textSize="16sp"
                     android:textColor="@color/black"
                     />
@@ -68,7 +67,6 @@
                 android:gravity="end"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@id/layout1"
-                tools:text="Waiting"
                 android:textSize="18sp"
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold"
@@ -90,7 +88,7 @@
             android:padding="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SHOW"
+            android:text="@string/res_his_show_btn"
             android:textSize="18sp"
             android:textColor="@color/black"
             android:textStyle="bold"

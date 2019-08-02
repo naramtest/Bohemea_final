@@ -170,18 +170,31 @@ public class FCMService extends FirebaseMessagingService {
 
                         String res_id = remoteMessage.getData().get("res_id");
                         String user_id = remoteMessage.getData().get("user_id");
-                        String result = remoteMessage.getData().get("result");
+                        String result = remoteMessage.getData().get("result"); // 1= accept 2= declined
 
                         Intent intent = new Intent(this, HistoryActivity.class);
                         intent.putExtra("res_id",res_id);
                         intent.putExtra("user_id",user_id);
                         intent.putExtra("result",result);
 
+                       String message = "";
+                        if (result!=null) {
+                            if (result.equals("1")) {
+                                message = getString(R.string.notifcation_accept);
+                            }else if (result.equals("3")){
+                                message = getString(R.string.notification_declined);
+                            }
+                        }
                         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
                         stackBuilder.addNextIntentWithParentStack(intent);
                         PendingIntent resultPendingIntent =  stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-                        notificationBuilder = getNotificationBuilder(remoteMessage, resultPendingIntent, RESERVATION_CHANNEL_ID);
+                        notificationBuilder = new NotificationCompat.Builder(this, RESERVATION_CHANNEL_ID)
+                                .setSmallIcon(R.mipmap.ic_launcher_round)  //a resource for your custom small icon
+                                .setContentTitle(remoteMessage.getData().get("title")) //the "title" value you sent in your notification
+                                .setContentText(message) //ditto
+                                .setContentIntent(resultPendingIntent)
+                                .setAutoCancel(true);
                     } else {
                         PendingIntent resultPendingIntent = getPendingIntent(MainActivity.class);
                         notificationBuilder = getNotificationBuilder(remoteMessage, resultPendingIntent, ADMIN_CHANNEL_ID);

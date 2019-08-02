@@ -1,5 +1,6 @@
 package com.emargystudio.bohemea.ViewHolders;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -21,7 +22,9 @@ import com.emargystudio.bohemea.History.OrderFragment;
 import com.emargystudio.bohemea.Model.Reservation;
 import com.emargystudio.bohemea.R;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class ResHistoryAdapter extends RecyclerView.Adapter<ResHistoryAdapter.RisHistoryViewHolder> {
 
@@ -43,6 +46,7 @@ public class ResHistoryAdapter extends RecyclerView.Adapter<ResHistoryAdapter.Ri
         return new RisHistoryViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull final RisHistoryViewHolder holder, int i) {
 
@@ -50,22 +54,35 @@ public class ResHistoryAdapter extends RecyclerView.Adapter<ResHistoryAdapter.Ri
         int month = reservations.get(i).getMonth();
         int day = reservations.get(i).getDay();
 
-        String date = year+"/"+month+"/"+day;
+        String lang = Locale.getDefault().getLanguage();
+        String dateString;
+        if(lang.equals("ar")){
+            NumberFormat nf = NumberFormat.getInstance(new Locale("ar","LB")); //or "nb","No" - for Norway
+            String sYear = nf.format(year);
+            String yearString = sYear.replace("٬", "");
+            String monthString = nf.format(month);
+            String dayString = nf.format(day);
+            dateString = yearString+"/"+monthString+"/"+dayString;
+        }else {
+            dateString = "Date: "+year+"/"+month+"/"+day;
+        }
+
+        holder.res_date.setText(dateString);
         int status = reservations.get(i).getStatus();
         switch (status){
             case 0:
-                holder.status.setText("Waiting");
+                holder.status.setText(context.getString(R.string.f_res_history_waiting));
                 holder.status.setTextColor(Color.parseColor("#dd3538"));
                 break;
 
             case 1:
-                holder.status.setText("Approved");
+                holder.status.setText(context.getString(R.string.f_res_history_approved));
                 holder.status.setTextColor(Color.parseColor("#006400"));
                 break;
         }
 
 
-        holder.res_date.setText(date);
+
         String price = String.format(context.getString(R.string.total_res_history_j),reservations.get(i).getTotal());
         holder.price.setText(price);
         holder.cardView.setOnClickListener(new View.OnClickListener() {

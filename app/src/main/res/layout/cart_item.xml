@@ -28,7 +28,7 @@
             app:shape_roundRect_topRightRadius="12dp"
             app:shape_roundRect_borderColor="@android:color/black"
             app:shape_roundRect_borderWidth="2dp"
-            >
+            tools:targetApi="lollipop">
 
 
             <ImageView

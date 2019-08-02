@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Add more ITems"
+        android:text="@string/d_update_add_more_items"
         android:textStyle="bold"
         android:textSize="18sp"
         android:textColor="@color/black"/>
@@ -88,7 +88,7 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:text="CANCEL"
+            android:text="@string/d_update_cancel"
             android:background="@drawable/ripple"
             />
 
@@ -102,7 +102,7 @@
             android:textSize="16sp"
             android:textStyle="bold"
             android:background="@drawable/ripple"
-            android:text="UPDATE"/>
+            android:text="@string/d_update"/>
 
 
 

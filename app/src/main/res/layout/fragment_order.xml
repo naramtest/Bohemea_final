@@ -69,18 +69,16 @@
             <TextView
                 android:id="@+id/table_number"
                 style="@style/SummaryText"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
-                android:layout_weight="1.5" />
+                />
 
             <TextView
                 android:id="@+id/reservation_for"
                 style="@style/SummaryText"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:gravity="end|center" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end" />
         </LinearLayout>
 
         <View
@@ -173,11 +171,12 @@
         android:layout_marginTop="72dp"
         android:layout_marginEnd="45dp"
         android:background="@drawable/order_his_btn_bg"
-        android:text="CANCEL THIS RESERVATION"
+        android:text="@string/cancel_this_reservation_btn"
         android:layout_below="@id/card_container"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="16sp" />
+
 
 
 </RelativeLayout>

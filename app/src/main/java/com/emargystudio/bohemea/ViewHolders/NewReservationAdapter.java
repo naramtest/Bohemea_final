@@ -39,7 +39,7 @@ public class NewReservationAdapter extends RecyclerView.Adapter<NewReservationAd
     public void onBindViewHolder(@NonNull NewReservationViewHolder holder, int position) {
 
         Reservation reservation = reservations.get(position);
-        holder.timeTxt.setText(CommonReservation.changeHourFormat(reservation.getStartHour()));
+        holder.timeTxt.setText(CommonReservation.changeHourFormat(context,reservation.getStartHour()));
 
         String date = reservation.getYear()+"-"+reservation.getMonth()+"-"+reservation.getDay();
         holder.dateTxt.setText(date);

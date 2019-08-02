@@ -32,6 +32,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Objects;
 
 
@@ -50,6 +51,7 @@ public class DataFragment extends Fragment {
     private Reservation reservation = new Reservation();
     private TableFragment tableFragment;
 
+    String lang = Locale.getDefault().getLanguage();
 
     public DataFragment() {
         // Required empty public constructor
@@ -100,6 +102,10 @@ public class DataFragment extends Fragment {
         calendarLayout = view.findViewById(R.id.calendar_layout);
         chairLayout    = view.findViewById(R.id.chair_layout);
 
+        if (lang.equals("ar")){
+            nextFAB.setRotation(180);
+            chairEdt.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
+        }
 
         if (getActivity()!=null){
             Typeface face = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Kabrio_Regular.ttf");
@@ -110,13 +116,16 @@ public class DataFragment extends Fragment {
     //open dialog with calendar to let user choose the date they want to make a reservation on it
     private void datePicker(int currentYear, int currentMonth, int currentDay){
 
-        DatePickerDialog dialog = new DatePickerDialog(Objects.requireNonNull(getContext()), new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog dialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
                 chosenYear = year;
                 chosenMonth = month+1;
                 chosenDay = dayOfMonth;
+                if (lang.equals("ar")){
+                    calendarEdt.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
+                }
                 calendarEdt.setText(chosenYear +"-"+chosenMonth+"-"+chosenDay);
                 //remove error from editText if exists
                 calendarLayout.setErrorEnabled(false);
@@ -135,7 +144,7 @@ public class DataFragment extends Fragment {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 chosenStartHour = formatStartingHour(hourOfDay,minute);
-                timeEdt.setText(CommonReservation.changeHourFormat(chosenStartHour));
+                timeEdt.setText(CommonReservation.changeHourFormat(getContext(),chosenStartHour));
                 chosenEndHour = chosenStartHour + 2;
                 timeLayout.setErrorEnabled(false);
 

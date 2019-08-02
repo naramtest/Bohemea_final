@@ -16,7 +16,7 @@ public class Reservation implements Parcelable {
     private double startHour;
     private double end_hour;
     private int chairNumber;
-    private int status; // 0 = waiting ; 1 = approved ; 2 = canceled or removed
+    private int status; // 0 = waiting ; 1 = approved ; 2 = canceled ; 3 = declined ; 4= old
     private int total;
     private String movie_name;
     private   ArrayList<Integer> tableArray = new ArrayList<>();

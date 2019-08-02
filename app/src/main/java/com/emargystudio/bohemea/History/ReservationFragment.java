@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -40,21 +41,21 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Locale;
 
 
 public class ReservationFragment extends Fragment {
 
-    User user;
-    ArrayList<Reservation> reservations = new ArrayList<>();
-    SharedPreferenceManger sharedPreferenceManger;
-    ResHistoryAdapter resHistoryAdapter;
+    private User user;
+    private ArrayList<Reservation> reservations = new ArrayList<>();
+    private ResHistoryAdapter resHistoryAdapter;
+
+    String lang = Locale.getDefault().getLanguage();
 
 
-    ProgressBar progressBar;
-    RelativeLayout emptyView;
-    RecyclerView recyclerView;
-    TextView emptyTxt , header1 , header2;
-    Button emptyButton;
+    private ProgressBar progressBar;
+    private RelativeLayout emptyView;
+    private RecyclerView recyclerView;
 
 
     public ReservationFragment() {
@@ -72,7 +73,7 @@ public class ReservationFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        sharedPreferenceManger = SharedPreferenceManger.getInstance(getContext());
+        SharedPreferenceManger sharedPreferenceManger = SharedPreferenceManger.getInstance(getContext());
         user = sharedPreferenceManger.getUserData();
 
 
@@ -88,18 +89,29 @@ public class ReservationFragment extends Fragment {
         progressBar = view.findViewById(R.id.progress_bar);
         recyclerView = view.findViewById(R.id.res_history_rv);
         emptyView = view.findViewById(R.id.empty_history_layout);
-        emptyTxt = view.findViewById(R.id.empty_history_text);
-        emptyButton = view.findViewById(R.id.empty_history_btn);
-        header1    = view.findViewById(R.id.text_header1);
-        header2    = view.findViewById(R.id.text_header2);
+        TextView emptyTxt = view.findViewById(R.id.empty_history_text);
+        Button emptyButton = view.findViewById(R.id.empty_history_btn);
+        TextView header1 = view.findViewById(R.id.text_header1);
+        TextView header2 = view.findViewById(R.id.text_header2);
 
-        Typeface face_Regular = Typeface.createFromAsset(getContext().getAssets(), "fonts/Akrobat-Regular.otf");
-        Typeface face_Bold = Typeface.createFromAsset(getContext().getAssets(),"fonts/Kabrio-Bold.ttf");
-        Typeface face_Light = Typeface.createFromAsset(getContext().getAssets(),"fonts/Kabrio-Light.ttf");
-        header1.setTypeface(face_Bold);
-        header2.setTypeface(face_Light);
-        emptyTxt.setTypeface(face_Regular);
+        if (getContext()!=null) {
+            Typeface face_Regular;
+            Typeface face_Bold ;
+            Typeface face_Light;
+            if (lang.equals("ar")){
+                face_Regular = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cairo-Regular.ttf");
+                face_Bold = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cairo-Bold.ttf");
+                face_Light = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cairo-Light.ttf");
+            }else {
+                face_Regular = Typeface.createFromAsset(getContext().getAssets(), "fonts/Akrobat-Regular.otf");
+                face_Bold = Typeface.createFromAsset(getContext().getAssets(), "fonts/Kabrio-Bold.ttf");
+                face_Light = Typeface.createFromAsset(getContext().getAssets(), "fonts/Kabrio-Light.ttf");
+            }
 
+            header1.setTypeface(face_Bold);
+            header2.setTypeface(face_Light);
+            emptyTxt.setTypeface(face_Regular);
+        }
         emptyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,7 +121,7 @@ public class ReservationFragment extends Fragment {
     }
 
 
-    public void reservationQuery(){
+    private void reservationQuery(){
         if (resHistoryAdapter.getItemCount() == 0){
             progressBar.setVisibility(View.VISIBLE);
         }
@@ -131,7 +143,7 @@ public class ReservationFragment extends Fragment {
                                 }
                                 for(int i = 0 ; i<jsonArrayReservation.length(); i++){
                                     JSONObject jsonObjectSingleRes = jsonArrayReservation.getJSONObject(i);
-                                    if (jsonObjectSingleRes.getInt("status") !=2) {
+                                    if (jsonObjectSingleRes.getInt("status") !=2 && jsonObjectSingleRes.getInt("status") !=3) {
                                         reservations.add(new Reservation(jsonObjectSingleRes.getInt("res_id"),
                                                 jsonObjectSingleRes.getInt("user_id"),
                                                 jsonObjectSingleRes.getInt("table_id"),
@@ -146,7 +158,7 @@ public class ReservationFragment extends Fragment {
                                                 jsonObjectSingleRes.getString("movie_name")));
                                     }
                                 }
-                                Collections.reverse(reservations);
+
                                if (reservations.size() == 0 && reservations.isEmpty()){
                                    emptyView.setVisibility(View.VISIBLE);
                                    recyclerView.setVisibility(View.GONE);

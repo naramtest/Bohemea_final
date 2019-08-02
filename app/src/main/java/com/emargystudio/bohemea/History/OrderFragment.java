@@ -1,7 +1,11 @@
 package com.emargystudio.bohemea.History;
 
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
@@ -12,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +29,9 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.emargystudio.bohemea.MakeReservation.ReservationActivity;
 import com.emargystudio.bohemea.Model.FoodOrder;
 import com.emargystudio.bohemea.Model.Reservation;
 import com.emargystudio.bohemea.Model.User;
@@ -40,8 +47,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -51,14 +61,17 @@ public class OrderFragment extends Fragment implements OrderHistoryAdapter.Event
 
     private OrderHistoryAdapter orderHistoryAdapter;
     private ArrayList<FoodOrder> foodOrders = new ArrayList<>();
-    private ArrayList<FoodOrder> newFoodOrders = new ArrayList<>();
     private Reservation reservation;
     private User user;
-    private SharedPreferenceManger sharedPreferenceManger;
 
 
     //widgets
-    private TextView date,hour,table_number ,reservation_for,name, totalTxt , total_tag_txt , name_tag_txt;
+    private TextView date;
+    private TextView hour;
+    private TextView table_number;
+    private TextView reservation_for;
+    private TextView name;
+    private TextView totalTxt;
     private RecyclerView recyclerView;
     private TextView noOrder;
 
@@ -72,7 +85,7 @@ public class OrderFragment extends Fragment implements OrderHistoryAdapter.Event
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_order, container, false);
@@ -81,7 +94,7 @@ public class OrderFragment extends Fragment implements OrderHistoryAdapter.Event
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        sharedPreferenceManger = SharedPreferenceManger.getInstance(getContext());
+        SharedPreferenceManger sharedPreferenceManger = SharedPreferenceManger.getInstance(getContext());
         user = sharedPreferenceManger.getUserData();
         reservation = getReservationFromBundle();
 
@@ -117,8 +130,8 @@ public class OrderFragment extends Fragment implements OrderHistoryAdapter.Event
         noOrder = view.findViewById(R.id.noOrder);
         submit = view.findViewById(R.id.submit);
         cancel = view.findViewById(R.id.cancel);
-        name_tag_txt = view.findViewById(R.id.name_tag_txt);
-        total_tag_txt = view.findViewById(R.id.total_tag_txt);
+        TextView name_tag_txt = view.findViewById(R.id.name_tag_txt);
+        TextView total_tag_txt = view.findViewById(R.id.total_tag_txt);
         TextView summaryTxt = view.findViewById(R.id.summaryTxt);
         if (getActivity()!=null){
             Typeface face = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Akrobat-ExtraBold.otf");
@@ -137,9 +150,10 @@ public class OrderFragment extends Fragment implements OrderHistoryAdapter.Event
         }
 
     }
+
     private void orderQuery(){
         progressBar.setVisibility(View.VISIBLE);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URLS.order_query_id+reservation.getRes_id(),
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URLS.order_query_id+reservation.getRes_id()+"&is_fast=0",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -170,12 +184,12 @@ public class OrderFragment extends Fragment implements OrderHistoryAdapter.Event
                             }else{
                                 progressBar.setVisibility(View.GONE);
                                 if (getActivity()!=null)
-                                    Toast.makeText(getContext(), getActivity().getString(R.string.internet_off), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), getActivity().getString(R.string.error), Toast.LENGTH_SHORT).show();
 
                             }
                         }catch (JSONException e){
                             if (getActivity()!=null)
-                                Toast.makeText(getContext(), getActivity().getString(R.string.internet_off), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), getActivity().getString(R.string.error), Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
@@ -221,24 +235,35 @@ public class OrderFragment extends Fragment implements OrderHistoryAdapter.Event
             int year = reservation.getYear();
             int month = reservation.getMonth();
             int day = reservation.getDay();
-            String dateString = "Date: "+year+"/"+month+"/"+day;
+
+            String lang = Locale.getDefault().getLanguage();
+            String dateString;
+            if(lang.equals("ar")){
+                NumberFormat nf = NumberFormat.getInstance(new Locale("ar","LB")); //or "nb","No" - for Norway
+                String sYear = nf.format(year);
+                String yearString = sYear.replace("٬", "");
+                String monthString = nf.format(month);
+                String dayString = nf.format(day);
+                dateString = "التاريخ: "+yearString+"/"+monthString+"/"+dayString;
+            }else {
+                dateString = "Date: "+year+"/"+month+"/"+day;
+            }
             date.setText(dateString);
 
             //hour
             double dHour = reservation.getStartHour();
-            String sHour = CommonReservation.changeHourFormat(dHour);
+            String sHour = CommonReservation.changeHourFormat(getContext(),dHour);
             hour.setText(sHour);
 
-            //table and chair number
-            if (reservation.getTable_id() == -1){
-                table_number.setText(String.valueOf(reservation.getMovie_name()));
-            }else {
-                table_number.setText("Table Number: "+reservation.getTable_id());
-            }
-            reservation_for.setText("For: "+reservation.getChairNumber());
+            String table = String.format(getString(R.string.order_his_table_number),reservation.getTable_id());
+            table_number.setText(table);
+
+            String forNumber = String.format(getString(R.string.order_his_for_number),reservation.getChairNumber());
+            reservation_for.setText(forNumber);
 
             //totalTxt
-            totalTxt.setText(reservation.getTotal()+" S.P");
+            String total = String.format(getString(R.string.order_his_f_totalTxt),reservation.getTotal());
+            totalTxt.setText(total);
 
             //name and phone number
             if (user!=null){
@@ -257,16 +282,23 @@ public class OrderFragment extends Fragment implements OrderHistoryAdapter.Event
     }
 
     //cancel reservation
-    public void cancelReservation(){
+    private void cancelReservation(){
+        final double diff = reservation.getStartHour() - Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cancelAlert();
+                if (diff < 2){
+
+                    showCancelDialog();
+                }else {
+                    cancelAlert();
+                }
             }
         });
     }
-    public void cancelAlert(){
-        final AlertDialog.Builder alert = new AlertDialog.Builder(Objects.requireNonNull(getContext()));
+    private void cancelAlert(){
+        final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
         alert.setMessage(R.string.order_his_cancel_dialog_message);
         alert.setNegativeButton(R.string.order_his_cancel_dialog_no, new DialogInterface.OnClickListener() {
             @Override
@@ -289,6 +321,8 @@ public class OrderFragment extends Fragment implements OrderHistoryAdapter.Event
                                             Toast.makeText(getContext(), getActivity().getString(R.string.order_his_cancel_dialog_done), Toast.LENGTH_SHORT).show();
                                             getActivity().onBackPressed();
                                         }
+
+                                        sendNotification(user.getUserId(),reservation.getRes_id(),"cancel_reservation_channel");
                                     }else{
                                         if (getActivity()!=null)
                                             Toast.makeText(getContext(), getActivity().getString(R.string.internet_off), Toast.LENGTH_SHORT).show();
@@ -319,6 +353,28 @@ public class OrderFragment extends Fragment implements OrderHistoryAdapter.Event
         dialog.show();
     }
 
+    private void showCancelDialog(){
+        final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+        LayoutInflater li = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        @SuppressLint("InflateParams") View alertLayout = li.inflate(R.layout.can_not_cancel_dialog, null);
+        TextView number = alertLayout.findViewById(R.id.number1);
+
+        Linkify.addLinks(number  , Linkify.PHONE_NUMBERS);
+        number.setLinkTextColor(Color.parseColor("#3498db"));
+
+
+
+        // this is set the view from XML inside AlertDialog
+        alert.setView(alertLayout);
+        final AlertDialog dialog = alert.create();
+        dialog.show();
+
+
+
+
+
+    }
+
 
     //edit order
     public void submitOrder(){
@@ -331,19 +387,15 @@ public class OrderFragment extends Fragment implements OrderHistoryAdapter.Event
     }
     public void updateOrder(){
         Gson gson=new Gson();
-        newFoodOrders = orderHistoryAdapter.getFoodOrders();
+        ArrayList<FoodOrder> newFoodOrders = orderHistoryAdapter.getFoodOrders();
         final int total = getTotal(newFoodOrders);
         final String newDataArray=gson.toJson(newFoodOrders);
-        Log.d("ORder", "updateOrder: "+newDataArray);
-        Log.d("ORder", "total: "+total);
-        Log.d("ORder", "res_id: "+reservation.getRes_id());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URLS.edit_order,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
 
-                        Log.d("ORder", "onResponse: "+response);
                         if (getActivity()!=null) {
                             Toast.makeText(getContext(), getActivity().getString(R.string.order_his_f_update_done), Toast.LENGTH_SHORT).show();
                             totalTxt.setText(String.format(getActivity().getString(R.string.order_his_f_totalTxt), total));
@@ -384,6 +436,52 @@ public class OrderFragment extends Fragment implements OrderHistoryAdapter.Event
 
 
 
+    private void sendNotification(int user_id, int res_id, String channel) {
+
+        JSONObject data = new JSONObject();
+        JSONObject notification_data = new JSONObject();
+        String url = "https://fcm.googleapis.com/fcm/send";
+        try {
+            //Populate the request parameters
+            data.put("title", "Bohemea Art Cafe");
+            data.put("message", user.getUserName()+" Canceled His Reservation");
+            data.put("android_channel_id",channel);
+            data.put("user_id",String.valueOf(user_id));
+            data.put("res_id",String.valueOf(res_id));
+
+            notification_data.put("data", data);
+            notification_data.put("to","/topics/reservation");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest
+                (Request.Method.POST, url, notification_data, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }){
+            @Override
+            public Map<String, String> getHeaders() {
+                String api_key_header_value = "Key=AAAAMsoSJbQ:APA91bEiYfFYyjyCcgbOvepKtd111o4S_QbZW5yGoZJzXkUJFYQen7-by5lcUGTYP02lVFMuNIyzUUy1oOeGOYHzz6cdqHqixXNbTApdqw7SY4t5B5qwhIwvIXrO-ht1BzKslbq7_O2x";
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", api_key_header_value);
+                return headers;
+            }
+        };
+
+        // Access the RequestQueue through your VolleyHandler class.
+        VolleyHandler.getInstance(getContext()).addRequetToQueue(jsArrayRequest);
+
+    }
 
     //fragment restore in landscape mod
     @Override

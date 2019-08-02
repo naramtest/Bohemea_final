@@ -16,16 +16,18 @@
 
 
     <!--General Strings-->
-    <string name="internet_off">Something want wrong please check your internet connection and try again later</string>
-    <string name="error">Something want wrong please try again later</string>
-    <string name="phone_number_empty">Can\'t be empty</string>
+    <string name="internet_off">Something went wrong please check your internet connection and try again later</string>
+    <string name="error">Something went wrong please try again later</string>
+    <string name="phone_number_empty">required</string>
+    <string name="am_string">AM</string>
+    <string name="pm_string">PM</string>
 
 
     <!--FCM-->
-    <string name="notifications_admin_channel_name">Global channel</string>
-    <string name="notifications_admin_channel_description">Notifications sent from the app admin</string>
-    <string name="notification_reservation_channel_name">Reservation Channel</string>
-    <string name="notification_reservation_channel_description">Info about your reservation status</string>
+    <string name="notifications_admin_channel_name" translatable="false">Global channel</string>
+    <string name="notifications_admin_channel_description" translatable="false">Notifications sent from the app admin</string>
+    <string name="notification_reservation_channel_name" translatable="false">Reservation Channel</string>
+    <string name="notification_reservation_channel_description" translatable="false">Info about your reservation status</string>
 
 
     <!--alert phone-->
@@ -35,10 +37,10 @@
 
     <!--Login\Register Strings-->
     <string name="a_login_password">Password</string>
-    <string name="a_login_new_user">New User Register Here</string>
+    <string name="a_login_new_user">Create Account</string>
     <string name="a_login_or">OR</string>
     <string name="a_login_sign_in">Sign In</string>
-    <string name="a_login_username_email">Username or E-mail</string>
+    <string name="a_login_username_email">E-mail</string>
     <string name="a_login_email_hint">E-mail</string>
     <string name="a_login_forgot_password">Forgot your password?</string>
     <string name="a_login_press_here">Press here</string>
@@ -46,18 +48,18 @@
     <string name="a_register_phone_number">Phone Number</string>
     <string name="a_register_sign_up">Sign Up</string>
     <string name="a_register_username">Username</string>
-    <string name="a_register_email_facebook_used_error">this email is used  by facebook registered account , please choose another one or log in using your facebook account</string>
-    <string name="a_register_email_used_error">This email is taken by another account , please choose another one or log in using your facebook account</string>
-    <string name="a_login_invaled_password">Invalid email and password combination , check your info and try again</string>
-    <string name="a_register_password_short">Password is to short</string>
+    <string name="a_register_email_facebook_used_error">This email is linked to registered Facebook account , please choose another one or log in using your facebook account</string>
+    <string name="a_register_email_used_error">This email is used by another account , please choose another one or log in using your Facebook account</string>
+    <string name="a_login_invaled_password">Invalid email or password , check your info and try again</string>
+    <string name="a_register_password_short">Password is too short</string>
     <string name="a_register_invalid_email_form">Invalid E-mail Address</string>
     <string name="a_login_wc_back">Welcome Back</string>
     <string name="a_register_successfully">Register Successfully</string>
 
     <!--forgetPassword Fragments-->
     <string name="f_reset_request_cheack_email_toast">Please Check Your Email</string>
-    <string name="f_reset_emailEdt_error_msg">Email cannot be empty</string>
-    <string name="f_reset_request_wrong_email">Wrong Email</string>
+    <string name="f_reset_emailEdt_error_msg">Required</string>
+    <string name="f_reset_request_wrong_email">This email is not registered</string>
     <string name="f_update_update_your_password">Update Your Password</string>
     <string name="f_update_password_enter_email">Enter Your Email</string>
     <string name="a_forget_password_send_request">Send Request</string>
@@ -67,30 +69,35 @@
     <string name="f_update_successful">Password Updated Successfully</string>
     <string name="f_update_wrong_code">Wrong code , please check your email again</string>
     <string name="f_update_resend_code">Resend code</string>
-    <string name="f_update_code_old">this code is older than 24 hours , please resend a new one</string>
+    <string name="f_update_code_old">this code is older than 24 hours , please order a new one</string>
 
 
     <!--main activity strings-->
     <string name="a_main_reservation_btn">Make a Reservation</string>
     <string name="blocked_account">Your Account has been blocked</string>
     <string name="a_main_ads">ADS</string>
-    <string name="a_main_bohemea_address">Street addresses: 445 Mount Eden Road, Mount Eden, Auckland</string>
+    <string name="a_main_bohemea_address">Cafe addresse: Alcournich, opposite of 8 Adar school, Safita</string>
 
 
 
 
     <!--Reservation system strings-->
-    <string name="f_data_header">Its just gonna\ntake a minute</string>
-    <string name="f_data_chair_number">Enter a number</string>
+    <string name="f_data_header">It usually takes less than a minute</string>
+    <string name="f_data_chair_number">Table for ... one, two, three ..</string>
     <string name="f_data_date">Date</string>
-    <string name="f_data_time">Starts at:</string>
+    <string name="f_data_time">Time</string>
     <string name="f_table_header">Pick Your Favorite Table</string>
     <string name="table_frag_alert_send_table_number">Table Number: %1$s</string>
-    <string name="table_frag_alert_send_message">Are you sure that you want to choose this table</string>
+    <string name="table_frag_alert_send_message">Are you sure you want to pick this table</string>
     <string name="table_frag_alert_send_yesBtn">Yes</string>
     <string name="table_frag_alert_send_cancel_btn">Cancel</string>
     <string name="alert_done_menu_btn">MENU</string>
     <string name="alert_done_menu">Now go and check our menu</string>
+    <string name="tabel_taken">Reserved</string>
+    <string name="table_available">Available</string>
+    <string name="table_selected">Selected</string>
+    <string name="f_table_header_tow">Table</string>
+    <string name="f_tabel_header_one">Select your</string>
 
 
     <!--Menu Strings-->
@@ -111,17 +118,23 @@
     <string name="a_cart_place_btn">Place Order</string>
     <string name="a_cart_addmore_btn">Add more items</string>
     <string name="a_cart_back_menu_btn">Back to Menu</string>
-    <string name="a_cart_empty_text">Looks Like You Haven\'t Made Your Choice Yet …</string>
+    <string name="a_cart_empty_text">Looks Like You Haven\'t Made Any Choice Yet …</string>
     <string name="cart_update_dialog_cancel">Cancel</string>
     <string name="cart_update_dialog_update">Update</string>
     <string name="food_menu_adapter_price_text">Price: %1$d  S.P</string>
-    <string name="a_cart_fast_order_done">Thank You For Using Our App, Your Order Will Be Ready As Soon AS possible</string>
-
+    <string name="a_cart_fast_order_done">Thank You For Using Our App, Your Order Will Be Ready  Soon</string>
+    <string name="a_cart_order_now_btn">ORDER NOW</string>
+    <string name="a_cart_for_later_btn">FOR LATER</string>
+    <string name="d_cart_later_choose_a_reservation">Choose a Reservation</string>
+    <string name="d_cart_later_add_new_reservation">Add New Reservation</string>
+    <string name="d_update_add_more_items">Add more Items</string>
+    <string name="d_update">UPDATE</string>
+    <string name="d_update_cancel">CANCEL</string>
 
     <!--Alert Done-->
     <string name="alert_done_all_done">All Done!</string>
     <string name="alert_done_send_notification">We will send you a notification when your reservation approved</string>
-    <string name="alert_done_reservation_history">*go to your profile to check your reservation history</string>
+    <string name="alert_done_reservation_history">*go to Reservation List page to check your reservation history</string>
 
 
     <!--Profile Strings-->
@@ -130,17 +143,27 @@
     <string name="a_profile_text_header1">Profile</string>
     <string name="a_profile_text_header2">settings</string>
     <string name="a_preferences_phone_edt">Edit your phone number</string>
-    <string name="a_preferences_email_edit">Change Your Email</string>
-    <string name="a_preferences_password_edt">Change Your Password</string>
-    <string name="token_dosenot_ready">Your internet connection is slow please wait please a minute and try again</string>
+    <string name="a_preferences_email_edit">Edit Your Email</string>
+    <string name="a_preferences_password_edt">Edit Your Password</string>
+    <string name="token_dosenot_ready">Your internet connection is slow please wait a minute and try again</string>
     <string name="f_table_choose_table_first">Please Choose Table First</string>
     <string name="a_white_blocked_text">Your Account Has Been Temporarily Blocked</string>
     <string name="a_white_call_btn">Call us</string>
+    <string name="a_profile_sittings">Sittings</string>
+    <string name="a_profile_log_out">Log Out</string>
+    <string name="upload_image">Upload</string>
+    <string name="a_pre_confirm_your_password">Confirm Your Password</string>
+
 
 
     <!--History Strings-->
     <string name="res_history_list_empty_warning">You haven\'t made any reservation yet ....</string>
     <string name="total_res_history_j">Total: %1$d  S.P</string>
+    <string name="res_his_show_btn">SHOW</string>
+    <string name="f_res_history_header_one">Reservation</string>
+    <string name="f_res_history_header_tow">List</string>
+    <string name="f_res_history_waiting">Waiting</string>
+    <string name="f_res_history_approved">Approved</string>
 
 
     <!--history_summary_middle_part-->
@@ -154,7 +177,6 @@
     <string name="order_history_header">Order Summary</string>
     <string name="order_history_name">Name</string>
     <string name="order_history_total">Total</string>
-    <string name="order_history_cancelBtn">Cancel This Reservation</string>
 
     <!--orderHistoryFragment java-->
     <string name="order_his_f_update_done">done</string>
@@ -163,7 +185,30 @@
     <string name="order_his_cancel_dialog_no">No</string>
     <string name="order_his_cancel_dialog_yes">Yse</string>
     <string name="order_his_cancel_dialog_done">Done</string>
-    <string name="a_cart_order_now_btn">ORDER NOW</string>
-    <string name="a_cart_for_later_btn">FOR LATER</string>
+    <string name="order_his_table_number">Table Number: %1$d</string>
+    <string name="order_his_for_number">For: %1$d</string>
+    <string name="cancel_this_reservation_btn">CANCEL THIS RESERVATION</string>
+    <string name="a_pre_change_image">Change Image</string>
+
+
+    <!--dialog decline reservation-->
+    <string name="decline">Reservation</string>
+    <string name="d_reservation_declined">We\'re sorry we can\'t accept your reservation At this date</string>
+    <string name="d_reservation_declined_time">Choose another time</string>
+    <string name="d_reservation_declined_reservation">Reservation</string>
+    <string name="d_reservation_declined_call_us">*for more info call</string>
+
+    <!--dialog first time-->
+    <string name="d_first_welcome">Welcome</string>
+    <string name="d_first_order_now">If you are at the restaurant right now and want to make an order please choose ORDER NOW</string>
+    <string name="d_first_for_later">OR if you want to make a pre order For your reservation please choose FOE LATER</string>
+    <string name="a_pre_no_image">There is no image to upload!</string>
+    <string name="a_pre_bohemea_user_only">You can not use this field because your registered in our app via facebook account</string>
+    <string name="a_pre_uploded_successflly">Image uploaded successfully!</string>
+    <string name="notifcation_accept">Reservation accepted</string>
+    <string name="notification_declined">Reservation Declined</string>
+    <string name="cancel_dailog_info">To Cancel Your Reservation before 2 hours from its starting time</string>
+    <string name="cancel_dailog_call_uss">Please Call</string>
+
 
 </resources>

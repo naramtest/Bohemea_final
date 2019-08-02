@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:weightSum="3"
-    android:background="@drawable/login_background"
+    android:background="@drawable/login_land_bg"
     tools:context=".Login.LoginActivity">
 
     <ImageView
@@ -13,11 +13,11 @@
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_gravity="center"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:src="@drawable/logo"
+        android:src="@drawable/logo_larg"
+        android:layout_marginStart="16dp"
         tools:targetApi="lollipop"
         android:elevation="20dp"/>
 
@@ -109,9 +109,9 @@
         android:layout_height="40dp"
         android:layout_below="@id/forgetPassword"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="100dp"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="100dp"
         android:background="@drawable/roundcornerred"
         android:text="@string/a_login_sign_in"
         android:textAllCaps="false"
@@ -123,9 +123,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/sign_in"
-        android:layout_marginStart="65dp"
+        android:layout_marginStart="120dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="65dp"
+        android:layout_marginEnd="120dp"
         android:orientation="horizontal"
         android:weightSum="2">
 
@@ -160,9 +160,9 @@
         android:layout_height="40dp"
         android:layout_below="@id/or"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="100dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="100dp"
         android:background="@drawable/roundcorner"
         android:text="f"
         android:textAllCaps="false"

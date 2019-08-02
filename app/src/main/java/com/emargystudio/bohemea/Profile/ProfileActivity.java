@@ -33,6 +33,8 @@ import com.luseen.spacenavigation.SpaceNavigationView;
 import com.luseen.spacenavigation.SpaceOnClickListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.Locale;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -45,6 +47,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     User user;
     SharedPreferenceManger sharedPreferenceManger;
+
+    String lang = Locale.getDefault().getLanguage();
+
 
 
     @Override
@@ -97,11 +102,18 @@ public class ProfileActivity extends AppCompatActivity {
         preference_container = findViewById(R.id.preferences_container);
         logout_container = findViewById(R.id.log_out_container);
 
-
-        Typeface face_Bold = Typeface.createFromAsset(ProfileActivity.this.getAssets(),"fonts/Kabrio-Bold.ttf");
-        Typeface face_Light = Typeface.createFromAsset(ProfileActivity.this.getAssets(),"fonts/Kabrio-Light.ttf");
-        Typeface face_book = Typeface.createFromAsset(ProfileActivity.this.getAssets(),"fonts/Akrobat-Bold.otf");
-
+        Typeface face_Bold ;
+        Typeface face_Light;
+        Typeface face_book;
+        if (lang.equals("ar")){
+            face_Bold = Typeface.createFromAsset(ProfileActivity.this.getAssets(), "fonts/Cairo-Bold.ttf");
+            face_Light = Typeface.createFromAsset(ProfileActivity.this.getAssets(), "fonts/Cairo-Light.ttf");
+            face_book = Typeface.createFromAsset(ProfileActivity.this.getAssets(), "fonts/Akrobat-Bold.otf");
+        }else {
+            face_Bold = Typeface.createFromAsset(ProfileActivity.this.getAssets(), "fonts/Kabrio-Bold.ttf");
+            face_Light = Typeface.createFromAsset(ProfileActivity.this.getAssets(), "fonts/Kabrio-Light.ttf");
+            face_book = Typeface.createFromAsset(ProfileActivity.this.getAssets(), "fonts/Akrobat-Bold.otf");
+        }
         emargyTxt.setTypeface(face_book);
 
         header1.setTypeface(face_Bold);
@@ -110,8 +122,13 @@ public class ProfileActivity extends AppCompatActivity {
         preference.setTypeface(face_Light);
 
 
-        String firstPart = "Developed and designed by: ";
-        String secondPart = "Emargy Studio";
+        String firstPart;
+        String secondPart;
+
+
+            firstPart = "Developed and designed by: ";
+            secondPart = "Emargy Studio";
+
         String fullString = firstPart+" "+secondPart;
         Spannable spannable = new SpannableString(fullString);
         spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#7b3b8f")), firstPart.length(), fullString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

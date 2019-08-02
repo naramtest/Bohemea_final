@@ -25,7 +25,7 @@ public class URLS {
     public static final String order_query_id = "http://naramalkoht.live/bohemea_final/reservation/order_query_id.php?res_id=";
     public static final String edit_order = "http://naramalkoht.live/bohemea_final/reservation/edit_order.php";
     public static final String cancelReservation = "http://naramalkoht.live/bohemea_final/reservation/cancel_reservation.php?res_id=";
-
+    public static final String check_for_update = "http://naramalkoht.live/bohemea_final/admin/check_update.php";
 
     public static final String user_default_photo = "http://naramalkoht.live/bohemea/default_pics.png";
     public static final String home_images = "http://naramalkoht.live/bohemea/home_images.php";

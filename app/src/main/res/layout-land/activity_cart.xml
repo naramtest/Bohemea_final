@@ -12,7 +12,7 @@
     <RelativeLayout
         android:visibility="gone"
         android:id="@+id/empty_cart_layout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:background="@android:color/transparent"
         app:layout_constraintBottom_toTopOf="@+id/space"
@@ -25,40 +25,49 @@
             android:id="@+id/empty_cart_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="32dp"
             android:src="@drawable/ic_empty_cart"
             tools:ignore="ContentDescription" />
 
-        <TextView
-            android:id="@+id/empty_cart_text"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="22sp"
-            android:layout_below="@id/empty_cart_image"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:layout_centerHorizontal="true"
-            android:textColor="#ffffff"
-            android:layout_marginTop="16dp"
-            android:gravity="center_horizontal"
-            android:text="@string/a_cart_empty_text"
-            />
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/empty_cart_image"
+            >
+
+            <TextView
+                android:id="@+id/empty_cart_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:textColor="#ffffff"
+                android:layout_marginTop="16dp"
+                android:gravity="center_horizontal"
+                android:text="@string/a_cart_empty_text"
+                />
 
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/empty_cart_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/blue_violet_btn"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/empty_cart_text"
-            android:layout_marginTop="16dp"
-            android:text="@string/a_cart_back_menu_btn"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-             />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/empty_cart_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/blue_violet_btn"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center"
+                android:text="@string/a_cart_back_menu_btn"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                />
+
+
+        </LinearLayout>
 
     </RelativeLayout>
 
@@ -70,6 +79,7 @@
         android:orientation="horizontal"
         android:visibility="visible"
         android:weightSum="3"
+        android:layoutDirection="ltr"
         app:layout_constraintBottom_toTopOf="@+id/space"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -81,7 +91,6 @@
             android:layout_marginTop="32dp"
             android:orientation="vertical"
             android:layout_marginBottom="8dp"
-
             android:layout_height="match_parent">
 
 
@@ -91,10 +100,12 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@drawable/cart_rv_bg"
-            android:paddingStart="12dp"
+            android:paddingStart="16dp"
             android:paddingTop="32dp"
+            android:textDirection="locale"
             android:paddingEnd="16dp"
-            android:paddingBottom="12dp">
+            android:paddingBottom="12dp"
+            tools:ignore="NestedWeights">
 
         </androidx.recyclerview.widget.RecyclerView>
 
@@ -125,6 +136,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="18dp"
                 android:gravity="center_vertical|end"
+                android:textDirection="ltr"
                 android:textColor="#7b3b8f"
                 android:textSize="22sp" />
 
@@ -173,9 +185,6 @@
                 tools:targetApi="lollipop" />
         </RelativeLayout>
     </LinearLayout>
-
-
-
 
     <com.luseen.spacenavigation.SpaceNavigationView
         android:layoutDirection="ltr"

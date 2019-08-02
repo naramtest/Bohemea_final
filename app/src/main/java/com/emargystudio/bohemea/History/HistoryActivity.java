@@ -55,20 +55,21 @@ public class HistoryActivity extends AppCompatActivity {
 
         }
 
-        if (result!=null && result.equals("2")){
+        if (result!=null && result.equals("3")){
             reservationDeclinedDialog();
-        }
-
-        if (savedInstanceState != null) {
-
-            ReservationFragment = getSupportFragmentManager().getFragment(savedInstanceState, "myFragmentName");
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.your_placeholder, ReservationFragment);
-            ft.commit();
         }else {
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.your_placeholder, new ReservationFragment(), "Reservation");
-            ft.commit();
+
+            if (savedInstanceState != null) {
+
+                ReservationFragment = getSupportFragmentManager().getFragment(savedInstanceState, "myFragmentName");
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.your_placeholder, ReservationFragment);
+                ft.commit();
+            } else {
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.your_placeholder, new ReservationFragment(), "Reservation");
+                ft.commit();
+            }
         }
 
     }

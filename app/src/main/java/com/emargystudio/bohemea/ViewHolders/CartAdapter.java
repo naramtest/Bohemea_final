@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 
 
 import java.util.List;
+import java.util.Locale;
 
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder>{
@@ -28,6 +29,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     private Context context;
     public DetailsAdapterListener onClickListener;
 
+    String lang = Locale.getDefault().getLanguage();
 
     public CartAdapter( Context context ,DetailsAdapterListener listener) {
         this.context = context;
@@ -107,8 +109,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
           cartPrice = itemView.findViewById(R.id.price_cart);
           deleteCart= itemView.findViewById(R.id.delete_item);
           editCart  = itemView.findViewById(R.id.edit_cart);
-          Typeface face_bold = Typeface.createFromAsset(context.getAssets(),"fonts/Akrobat-Bold.otf");
-          Typeface face_light = Typeface.createFromAsset(context.getAssets(),"fonts/Akrobat-Light.otf");
+            Typeface face_bold ;
+            Typeface face_light ;
+
+          if (lang.equals("ar")){
+              face_bold = Typeface.createFromAsset(context.getAssets(),"fonts/Cairo-SemiBold.ttf");
+              face_light = Typeface.createFromAsset(context.getAssets(),"fonts/Cairo-Light.ttf");
+          }else {
+              face_bold = Typeface.createFromAsset(context.getAssets(),"fonts/Akrobat-Bold.otf");
+              face_light = Typeface.createFromAsset(context.getAssets(),"fonts/Akrobat-Light.otf");
+          }
+
           cartName.setTypeface(face_bold);
           cartPrice.setTypeface(face_light);
 

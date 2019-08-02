@@ -13,6 +13,7 @@
         android:id="@+id/empty_history_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="60dp"
         android:background="@android:color/transparent"
         >
 
@@ -50,8 +51,8 @@
             android:layout_below="@id/empty_history_text"
             android:layout_marginTop="32dp"
             android:text="@string/a_main_reservation_btn"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp"
+            android:paddingLeft="60dp"
+            android:paddingRight="60dp"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             />
@@ -65,23 +66,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="32dp">
 
             <TextView
                 android:id="@+id/text_header1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Reservation "
+                android:text="@string/f_res_history_header_one"
                 android:textColor="#ffffff"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
                 />
 
             <TextView
+                android:layout_marginStart="8dp"
                 android:id="@+id/text_header2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="List"
+                android:text="@string/f_res_history_header_tow"
                 android:textColor="#ffffff"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
                 />
@@ -90,6 +92,7 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
+            android:visibility="visible"
             android:id="@+id/res_history_rv"
             android:layout_below="@id/text_header"
             android:layout_marginTop="24dp"

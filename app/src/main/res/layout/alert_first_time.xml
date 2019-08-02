@@ -13,7 +13,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome"
+            android:text="@string/d_first_welcome"
             android:textColor="@color/black"
             android:gravity="center"
             android:drawablePadding="8dp"
@@ -27,7 +27,7 @@
         android:layout_marginTop="8dp"
         android:textSize="14sp"
         android:textColor="@color/black"
-        android:text="If you are at the resturant and want to make an order please choose ORDER NOW"/>
+        android:text="@string/d_first_order_now"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -35,6 +35,6 @@
         android:layout_marginTop="14dp"
         android:textSize="14sp"
         android:textColor="@color/black"
-        android:text="OR if you want to make a pre order with your reservation please choose FOE LATER"/>
+        android:text="@string/d_first_for_later"/>
 
 </LinearLayout>

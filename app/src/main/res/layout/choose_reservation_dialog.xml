@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Choose a Reservation"
+        android:text="@string/d_cart_later_choose_a_reservation"
         android:textStyle="bold"
         android:textSize="18sp"
         android:textColor="@color/black"/>
@@ -35,7 +35,7 @@
         android:id="@+id/add_new_reservation_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add New Reservation"
+        android:text="@string/d_cart_later_add_new_reservation"
         android:layout_marginTop="10dp"
         android:background="@drawable/ripple"
         android:textColor="@color/black"

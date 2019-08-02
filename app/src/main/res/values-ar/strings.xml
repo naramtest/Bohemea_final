@@ -1,58 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Bohemea</string>
-    <string name="a_login_new_user">تسجيل الأعضاء الجدد</string>
-    <string name="a_login_or">أو</string>
-    <string name="a_login_password">كلمة السر</string>
-    <string name="a_login_sign_in">تسجيل الدخول</string>
-    <string name="alert_phone_done_btn">المتابعة</string>
-    <string name="alert_phone_et_hint">ادخل رقم هاتفك</string>
-    <string name="alert_phone_required">مطلوب</string>
-    <string name="phone_number_empty">الرجاء ادخال الرقم قبل المتابعة</string>
+
+    <!--General String-->
     <string name="internet_off">حدث خطأ ما الرجاء التحقق من اتصالك بالانترنت والمحاولة لاحقا</string>
-    <string name="a_login_username_email">اسم المستخدم أو البريد الالكتروني</string>
+    <string name="error">حدث خطأ ما الرجاء المحاولة لاحقا</string>
+    <string name="phone_number_empty">مطلوب</string>
+    <string name="am_string">صباحا</string>
+    <string name="pm_string">مساءً</string>
+    <string name="token_dosenot_ready">اتصالك بالانترنت بطيء الرجاء المحاولة لاحقا</string>
+
+
+    <!--phone alert-->
+    <string name="alert_phone_et_hint">رقم الهاتف</string>
+    <string name="alert_phone_required">مطلوب</string>
+    <string name="alert_phone_done_btn">المتابعة</string>
+
+
+    <!--Login strings-->
+    <string name="a_login_password">كلمة السر</string>
+    <string name="a_login_new_user">أنشىء حساباً</string>
+    <string name="a_login_or">أو</string>
+    <string name="a_login_sign_in">تسجيل الدخول</string>
+    <string name="a_login_username_email">البريد الالكتروني</string>
     <string name="a_login_press_here">اضغط هنا</string>
-    <string name="a_login_forgot_password"> كلمة سر خاطئة؟</string>
     <string name="a_login_email_hint">البريد الالكتروني</string>
-    <string name="alert_phone_title">الخطوة الأخيرة …</string>
+    <string name="a_login_forgot_password">نسيت كلمة السر؟</string>
+    <string name="alert_phone_title">على وشك الانتهاء</string>
     <string name="a_register_phone_number">رقم الهاتف</string>
     <string name="a_register_sign_up">التسجيل</string>
     <string name="a_register_username">اسم المستخدم</string>
-    <string name="f_reset_request_cheack_email_toast">الرجاء التجقق من بريدك الإلكتروني</string>
-    <string name="f_reset_emailEdt_error_msg">الرجاء ادخال بريدك قبل المتابعة</string>
-    <string name="f_reset_request_wrong_email">البريد الالكتروني الذي قمت بإدخاله خاطىء الرجاء التحقق والمحاولة لاحقا</string>
-    <string name="a_register_email_facebook_used_error">البريد الالكتروني الذي قمت بادخاله مستخدم من قبل حساب اخر مسجل لدينا عبر حساب فيس بوك</string>
+    <string name="a_register_email_facebook_used_error">البريد الالكتروني الذي قمت بادخاله مستخدم من قبل حساب فيسبوك اخر مسجل لدينا</string>
     <string name="a_register_email_used_error">البريد الالكتروني الذي قمت بادخاله مستخدم من قبل حساب اخر</string>
-    <string name="error">حدث خطأ ما الرجاء المحاولة لاحقا</string>
     <string name="a_login_invaled_password">البريد الالكتروني او كلمة السر خاطئة الرجاء التحقق والمحاولة لاحقا</string>
     <string name="a_register_password_short">كلمة السر قصيرة</string>
     <string name="a_register_invalid_email_form">بريد الكتروني غير صالح</string>
-    <string name="f_update_update_your_password">تحديث كلمة السر</string>
-    <string name="a_forget_password_send_request">ارسل</string>
-    <string name="a_update_password_code">الكود</string>
-    <string name="f_update_new_pass__small_hint">"كلمة السر "</string>
-    <string name="f_update_password_enter_email">ادخل بريدك الالكتروني</string>
-    <string name="f_update_password_new_password">كلمة السر الجديدة</string>
     <string name="a_register_successfully">تم التسجيل بنجاح</string>
-    <string name="f_update_resend_code">إعادة ارسال الكود</string>
-    <string name="f_update_successful">تم تحديث كلمة السر بنجاح</string>
-    <string name="f_update_wrong_code">الكود خاطىء الرجاء التحقق من بريدك الالكتروني</string>
-    <string name="f_update_code_old">هذا الكود اصبح قديما الرجاء اعد ارسال كود جديد</string>
-    <string name="a_main_reservation_btn">احجز</string>
     <string name="a_login_wc_back">"اهلا بعودتك "</string>
-    <string name="f_data_header">ستأخذ العملية/n لحظة من وقتك</string>
-    <string name="f_data_time">اختر الوقت</string>
-    <string name="f_data_date">اختر التاريخ</string>
-    <string name="f_data_chair_number">ادخل عدد الاشخاص</string>
-    <string name="f_foodItem_add">تم أضافته إلى سلة المشتريات</string>
+
+    <!--forgetPassword Fragments-->
+    <string name="f_reset_request_cheack_email_toast">تحقق من بريدك الإلكتروني</string>
+    <string name="f_reset_emailEdt_error_msg">مطلوب</string>
+    <string name="f_reset_request_wrong_email">البريد الالكتروني الذي قمت بإدخاله خاطىء الرجاء التحقق وإعادة المحاولة</string>
+    <string name="f_update_update_your_password">تعديل كلمة السر</string>
+    <string name="f_update_password_enter_email">ادخل بريدك الالكتروني</string>
+    <string name="a_forget_password_send_request">ارسال</string>
+    <string name="a_update_password_code">الرمز</string>
+    <string name="f_update_password_new_password">ادخل كلمة السر الجديدة</string>
+    <string name="f_update_new_pass__small_hint">"كلمة السر "</string>
+    <string name="f_update_resend_code">إعادة ارسال الرمز</string>
+    <string name="f_update_successful">تم تحديث كلمة السر بنجاح</string>
+    <string name="f_update_wrong_code">الرمز خاطىء الرجاء التحقق من بريدك الالكتروني</string>
+    <string name="f_update_code_old">هذا الرمز اصبح قديما الرجاء قم بطلب رمز جديد</string>
+
+
+    <!--Main activity-->
+    <string name="a_main_reservation_btn"> احجز موعداً</string>
+    <string name="blocked_account">لقد تم حظر حسابك</string>
+    <string name="a_main_bohemea_address">صافيتا - الكورنيش - مقابل مدرسة    ٨ آذار</string>
+
+
+    <!--Reservation strings-->
+    <string name="f_data_header">يحتاج إتمام الحجز دقيقة أو أقل عادة</string>
+    <string name="f_data_chair_number">عدد الأشحاص</string>
+    <string name="f_data_time">الوقت</string>
+    <string name="f_data_date">التاريخ</string>
+    <string name="table_frag_alert_send_message">هل أنت متأكد بأنك تريد اختيار هذه الطاولة</string>
+    <string name="f_table_header">اختر طاولتك المفضلة</string>
+    <string name="table_frag_alert_send_table_number">طاولة رقم: %1$s</string>
+    <string name="table_frag_alert_send_yesBtn">نعم</string>
+    <string name="table_frag_alert_send_cancel_btn">تراجع</string>
+    <string name="alert_done_menu_btn">قائمة الطعام</string>
+    <string name="alert_done_menu">الان بإمكانك الاطلاع على قائمتنا</string>
+    <string name="tabel_taken">محجوز</string>
+    <string name="table_available">متوفر</string>
+    <string name="table_selected">تم اختيارها</string>
+
+
+    <!--Menu Strings-->
+    <string name="f_foodItem_add">تم إضافته إلى سلة المشتريات</string>
     <string name="foodDetailActivity_food_price">%1$d ل.س</string>
-    <string name="f_food_dialag_add_btn">"اضف "</string>
-    <string name="f_food_dialog_closeBtn">إغلاق</string>
     <string name="f_food_dialog_quantity">الكمية</string>
+    <string name="f_food_dialog_closeBtn">إغلاق</string>
+    <string name="f_food_dialag_add_btn">أضف إلى السلة</string>
+    <string name="food_category_item_count">%1$d العدد</string>
+
+    <!--Cart Strings-->
     <string name="total_cart_text">السعر : %1$d ل .س</string>
     <string name="cart_done_dailog_done">تم</string>
-    <string name="alert_done_all_done">تم</string>
-    <string name="alert_done_send_notification">سوف نرسل لك إشعار عند يتم الموافقة على حجزك</string>
-    <string name="alert_done_reservation_history">يمكنك الأن الذهاب الى صفحتك الشخصية للتحقق من وضع الحجز الخاص بك</string>
-    <string name="f_table_header">اختر طاولتك المفضلة</string>
+    <string name="cart_snackbar_remove">تم حذفه من السلة</string>
+    <string name="a_cart_addmore_btn">اضف المزيد</string>
+    <string name="a_cart_back_menu_btn">العودة إلى القائمة</string>
+    <string name="a_cart_empty_text">لم تقم بإضافة أي عناصر إلى سلتك</string>
+    <string name="cart_update_dialog_cancel">تراجع</string>
+    <string name="cart_update_dialog_update">تعديل</string>
+    <string name="food_menu_adapter_price_text">السعر : %1$d ل .س</string>
+    <string name="a_cart_fast_order_done">شكرا لإستخدامك تطبيقنا ، طلبك سيكون جاهزاسيكون حاهزا خلال وقت قصير</string>
+    <string name="a_cart_order_now_btn">اطلب الان</string>
+    <string name="a_cart_for_later_btn">لوقت لاحق</string>
+    <string name="d_cart_later_choose_a_reservation">اختيار الموعد</string>
+    <string name="d_cart_later_add_new_reservation">احجز موعدا جديدا</string>
+    <string name="d_update_add_more_items">اضف المزيد</string>
+    <string name="d_update">تعديل</string>
+    <string name="d_update_cancel">تراجع</string>
+
+    <!--Alert Done-->
+    <string name="alert_done_all_done">تم تسجيل الطلب</string>
+    <string name="alert_done_send_notification">سوف نرسل لك إشعاراً عند يتم تأكيد طلبك</string>
+    <string name="alert_done_reservation_history">يمكنك الأن الذهاب الى الصفحة الخاصة بقائمة الحجوزات للتحقق من وضع الحجز الخاص بك</string>
+
+    <!--Profile Strings-->
+    <string name="update_phone_done">تم</string>
+    <string name="alert_confirm_password_title">على وشك الانتهاء</string>
+    <string name="a_profile_text_header1">إعدادت</string>
+    <string name="a_profile_text_header2">الحساب</string>
+    <string name="a_preferences_phone_edt">تعديل رقم الهاتف</string>
+    <string name="a_preferences_email_edit">تعديل بريدك الإلكتروني</string>
+    <string name="a_preferences_password_edt">تعديل كلمة السر</string>
+    <string name="f_table_choose_table_first">الرجاء اختيار طاولة</string>
+    <string name="a_white_blocked_text">لقد تم حظر حسابك بشكل مؤقت</string>
+    <string name="a_white_call_btn">اتصل بنا</string>
+    <string name="a_profile_sittings">الإعدادت</string>
+    <string name="a_profile_log_out">تسجيل خروج</string>
+    <string name="upload_image">ارفع</string>
+    <string name="a_pre_confirm_your_password">تأكيد كلمة المرور</string>
+
+    <!--History Strings-->
+    <string name="res_history_list_empty_warning">لم تقم بإي حجز بعد</string>
+    <string name="total_res_history_j">السعر : %1$d ل .س</string>
+    <string name="res_his_show_btn">المزيد</string>
+    <string name="f_res_history_header_one">قائمة</string>
+    <string name="f_res_history_header_tow">الحجوزات</string>
+    <string name="f_res_history_waiting">في الإنتظار</string>
+    <string name="f_res_history_approved">تمت تأكيده</string>
+    <string name="history_summary_no_orders">لا يوجد طلبات</string>
+    <string name="history_summary_submit_btn">إرسال</string>
+    <string name="res_history_show_btn">المزيد</string>
+    <string name="order_history_header">تفاصيل الحجز</string>
+    <string name="order_history_name">الإسم</string>
+    <string name="order_history_total">المجموع الكلي</string>
+    <string name="order_his_f_update_done">تم</string>
+    <string name="order_his_cancel_dialog_message">هل انت متأكد أنك تريد إلغاء هذا الحجز</string>
+    <string name="cancel_this_reservation_btn">إلغاء الحجز</string>
+    <string name="d_reservation_declined">للأسف لن نستطيع قبول حجزك في هذا الوقت</string>
+    <string name="d_reservation_declined_time">اختر وقت اخر</string>
+    <string name="d_reservation_declined_call_us">*لمزيد من المعلومات الرجاء الاتصال على الرقم</string>
+
+
+    <string name="order_his_table_number">طاولة رقم: %1$d</string>
+    <string name="order_his_for_number">عدد الأشخاص: %1$d</string>
+    <string name="a_cart_place_btn">اضف طلب</string>
+    <string name="a_main_ads">إعلانات</string>
+    <string name="cart_act_btn_make_res_first">قم بالحجز قبل ان تتابع</string>
+    <string name="cart_snackbar_undo">تراجع</string>
+    <string name="order_his_cancel_dialog_done">تم</string>
+    <string name="order_his_cancel_dialog_no">كلا</string>
+    <string name="order_his_cancel_dialog_yes">نعم</string>
+    <string name="order_his_f_totalTxt">%1$d ل.س</string>
+    <string name="a_pre_change_image">تعديل الصورة</string>
+    <string name="decline">الحجوزات</string>
+    <string name="d_reservation_declined_reservation">الحجز</string>
+    <string name="f_table_header_tow">طاولتك</string>
+    <string name="f_tabel_header_one">اختر</string>
+
+    <string name="d_first_welcome">مرحبا</string>
+    <string name="d_first_order_now">اذا كنت متواجدا في المطعم في الوقت الحالي الرجاء اختيار زر اطلب الان</string>
+    <string name="d_first_for_later">اما اذا كنت تريد تريد تحديد طلباتك لموعد الحجز فالرجاء اختيار زر لوقت لاحق</string>
+    <string name="a_pre_bohemea_user_only">هذا الحقل غير مخصص للأعضاء المسجلين لدينا عن طريق حساب فيسبوك</string>
+    <string name="a_pre_no_image">لا يوجد صورة جاهزة للرفع</string>
+    <string name="a_pre_uploded_successflly">تم رفع الصورة بنجاح</string>
+
+
 </resources>
