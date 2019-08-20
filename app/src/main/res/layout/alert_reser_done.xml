@@ -52,6 +52,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textColor="@color/colorAccent"
+
                 android:drawableEnd="@drawable/ic_navigate_next_black_24dp"
                 />
     </RelativeLayout>

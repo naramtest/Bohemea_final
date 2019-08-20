@@ -29,6 +29,7 @@ public class URLS {
 
     public static final String user_default_photo = "http://naramalkoht.live/bohemea/default_pics.png";
     public static final String home_images = "http://naramalkoht.live/bohemea/home_images.php";
+    public static final String checkUSerStatus = "http://naramalkoht.live/bohemea_final/register/check_user_status.php";
 
 
 

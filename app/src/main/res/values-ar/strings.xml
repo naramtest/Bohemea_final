@@ -61,7 +61,7 @@
 
 
     <!--Reservation strings-->
-    <string name="f_data_header">يحتاج إتمام الحجز دقيقة أو أقل عادة</string>
+    <string name="f_data_header">يحتاج إتمام الحجز إلى\nدقيقة أو أقل عادة</string>
     <string name="f_data_chair_number">عدد الأشحاص</string>
     <string name="f_data_time">الوقت</string>
     <string name="f_data_date">التاريخ</string>

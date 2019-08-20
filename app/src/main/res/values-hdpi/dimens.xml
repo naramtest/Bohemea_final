@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="food_dialog_image_width">250dp</dimen>
+    <dimen name="food_dialog_image_height">170dp</dimen>
+
+
+
+</resources>

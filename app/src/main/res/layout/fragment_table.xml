@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/profile_bg"
-    tools:context=".MakeReservation.TableFragment">
+    tools:context=".makeReservation.TableFragment">
 
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageView"
         android:layout_width="0dp"
         android:layout_height="500dp"

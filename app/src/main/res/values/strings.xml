@@ -82,7 +82,7 @@
 
 
     <!--Reservation system strings-->
-    <string name="f_data_header">It usually takes less than a minute</string>
+    <string name="f_data_header">It usually takes less\n than a minute</string>
     <string name="f_data_chair_number">Table for ... one, two, three ..</string>
     <string name="f_data_date">Date</string>
     <string name="f_data_time">Time</string>
@@ -209,6 +209,9 @@
     <string name="notification_declined">Reservation Declined</string>
     <string name="cancel_dailog_info">To Cancel Your Reservation before 2 hours from its starting time</string>
     <string name="cancel_dailog_call_uss">Please Call</string>
+    <string name="f_res_history_passed">Passed</string>
+    <string name="reservation_at_same_time">someone just make a reservation at this time please choose another one</string>
+    <string name="do_not_show_this_again_first_time_dialog">Do not show this again</string>
 
 
 </resources>

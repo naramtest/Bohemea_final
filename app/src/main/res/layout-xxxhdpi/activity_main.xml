@@ -10,7 +10,7 @@
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="400dp"
         android:background="@drawable/curve_bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -21,7 +21,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="400dp"
         android:background="@drawable/curve_bg2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -32,7 +32,7 @@
 
     <com.github.florent37.shapeofview.ShapeOfView
         android:layout_width="match_parent"
-        android:layout_height="499dp"
+        android:layout_height="399dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,10 +45,10 @@
         <com.smarteist.autoimageslider.SliderView
             android:id="@+id/imageSlider"
             android:layout_width="match_parent"
-            android:layout_height="499dp"
+            android:layout_height="399dp"
             app:sliderIndicatorGravity="end|bottom"
             app:sliderAnimationDuration="600"
-            app:sliderAutoCycleDirection="back_and_forth"
+            app:sliderAutoCycleDirection="right"
             app:sliderAutoCycleEnabled="true"
             app:sliderCircularHandlerEnabled="true"
             app:sliderIndicatorAnimationDuration="600"

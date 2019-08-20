@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+
+
+
+        <com.github.florent37.shapeofview.shapes.RoundRectView
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:elevation="6dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            app:shape_roundRect_bottomLeftRadius="12dp"
+            app:shape_roundRect_bottomRightRadius="12dp"
+            app:shape_roundRect_topLeftRadius="12dp"
+            app:shape_roundRect_topRightRadius="12dp"
+            app:shape_roundRect_borderColor="@android:color/black"
+            app:shape_roundRect_borderWidth="2dp"
+            tools:targetApi="lollipop">
+
+
+            <ImageView
+                android:id="@+id/image_cart"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:src="@drawable/test"
+                 />
+
+        </com.github.florent37.shapeofview.shapes.RoundRectView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:weightSum="3"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/name_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:gravity="center_horizontal"
+            tools:text="Pepperoni Pizza" />
+
+        <TextView
+            android:id="@+id/price_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            android:textColor="#000000"
+            android:gravity="center_horizontal"
+            tools:text="2000 S.p"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <ImageButton
+                android:id="@+id/edit_cart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/roundedbutton"
+                android:src="@drawable/ic_edit_cart"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:elevation="6dp"
+                android:padding="8dp"
+                android:stateListAnimator="@animator/riase"
+                android:clickable="true"
+                android:focusable="true"
+                tools:targetApi="lollipop"/>
+            <ImageButton
+                android:id="@+id/delete_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp"
+                android:padding="8dp"
+                android:background="@drawable/roundedbutton"
+                android:src="@drawable/ic_delete_cart"
+                android:layout_toStartOf="@id/edit_cart"
+                android:elevation="6dp"
+                android:stateListAnimator="@animator/riase"
+                android:clickable="true"
+                android:focusable="true"
+                tools:targetApi="lollipop" />
+        </RelativeLayout>
+        
+    </LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/divider">
+
+    </View>
+
+</LinearLayout>

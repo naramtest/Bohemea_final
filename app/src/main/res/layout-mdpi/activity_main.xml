@@ -48,7 +48,7 @@
             android:layout_height="499dp"
             app:sliderIndicatorGravity="end|bottom"
             app:sliderAnimationDuration="600"
-            app:sliderAutoCycleDirection="back_and_forth"
+            app:sliderAutoCycleDirection="right"
             app:sliderAutoCycleEnabled="true"
             app:sliderCircularHandlerEnabled="true"
             app:sliderIndicatorAnimationDuration="600"

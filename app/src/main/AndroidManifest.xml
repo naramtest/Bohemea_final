@@ -16,14 +16,15 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup">
-        <activity android:name=".WhiteActivity"></activity>
-        <activity android:name=".Profile.PreferencesActivity" />
-        <activity android:name=".Cart.CartActivity" />
-        <activity android:name=".Menu.MenuActivity" />
-        <activity android:name=".Profile.ProfileActivity" />
-        <activity android:name=".History.HistoryActivity" />
-        <activity android:name=".MakeReservation.ReservationActivity" />
-        <activity android:name=".Login.ForgetPasswordActivity">
+        <activity android:name=".WhiteActivity"/>
+        <activity android:name=".profile.PreferencesActivity" />
+        <activity android:name=".cart.CartActivity" />
+        <activity android:name=".menu.MenuActivity" />
+        <activity android:name=".profile.ProfileActivity" />
+        <activity android:name=".history.HistoryActivity" />
+        <activity android:name=".makeReservation.ReservationActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".login.ForgetPasswordActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -36,8 +37,8 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".Login.RegisterActivity" />
-        <activity android:name=".Login.LoginActivity" />
+        <activity android:name=".login.RegisterActivity" />
+        <activity android:name=".login.LoginActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

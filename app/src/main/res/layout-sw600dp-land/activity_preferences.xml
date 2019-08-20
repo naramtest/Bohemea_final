@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/profile_bg"
+    tools:context=".profile.PreferencesActivity">
+
+    <LinearLayout
+        android:id="@+id/text_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/text_header1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/a_profile_text_header1"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+            android:textColor="#ffffff" />
+
+        <TextView
+            android:id="@+id/text_header2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/a_profile_text_header2"
+            android:layout_marginStart="8dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+            android:textColor="#ffffff" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:layout_constraintBottom_toTopOf="@+id/next_fab"
+        app:layout_constraintTop_toBottomOf="@+id/text_header">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/circleImageView"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:elevation="12dp"
+                app:civ_border_color="#cf76be"
+                app:civ_border_width="6dp"
+                tools:targetApi="lollipop" />
+
+            <TextView
+                android:id="@+id/change_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/circleImageView"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/change_image_btn"
+                android:elevation="12dp"
+                android:paddingStart="16dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="4dp"
+                android:text="@string/a_pre_change_image"
+                android:textColor="#ffffff"
+                android:textSize="18sp"
+                tools:targetApi="lollipop" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/phone_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="4">
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/phone_input_layout"
+                    style="@style/date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="3"
+                    android:hint="@string/a_preferences_phone_edt"
+                    android:textColorHint="@color/f_data_hint"
+                    app:boxBackgroundColor="#A6FFD8FF"
+                    app:boxCornerRadiusBottomEnd="35dp"
+                    app:boxCornerRadiusBottomStart="35dp"
+                    app:boxCornerRadiusTopEnd="35dp"
+                    app:boxCornerRadiusTopStart="35dp"
+                    app:errorEnabled="false"
+                    app:helperTextEnabled="false"
+                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:drawablePadding="16dp"
+                        android:imeOptions="flagNoExtractUi"
+                        android:inputType="phone"
+                        android:paddingStart="32dp"
+                        android:textColor="@color/f_data_hint"
+                        android:textCursorDrawable="@null" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/phoneBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:elevation="6dp"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_check_mark_white"
+                    tools:ignore="ContentDescription"
+                    tools:targetApi="lollipop" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/email_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:weightSum="4">
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/email_input_layout"
+
+                    style="@style/date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="3"
+                    android:hint="@string/a_preferences_email_edit"
+                    android:textColorHint="@color/f_data_hint"
+                    app:boxBackgroundColor="#A6FFD8FF"
+                    app:boxCornerRadiusBottomEnd="35dp"
+                    app:boxCornerRadiusBottomStart="35dp"
+                    app:boxCornerRadiusTopEnd="35dp"
+                    app:boxCornerRadiusTopStart="35dp"
+                    app:errorEnabled="false"
+                    app:helperTextEnabled="false"
+                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:drawablePadding="16dp"
+                        android:imeOptions="flagNoExtractUi"
+                        android:inputType="textEmailAddress"
+                        android:paddingStart="32dp"
+                        android:textColor="@color/f_data_hint" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/emailBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:elevation="6dp"
+
+                    android:padding="8dp"
+                    android:src="@drawable/ic_check_mark_white"
+                    tools:ignore="ContentDescription"
+                    tools:targetApi="lollipop" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/password_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:weightSum="4">
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/password_input_layout"
+
+                    style="@style/date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="3"
+                    android:hint="@string/a_preferences_password_edt"
+                    android:textColorHint="@color/f_data_hint"
+                    app:boxBackgroundColor="#A6FFD8FF"
+                    app:boxCornerRadiusBottomEnd="35dp"
+                    app:boxCornerRadiusBottomStart="35dp"
+                    app:boxCornerRadiusTopEnd="35dp"
+                    app:boxCornerRadiusTopStart="35dp"
+                    app:errorEnabled="false"
+                    app:helperTextEnabled="false"
+                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
+                    >
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:imeOptions="flagNoExtractUi"
+                        android:inputType="textPassword"
+                        android:paddingStart="32dp"
+                        android:textColor="@color/f_data_hint" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/passwordBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:elevation="6dp"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_check_mark_white"
+                    tools:ignore="ContentDescription"
+                    tools:targetApi="lollipop" />
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progressBar3"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/next_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_right_arrow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

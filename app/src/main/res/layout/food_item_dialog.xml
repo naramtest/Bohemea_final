@@ -14,17 +14,30 @@
 
 
     <FrameLayout
-        android:layout_width="300dp"
-        android:layout_height="170dp"
+        android:layout_width="@dimen/food_dialog_image_width"
+        android:layout_height="@dimen/food_dialog_image_height"
         android:layoutDirection="ltr">
 
-        <ImageView
-            android:id="@+id/food_image"
+        <com.github.florent37.shapeofview.ShapeOfView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:elevation="20dp"
-            android:scaleType="centerCrop"
-            tools:targetApi="lollipop" />
+            android:elevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shape_clip_drawable="@drawable/food_item_land_bg"
+            tools:targetApi="lollipop">
+
+            <ImageView
+                android:id="@+id/food_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="20dp"
+                android:scaleType="centerCrop"
+                tools:targetApi="lollipop" />
+
+        </com.github.florent37.shapeofview.ShapeOfView>
 
 
         <TextView
@@ -43,7 +56,7 @@
     </FrameLayout>
 
     <LinearLayout
-        android:layout_width="300dp"
+        android:layout_width="@dimen/food_dialog_image_width"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical">
@@ -60,10 +73,13 @@
         <TextView
             android:id="@+id/food_description"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:scrollbars="vertical"
             android:layout_marginStart="8dp"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="8dp"
+
+
             android:textColor="@color/colorPrimaryText"
             android:textSize="16sp" />
 
@@ -104,7 +120,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                app:backGroundColor="@color/colorAccent"
+                app:backGroundColor="#F220CA"
                 app:finalNumber="20"
                 app:initialNumber="1"
                 app:textColor="@color/black"

@@ -4,14 +4,12 @@ import android.content.Context;
 
 import android.content.SharedPreferences;
 
-import com.emargystudio.bohemea.Model.PasswordRequest;
-import com.emargystudio.bohemea.Model.User;
-import com.emargystudio.bohemea.Model.UserTokens;
+import com.emargystudio.bohemea.model.PasswordRequest;
+import com.emargystudio.bohemea.model.User;
+import com.emargystudio.bohemea.model.UserTokens;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 
 public class SharedPreferenceManger {

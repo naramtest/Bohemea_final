@@ -23,15 +23,29 @@ public class CommonReservation {
         String lang = Locale.getDefault().getLanguage();
         if (hour >= 0 && hour <=12 ){
             String am = context.getString(R.string.am_string);
+            double dHour = round(hour,2);
+            String result = String.format("%.2f", dHour);
             String sHour;
             if (lang.equals("ar")){
-                sHour = String.valueOf(hour).replace("٫", ":");
+                sHour = result.replace("٫", ":");
 
             }else {
-                sHour = String.valueOf(hour).replace("٫", ":");
+                sHour = result.replace(".", ":");
             }
-            stringHour =" " + sHour +  am;
+            stringHour =" " + sHour +" "+  am;
 
+        }else if (hour > 12 && hour <13){
+            String pm = context.getString(R.string.pm_string);
+            double dHour = round(hour,2);
+            String result = String.format("%.2f", dHour);
+            String sHour;
+            if (lang.equals("ar")){
+                sHour = result.replace("٫", ":");
+
+            }else {
+                sHour = result.replace(".", ":");
+            }
+            stringHour =" " + sHour +" "+  pm;
         }else {
             String am = context.getString(R.string.pm_string);
             double dHour = round(hour-12.00,2);
@@ -42,7 +56,7 @@ public class CommonReservation {
                 sHour = result.replace("٫", ":");
 
             }else {
-                sHour = result.replace("٫", ":");
+                sHour = result.replace(".", ":");
             }
             stringHour = sHour + " " + am;
         }

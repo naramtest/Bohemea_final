@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_land_bg"
-    tools:context=".Login.ResetRequestFragment">
+    tools:context=".login.ResetRequestFragment">
 
     <ImageView
         android:id="@+id/logo"
@@ -23,8 +23,10 @@
 
     <LinearLayout
         android:id="@+id/linearLayout10"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,7 +35,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/email_container"
-            android:layout_width="400dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="@string/f_update_password_enter_email"
@@ -53,7 +55,9 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/reset_request"
-            android:layout_width="300dp"
+            android:layout_width="wrap_content"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginTop="40dp"

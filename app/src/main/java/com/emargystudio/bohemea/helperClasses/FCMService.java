@@ -21,11 +21,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.emargystudio.bohemea.History.HistoryActivity;
-import com.emargystudio.bohemea.LocalDataBases.AppExecutors;
+import com.emargystudio.bohemea.history.HistoryActivity;
+import com.emargystudio.bohemea.localDataBases.AppExecutors;
 import com.emargystudio.bohemea.MainActivity;
-import com.emargystudio.bohemea.Model.User;
+import com.emargystudio.bohemea.model.User;
 import com.emargystudio.bohemea.R;
+import com.emargystudio.bohemea.WhiteActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -43,6 +44,7 @@ public class FCMService extends FirebaseMessagingService {
 
     private static final String ADMIN_CHANNEL_ID ="admin_channel";
     private static final String RESERVATION_CHANNEL_ID ="reservation_channel";
+
     private NotificationManager notificationManager;
 
 
@@ -154,60 +156,75 @@ public class FCMService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        sharedPreferenceManger =  SharedPreferenceManger.getInstance(getApplicationContext());
-        user = sharedPreferenceManger.getUserData();
-        String userIDString = remoteMessage.getData().get("user_id");
-        if (userIDString!=null) {
-            if (Integer.parseInt(userIDString) == user.getUserId()) {
-                notificationManager =
-                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                int notificationId = new Random().nextInt(60000);
+        String type = remoteMessage.getData().get("type");
+            sharedPreferenceManger = SharedPreferenceManger.getInstance(getApplicationContext());
+            user = sharedPreferenceManger.getUserData();
+            String userIDString = remoteMessage.getData().get("user_id");
+            if (userIDString != null) {
+                if (Integer.parseInt(userIDString) == user.getUserId()) {
+                    if (type!=null && type.equals("user_blocked")){
 
-                NotificationCompat.Builder notificationBuilder;
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    setupChannels();
-                    if (remoteMessage.getData().get("android_channel_id").equals(RESERVATION_CHANNEL_ID)) {
+                        sharedPreferenceManger.logUserOut();
+                        sharedPreferenceManger.logUserDeleteTokens();
+                        Common.isNewToken =false;
+                        Intent intent = new Intent(getApplicationContext(), WhiteActivity.class);
+                        intent.putExtra("type","block");
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
 
-                        String res_id = remoteMessage.getData().get("res_id");
-                        String user_id = remoteMessage.getData().get("user_id");
-                        String result = remoteMessage.getData().get("result"); // 1= accept 2= declined
+                    }else {
+                    notificationManager =
+                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    int notificationId = new Random().nextInt(60000);
 
-                        Intent intent = new Intent(this, HistoryActivity.class);
-                        intent.putExtra("res_id",res_id);
-                        intent.putExtra("user_id",user_id);
-                        intent.putExtra("result",result);
+                    NotificationCompat.Builder notificationBuilder;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        setupChannels();
+                        if (remoteMessage.getData().get("android_channel_id").equals(RESERVATION_CHANNEL_ID)) {
 
-                       String message = "";
-                        if (result!=null) {
-                            if (result.equals("1")) {
-                                message = getString(R.string.notifcation_accept);
-                            }else if (result.equals("3")){
-                                message = getString(R.string.notification_declined);
+                            String res_id = remoteMessage.getData().get("res_id");
+                            String user_id = remoteMessage.getData().get("user_id");
+                            String result = remoteMessage.getData().get("result"); // 1= accept 2= declined
+
+                            Intent intent = new Intent(this, HistoryActivity.class);
+                            intent.putExtra("res_id", res_id);
+                            intent.putExtra("user_id", user_id);
+                            intent.putExtra("result", result);
+
+                            String message = "";
+                            if (result != null) {
+                                if (result.equals("1")) {
+                                    message = getString(R.string.notifcation_accept);
+                                } else if (result.equals("3")) {
+                                    message = getString(R.string.notification_declined);
+                                }
                             }
-                        }
-                        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-                        stackBuilder.addNextIntentWithParentStack(intent);
-                        PendingIntent resultPendingIntent =  stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+                            stackBuilder.addNextIntentWithParentStack(intent);
+                            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-                        notificationBuilder = new NotificationCompat.Builder(this, RESERVATION_CHANNEL_ID)
-                                .setSmallIcon(R.mipmap.ic_launcher_round)  //a resource for your custom small icon
-                                .setContentTitle(remoteMessage.getData().get("title")) //the "title" value you sent in your notification
-                                .setContentText(message) //ditto
-                                .setContentIntent(resultPendingIntent)
-                                .setAutoCancel(true);
+                            notificationBuilder = new NotificationCompat.Builder(this, RESERVATION_CHANNEL_ID)
+                                    .setSmallIcon(R.mipmap.ic_launcher_round)  //a resource for your custom small icon
+                                    .setContentTitle(remoteMessage.getData().get("title")) //the "title" value you sent in your notification
+                                    .setContentText(message) //ditto
+                                    .setContentIntent(resultPendingIntent)
+                                    .setAutoCancel(true);
+                        } else {
+                            PendingIntent resultPendingIntent = getPendingIntent(MainActivity.class);
+                            notificationBuilder = getNotificationBuilder(remoteMessage, resultPendingIntent, ADMIN_CHANNEL_ID);
+                        }
                     } else {
+
                         PendingIntent resultPendingIntent = getPendingIntent(MainActivity.class);
                         notificationBuilder = getNotificationBuilder(remoteMessage, resultPendingIntent, ADMIN_CHANNEL_ID);
+
                     }
-                } else {
-                    PendingIntent resultPendingIntent = getPendingIntent(MainActivity.class);
-                    notificationBuilder = getNotificationBuilder(remoteMessage, resultPendingIntent, ADMIN_CHANNEL_ID);
+
+                    NotificationManager notificationManager =
+                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+                    notificationManager.notify(notificationId /* ID of notification */, notificationBuilder.build());
                 }
-
-                NotificationManager notificationManager =
-                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-                notificationManager.notify(notificationId /* ID of notification */, notificationBuilder.build());
             }
         }
 

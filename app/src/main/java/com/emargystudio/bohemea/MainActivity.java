@@ -23,18 +23,20 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.emargystudio.bohemea.Cart.CartActivity;
-import com.emargystudio.bohemea.History.HistoryActivity;
-import com.emargystudio.bohemea.Login.LoginActivity;
-import com.emargystudio.bohemea.MakeReservation.ReservationActivity;
-import com.emargystudio.bohemea.Menu.MenuActivity;
+import com.emargystudio.bohemea.cart.CartActivity;
+import com.emargystudio.bohemea.history.HistoryActivity;
+import com.emargystudio.bohemea.localDataBases.AppDatabase;
+import com.emargystudio.bohemea.localDataBases.AppExecutors;
+import com.emargystudio.bohemea.login.LoginActivity;
+import com.emargystudio.bohemea.makeReservation.ReservationActivity;
+import com.emargystudio.bohemea.menu.MenuActivity;
 
-import com.emargystudio.bohemea.Profile.ProfileActivity;
-import com.emargystudio.bohemea.ViewHolders.SliderAdapterExample;
+import com.emargystudio.bohemea.profile.ProfileActivity;
+import com.emargystudio.bohemea.viewHolders.SliderAdapterExample;
+import com.emargystudio.bohemea.helperClasses.Common;
 import com.emargystudio.bohemea.helperClasses.SharedPreferenceManger;
 import com.emargystudio.bohemea.helperClasses.URLS;
 import com.emargystudio.bohemea.helperClasses.VolleyHandler;
-import com.google.gson.JsonArray;
 import com.luseen.spacenavigation.SpaceItem;
 import com.luseen.spacenavigation.SpaceNavigationView;
 import com.luseen.spacenavigation.SpaceOnClickListener;
@@ -47,7 +49,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -104,16 +108,71 @@ public class MainActivity extends AppCompatActivity {
 
         //check if the user is blocked and if its true switch to white activity
         //1= blocked ; 0=active
-        if (sharedPreferenceManger.getUserStatus() == 1){
-            Toast.makeText(this, getString(R.string.blocked_account), Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(MainActivity.this, WhiteActivity.class));
-            finish();
+        checkUserStatus(sharedPreferenceManger.getUserData().getUserId());
+        final AppDatabase mdb = AppDatabase.getInstance(this);
+        if (!Common.isOrdered&&Common.total==0) {
+            AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    mdb.orderDao().deleteAllFood();
+                }
+            });
         }
 
         //call image query method
         imageQuery();
 
     }
+
+
+    private void checkUserStatus(final int user_id) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLS.send_reservation,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            if (!jsonObject.getBoolean("error")) {
+
+                                int status = jsonObject.getInt("is_blocked");
+                                if (status == 1){
+                                    sharedPreferenceManger.logUserOut();
+                                    sharedPreferenceManger.logUserDeleteTokens();
+                                    Common.isNewToken =false;
+                                    Toast.makeText(MainActivity.this, getString(R.string.blocked_account), Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(MainActivity.this, WhiteActivity.class);
+                                    intent.putExtra("type","block");
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                    finish();
+                                }
+
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                }
+        ) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> ReservationData = new HashMap<>();
+                ReservationData.put("id", String.valueOf(user_id));
+
+
+                return ReservationData;
+            }
+        };
+        VolleyHandler.getInstance(MainActivity.this).addRequetToQueue(stringRequest);
+    }
+
 
     private void viewsInit() {
         spaceNavigationView =  findViewById(R.id.space);
@@ -138,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
 
     //this part is responsible for showing image and switch between them automatically
     private void setupSlider() {
-        sliderAdapterExample = new SliderAdapterExample(MainActivity.this, images);
+        sliderAdapterExample = new SliderAdapterExample(images);
         sliderView.setSliderAdapter(sliderAdapterExample);
         sliderView.startAutoCycle();
         sliderView.setIndicatorAnimation(IndicatorAnimations.WORM);
@@ -182,11 +241,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void needUpdate(){
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URLS.check_for_update,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLS.check_for_update,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        long runningVersionName;
+                        String runningVersionString;
                         try {
                             JSONObject jsonObject = new JSONObject(response);
 
@@ -200,11 +259,11 @@ public class MainActivity extends AppCompatActivity {
 
                                 if (isImportant == 1){
                                     PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-                                    runningVersionName = pInfo.versionCode;
-                                    Log.d("naram", "onResponse: "+runningVersionName);
+                                    runningVersionString = pInfo.versionName;
+                                    double runningVersionName = Double.parseDouble(runningVersionString);
                                     if (versionName>runningVersionName){
                                         Intent intent = new Intent(MainActivity.this, WhiteActivity.class);
-                                        intent.putExtra("versionName",versionName);
+                                        intent.putExtra("type","update");
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
                                         finish();
