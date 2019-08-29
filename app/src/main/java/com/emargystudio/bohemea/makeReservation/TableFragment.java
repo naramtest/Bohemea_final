@@ -1,7 +1,6 @@
 package com.emargystudio.bohemea.makeReservation;
 
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,12 +78,11 @@ public class TableFragment extends Fragment {
     private User user;
     private AppDatabase mDb;
     private List<FoodOrder> foodList;
-    private int tablesNumber = 13; //should be changed when a table is add
     private String selectedTable = "0";
 
-    String lang = Locale.getDefault().getLanguage();
+    private String lang = Locale.getDefault().getLanguage();
 
-    boolean oldSdk;
+    private boolean oldSdk;
     private VectorChildFinder vector;
 
 
@@ -131,7 +130,8 @@ public class TableFragment extends Fragment {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().popBackStack();
+                if (getActivity()!=null)
+                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
 
@@ -159,19 +159,23 @@ public class TableFragment extends Fragment {
         backBtn  = view.findViewById(R.id.backBtn);
         sendBtn  = view.findViewById(R.id.send_btn);
 
-        Typeface face_light;
-        Typeface face_book;
-        Typeface face_bold ;
+        Typeface face_light = null;
+        Typeface face_book= null;
+        Typeface face_bold = null;
         if (lang.equals("ar")){
             sendBtn.setRotation(180);
             backBtn.setRotation(0);
-            face_light = Typeface.createFromAsset(getContext().getAssets(),"fonts/Cairo-Light.ttf");
-            face_book = Typeface.createFromAsset(getContext().getAssets(),"fonts/Cairo-SemiBold.ttf");
-            face_bold = Typeface.createFromAsset(getContext().getAssets(),"fonts/Cairo-Bold.ttf");
+            if (getContext()!=null) {
+                face_light = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cairo-Light.ttf");
+                face_book = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cairo-SemiBold.ttf");
+                face_bold = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cairo-Bold.ttf");
+            }
         }else {
-            face_light = Typeface.createFromAsset(getContext().getAssets(),"fonts/Kabrio-Light.ttf");
-            face_book = Typeface.createFromAsset(getContext().getAssets(),"fonts/Kabrio-Book.ttf");
-            face_bold = Typeface.createFromAsset(getContext().getAssets(),"fonts/Kabrio-Bold.ttf");
+            if (getContext()!=null) {
+                face_light = Typeface.createFromAsset(getContext().getAssets(), "fonts/Kabrio-Light.ttf");
+                face_book = Typeface.createFromAsset(getContext().getAssets(), "fonts/Kabrio-Book.ttf");
+                face_bold = Typeface.createFromAsset(getContext().getAssets(), "fonts/Kabrio-Bold.ttf");
+            }
         }
 
 
@@ -244,7 +248,10 @@ public class TableFragment extends Fragment {
 
     private void initTabLayout() {
 
+        //should be changed when a table is add
+        int tablesNumber = 13;
         if (!oldSdk){
+            if (getContext()!=null)
             vector = new VectorChildFinder(getContext(), R.drawable.ic_group_192, imageView);
             for (int i = 0; i < tablesNumber; i++) {
                 if (!tableArray.contains(i + 1)) {
@@ -287,39 +294,43 @@ public class TableFragment extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
 
 
-
-                selectedTable=tab.getText().toString();
-                if (!oldSdk) {
-                    String pathName = "path" + tab.getText().toString();
-                    VectorDrawableCompat.VFullPath path1 = vector.findPathByName(pathName);
-                    path1.setFillColor(Color.GREEN);
-                    imageView.invalidate();
+                if (tab.getText() != null && !TextUtils.isEmpty(tab.getText())) {
+                    selectedTable = tab.getText().toString();
+                    if (!oldSdk) {
+                        String pathName = "path" + tab.getText().toString();
+                        VectorDrawableCompat.VFullPath path1 = vector.findPathByName(pathName);
+                        path1.setFillColor(Color.GREEN);
+                        imageView.invalidate();
+                    }
                 }
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 if (!oldSdk) {
-                    String pathName = "path" + tab.getText().toString();
-                    VectorDrawableCompat.VFullPath path1 = vector.findPathByName(pathName);
-                    path1.setFillColor(Color.WHITE);
-                    imageView.invalidate();
+                    if (tab.getText() != null && !TextUtils.isEmpty(tab.getText())) {
+                        String pathName = "path" + tab.getText().toString();
+                        VectorDrawableCompat.VFullPath path1 = vector.findPathByName(pathName);
+                        path1.setFillColor(Color.WHITE);
+                        imageView.invalidate();
+                    }
                 }
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                if (tab.getPosition()==0){
-                    selectedTable=tab.getText().toString();
-                    if (!oldSdk){
-                        String pathName  = "path"+tab.getText().toString();
-                        VectorDrawableCompat.VFullPath path1 = vector.findPathByName(pathName);
-                        path1.setFillColor(Color.GREEN);
-                        imageView.invalidate();
-                    }
+                if (tab.getPosition()==0) {
+                    if (tab.getText() != null && !TextUtils.isEmpty(tab.getText())) {
+                        selectedTable = tab.getText().toString();
+                        if (!oldSdk) {
+                            String pathName = "path" + tab.getText().toString();
+                            VectorDrawableCompat.VFullPath path1 = vector.findPathByName(pathName);
+                            path1.setFillColor(Color.GREEN);
+                            imageView.invalidate();
+                        }
 
+                    }
                 }
-                //alertSend(user.getUserId(), reservation, Objects.requireNonNull(tab.getText()).toString(), "No movie");
 
             }
         });
@@ -335,7 +346,7 @@ public class TableFragment extends Fragment {
             alert.setPositiveButton(R.string.table_frag_alert_send_yesBtn, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    sendReservation(user_id, reservation, table_id, "no movie");
+                    sendReservation(user_id, reservation, table_id);
                 }
             });
             alert.setNegativeButton(R.string.cart_update_dialog_cancel, new DialogInterface.OnClickListener() {
@@ -350,7 +361,7 @@ public class TableFragment extends Fragment {
         }
     }
 
-    private void sendReservation(final int user_id, final Reservation reservation, final String table_id, final String movie_name) {
+    private void sendReservation(final int user_id, final Reservation reservation, final String table_id) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URLS.send_reservation,
                 new Response.Listener<String>() {
                     @Override
@@ -400,7 +411,7 @@ public class TableFragment extends Fragment {
                 ReservationData.put("hours", String.valueOf(reservation.getStartHour()));
                 ReservationData.put("end_hour", String.valueOf(reservation.getEnd_hour()));
                 ReservationData.put("chairNumber", String.valueOf(reservation.getChairNumber()));
-                ReservationData.put("movie_name", movie_name);
+                ReservationData.put("movie_name", "no movie");
 
                 return ReservationData;
             }
@@ -509,8 +520,8 @@ public class TableFragment extends Fragment {
         if (getContext() != null) {
 
             AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
-            LayoutInflater li = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View alertLayout = li.inflate(R.layout.alert_reser_done, null);
+            //LayoutInflater li = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View alertLayout = View.inflate(getContext(),R.layout.alert_reser_done, null);
             TextView menu = alertLayout.findViewById(R.id.menu_container);
             RelativeLayout menuTxt = alertLayout.findViewById(R.id.menu);
 

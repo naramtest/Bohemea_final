@@ -1,8 +1,6 @@
 package com.emargystudio.bohemea.history;
 
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -29,7 +27,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.emargystudio.bohemea.cart.CartActivity;
 import com.emargystudio.bohemea.model.FoodOrder;
 import com.emargystudio.bohemea.model.Reservation;
 import com.emargystudio.bohemea.model.User;
@@ -310,6 +307,9 @@ public class OrderFragment extends Fragment implements OrderHistoryAdapter.Event
         });
     }
     private void cancelAlert(){
+        if (getContext()!=null){
+
+
         final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
         alert.setMessage(R.string.order_his_cancel_dialog_message);
         alert.setNegativeButton(R.string.order_his_cancel_dialog_no, new DialogInterface.OnClickListener() {
@@ -334,7 +334,7 @@ public class OrderFragment extends Fragment implements OrderHistoryAdapter.Event
                                             getActivity().onBackPressed();
                                         }
 
-                                        sendNotification(user.getUserId(),reservation.getRes_id(),"cancel_reservation_channel");
+                                        sendNotification(user.getUserId(),reservation.getRes_id());
                                     }else{
                                         if (getActivity()!=null)
                                             Toast.makeText(getContext(), getActivity().getString(R.string.internet_off), Toast.LENGTH_SHORT).show();
@@ -363,37 +363,37 @@ public class OrderFragment extends Fragment implements OrderHistoryAdapter.Event
 
         AlertDialog dialog = alert.create();
         dialog.show();
+        }
     }
 
     private void showCancelDialog(){
-        final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
-        LayoutInflater li = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        @SuppressLint("InflateParams") View alertLayout = li.inflate(R.layout.can_not_cancel_dialog, null);
-        TextView number = alertLayout.findViewById(R.id.number1);
+        if (getContext()!=null) {
+            final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+            View alertLayout = View.inflate(getContext(),R.layout.can_not_cancel_dialog, null);
+            TextView number = alertLayout.findViewById(R.id.number1);
 
-        TextView header = alertLayout.findViewById(R.id.dialog_header);
-        TextView first = alertLayout.findViewById(R.id.first_b);
-        TextView second = alertLayout.findViewById(R.id.second_b);
+            TextView header = alertLayout.findViewById(R.id.dialog_header);
+            TextView first = alertLayout.findViewById(R.id.first_b);
+            TextView second = alertLayout.findViewById(R.id.second_b);
 
-        Typeface regular = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cairo-Regular.ttf");
-        Typeface extraBold = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cairo-Bold.ttf");
+            Typeface regular = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cairo-Regular.ttf");
+            Typeface extraBold = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cairo-Bold.ttf");
 
-        header.setTypeface(extraBold);
-        first.setTypeface(regular);
-        second.setTypeface(regular);
+            header.setTypeface(extraBold);
+            first.setTypeface(regular);
+            second.setTypeface(regular);
 
-        Linkify.addLinks(number  , Linkify.PHONE_NUMBERS);
-        number.setLinkTextColor(Color.parseColor("#3498db"));
-
-
-
-        // this is set the view from XML inside AlertDialog
-       alert.setView(alertLayout);
-        final AlertDialog dialog = alert.create();
-       dialog.show();
+            Linkify.addLinks(number, Linkify.PHONE_NUMBERS);
+            number.setLinkTextColor(Color.parseColor("#3498db"));
 
 
+            // this is set the view from XML inside AlertDialog
+            alert.setView(alertLayout);
+            final AlertDialog dialog = alert.create();
+            dialog.show();
 
+
+        }
 
 
     }
@@ -459,7 +459,7 @@ public class OrderFragment extends Fragment implements OrderHistoryAdapter.Event
 
 
 
-    private void sendNotification(int user_id, int res_id, String channel) {
+    private void sendNotification(int user_id, int res_id) {
 
         JSONObject data = new JSONObject();
         JSONObject notification_data = new JSONObject();
@@ -468,7 +468,7 @@ public class OrderFragment extends Fragment implements OrderHistoryAdapter.Event
             //Populate the request parameters
             data.put("title", "Bohemea Art Cafe");
             data.put("message", user.getUserName()+" Canceled His Reservation");
-            data.put("android_channel_id",channel);
+            data.put("android_channel_id", "cancel_reservation_channel");
             data.put("user_id",String.valueOf(user_id));
             data.put("res_id",String.valueOf(res_id));
 

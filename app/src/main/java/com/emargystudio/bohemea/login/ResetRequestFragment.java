@@ -96,9 +96,13 @@ public class ResetRequestFragment extends Fragment {
         Button resetRequestBtn = view.findViewById(R.id.reset_request);
         progressBar = view.findViewById(R.id.progressBar);
         TextInputLayout emailContainer = view.findViewById(R.id.email_container);
+        Typeface face = null;
+        Typeface face_book =null;
+        if(getContext()!=null){
+            face = Typeface.createFromAsset(getContext().getAssets(),"fonts/Cairo-Regular.ttf");
+            face_book = Typeface.createFromAsset(getContext().getAssets(),"fonts/Cairo-Bold.ttf");
 
-        Typeface face = Typeface.createFromAsset(getContext().getAssets(),"fonts/Cairo-Regular.ttf");
-        Typeface face_book = Typeface.createFromAsset(getContext().getAssets(),"fonts/Cairo-Bold.ttf");
+        }
 
         emailContainer.setTypeface(face);
         resetRequestBtn.setTypeface(face_book);
@@ -128,7 +132,7 @@ public class ResetRequestFragment extends Fragment {
 
     //send reset request to the php API and store result in sharedPreference
     //and if the response was  successful go to updatePasswordFragment
-    public void  sendResetRequest(final String email , final String date){
+    private void  sendResetRequest(final String email, final String date){
         progressBar.setVisibility(View.VISIBLE);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URLS.reset_password_request,
                 new Response.Listener<String>() {

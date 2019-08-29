@@ -61,7 +61,7 @@ public class ReservationFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_reservation, container, false);
@@ -75,7 +75,7 @@ public class ReservationFragment extends Fragment {
 
 
         initViews(view);
-        initRecyclerView(view);
+        initRecyclerView();
         reservationQuery();
 
 
@@ -157,7 +157,7 @@ public class ReservationFragment extends Fragment {
                                     }
                                 }
 
-                               if (reservations.size() == 0 && reservations.isEmpty()){
+                               if (reservations.size() == 0){
                                    emptyView.setVisibility(View.VISIBLE);
                                    recyclerView.setVisibility(View.GONE);
                                }else {
@@ -197,7 +197,7 @@ public class ReservationFragment extends Fragment {
     }
 
 
-    private void initRecyclerView(View view) {
+    private void initRecyclerView() {
 
         resHistoryAdapter = new ResHistoryAdapter(getContext(), reservations);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

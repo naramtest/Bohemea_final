@@ -42,11 +42,11 @@ public class UpdatePasswordFragment extends Fragment {
 
 
     //widget
-    TextInputLayout newPasswordLayout;
-    EditText newPasswordEdt , codeEdt;
-    Button updatePasswordBtn;
-    ProgressBar progressBar;
-    TextView resendCodeTxt;
+    private TextInputLayout newPasswordLayout;
+    private EditText newPasswordEdt , codeEdt;
+    private Button updatePasswordBtn;
+    private ProgressBar progressBar;
+    private TextView resendCodeTxt;
 
     //sharedPreference and dataBase constant
     private static final String KEY_EMAIL = "email";
@@ -57,8 +57,8 @@ public class UpdatePasswordFragment extends Fragment {
 
 
     //objects instance
-    SharedPreferenceManger sharedPreferenceManger;
-    java.text.SimpleDateFormat sdf ;
+    private SharedPreferenceManger sharedPreferenceManger;
+    private java.text.SimpleDateFormat sdf ;
 
 
     public UpdatePasswordFragment() {

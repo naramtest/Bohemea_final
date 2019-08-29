@@ -26,7 +26,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     private List<FoodOrder> foodOrders;
     private Context context;
-    public DetailsAdapterListener onClickListener;
+    private DetailsAdapterListener onClickListener;
 
     private String lang = Locale.getDefault().getLanguage();
 

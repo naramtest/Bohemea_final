@@ -1,11 +1,11 @@
 package com.emargystudio.bohemea.helperClasses;
 
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
+
 
 import android.content.Context;
 import android.util.Log;
-import android.view.inputmethod.InputMethodManager;
 
 import com.emargystudio.bohemea.R;
 
@@ -23,8 +23,8 @@ public class CommonReservation {
         String lang = Locale.getDefault().getLanguage();
         if (hour >= 0 && hour <=12 ){
             String am = context.getString(R.string.am_string);
-            double dHour = round(hour,2);
-            String result = String.format("%.2f", dHour);
+            double dHour = round(hour);
+            @SuppressLint("DefaultLocale") String result = String.format("%.2f", dHour);
             String sHour;
             if (lang.equals("ar")){
                 sHour = result.replace("٫", ":");
@@ -36,8 +36,8 @@ public class CommonReservation {
 
         }else if (hour > 12 && hour <13){
             String pm = context.getString(R.string.pm_string);
-            double dHour = round(hour,2);
-            String result = String.format("%.2f", dHour);
+            double dHour = round(hour);
+            @SuppressLint("DefaultLocale") String result = String.format("%.2f", dHour);
             String sHour;
             if (lang.equals("ar")){
                 sHour = result.replace("٫", ":");
@@ -48,8 +48,8 @@ public class CommonReservation {
             stringHour =" " + sHour +" "+  pm;
         }else {
             String am = context.getString(R.string.pm_string);
-            double dHour = round(hour-12.00,2);
-            String result = String.format("%.2f", dHour);
+            double dHour = round(hour-12.00);
+            @SuppressLint("DefaultLocale") String result = String.format("%.2f", dHour);
             String sHour;
             if (lang.equals("ar")){
                 Log.d("Arabic", "changeHourFormat: "+result);
@@ -63,22 +63,13 @@ public class CommonReservation {
         return  stringHour;
     }
 
-    public static double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
+    private static double round(double value) {
 
         BigDecimal bd = new BigDecimal(value);
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
         return bd.doubleValue();
     }
 
-    //hide soft keyBoard
-    public static void hideSoftKeyboard(Activity activity) {
-        InputMethodManager inputMethodManager =
-                (InputMethodManager) activity.getSystemService(
-                        Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(
-                activity.getCurrentFocus().getWindowToken(), 0);
-    }
 
 
 }

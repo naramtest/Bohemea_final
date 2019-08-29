@@ -10,7 +10,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.emargystudio.bohemea.model.FoodCategory;
@@ -37,7 +35,6 @@ import java.util.ArrayList;
 
 public class FoodCategoriesFragment extends Fragment {
 
-    private static final String TAG = "FoodCategoriesFragment";
 
     private ArrayList<FoodCategory> foodCategories;
     private FoodCategoryAdapter foodCategoryAdapter;
@@ -94,6 +91,8 @@ public class FoodCategoriesFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(foodCategoryAdapter);
         foodCategoryAdapter.setOnItemClickListener(onItemClickListener);
+        recyclerView.setHasFixedSize(true);
+
     }
 
 

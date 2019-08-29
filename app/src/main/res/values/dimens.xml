@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="home_image_slider">500dp</dimen>
-    <dimen name="home_slider_top_layer">499dp</dimen>
 
     <dimen name="food_dialog_image_width">300dp</dimen>
     <dimen name="food_dialog_image_height">170dp</dimen>

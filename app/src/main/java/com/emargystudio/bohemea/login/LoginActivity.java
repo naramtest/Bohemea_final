@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 
 import com.emargystudio.bohemea.helperClasses.Common;
-import com.facebook.accountkit.ui.AccountKitActivity;
-import com.facebook.accountkit.ui.AccountKitConfiguration;
-import com.facebook.accountkit.ui.LoginType;
+
 import com.google.android.material.textfield.TextInputLayout;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -59,7 +57,6 @@ import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String TAG = "LoginActivity";
 
     private static final String KEY_EMAIL = "email";
     private static final String KEY_PASSWORD = "password";
@@ -75,7 +72,6 @@ public class LoginActivity extends AppCompatActivity {
     TextInputLayout textInputLayoutEmail , passwordContainer;
     TextView forget_password ,registerNewUserTxt;
     ProgressBar progressBar;
-    String lang = Locale.getDefault().getLanguage();
 
 
     ArrayList<String> tokens;

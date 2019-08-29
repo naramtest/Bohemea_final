@@ -104,7 +104,7 @@ public class SharedPreferenceManger {
         editor.apply();
     }
 
-    public UserTokens getUserTokens(){
+    UserTokens getUserTokens(){
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(USER_TOKENS, Context.MODE_PRIVATE);
         String tokenString= sharedPreferences.getString(TOKENS,null);
         ArrayList<String> tokens = new ArrayList<>();
@@ -116,7 +116,7 @@ public class SharedPreferenceManger {
 
     }
 
-    public void storeDeviceToken(String token){
+    void storeDeviceToken(String token){
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(DEVICE_TOKENS, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(DEVICE_TOKEN,token);
@@ -159,11 +159,8 @@ public class SharedPreferenceManger {
     public boolean isUserLogggedIn(){
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
 
-        if(sharedPreferences.getString(USERNAME,null) != null){
-            return true;
-        }
+        return sharedPreferences.getString(USERNAME, null) != null;
 
-        return false;
     }
 
 

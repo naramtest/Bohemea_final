@@ -1,6 +1,7 @@
 package com.emargystudio.bohemea.makeReservation;
 
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.graphics.Typeface;
@@ -136,6 +137,7 @@ public class DataFragment extends Fragment {
 
         if (getContext()!=null) {
             DatePickerDialog dialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 

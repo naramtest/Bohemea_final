@@ -46,7 +46,6 @@
     <string name="a_login_forgot_password">Forgot your password?</string>
     <string name="a_login_press_here">Press here</string>
     <string name="alert_phone_title">One more step …</string>
-    <string name="a_register_phone_number">Phone Number</string>
     <string name="a_register_sign_up">Sign Up</string>
     <string name="a_register_username">Username</string>
     <string name="a_register_email_facebook_used_error">This email is linked to registered Facebook account , please choose another one or log in using your facebook account</string>
@@ -87,7 +86,6 @@
     <string name="f_data_chair_number">Table for ... one, two, three ..</string>
     <string name="f_data_date">Date</string>
     <string name="f_data_time">Time</string>
-    <string name="f_table_header">Pick Your Favorite Table</string>
     <string name="table_frag_alert_send_table_number">Table Number: %1$s</string>
     <string name="table_frag_alert_send_message">Are you sure you want to pick this table</string>
     <string name="table_frag_alert_send_yesBtn">Yes</string>
@@ -113,15 +111,12 @@
     <!--Cart Strings-->
     <string name="total_cart_text">Total: %1$d  S.P</string>
     <string name="cart_done_dailog_done">Close</string>
-    <string name="cart_act_btn_make_res_first">Make a Reservation First</string>
     <string name="cart_snackbar_remove">removed from cart!</string>
     <string name="cart_snackbar_undo">UNDO</string>
-    <string name="a_cart_place_btn">Place Order</string>
     <string name="a_cart_addmore_btn">Add more items</string>
     <string name="a_cart_back_menu_btn">Back to Menu</string>
     <string name="a_cart_empty_text">Looks Like You Haven\'t Made Any Choice Yet …</string>
     <string name="cart_update_dialog_cancel">Cancel</string>
-    <string name="cart_update_dialog_update">Update</string>
     <string name="food_menu_adapter_price_text">Price: %1$d  S.P</string>
     <string name="a_cart_fast_order_done">Thank You For Using Our App, Your Order Will Be Ready  Soon</string>
     <string name="a_cart_order_now_btn">ORDER NOW</string>
@@ -146,7 +141,6 @@
     <string name="a_preferences_phone_edt">Edit your phone number</string>
     <string name="a_preferences_email_edit">Edit Your Email</string>
     <string name="a_preferences_password_edt">Edit Your Password</string>
-    <string name="token_dosenot_ready">Your internet connection is slow please wait a minute and try again</string>
     <string name="f_table_choose_table_first">Please Choose Table First</string>
     <string name="a_white_blocked_text">Your Account Has Been Temporarily Blocked</string>
     <string name="a_white_call_btn">Call us</string>
@@ -170,8 +164,6 @@
     <!--history_summary_middle_part-->
     <string name="history_summary_no_orders">No Orders</string>
     <string name="history_summary_submit_btn">Submit</string>
-    <string name="res_history_show_btn">SHOW</string>
-
 
 
     <!--order_history-->

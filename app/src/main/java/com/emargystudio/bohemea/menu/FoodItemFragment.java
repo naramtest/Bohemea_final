@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,21 +48,19 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class FoodItemFragment extends Fragment {
 
-    private static final String TAG = "FoodItemFragment";
 
 
     private TextView priceTxt , nameTxt , descriptionTxt , quantityTxt,category_name;
-    private ImageView food_image ,category_image;
+    private ImageView food_image;
     private Button add_btn , cancel_btn;
     private ElegantNumberButton numberButton;
-    int itemCount = 0;
+    private int itemCount = 0;
 
     private String lang = Locale.getDefault().getLanguage();
 
@@ -111,7 +108,7 @@ public class FoodItemFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.food_category_rv);
         category_name = view.findViewById(R.id.category_name);
-        category_image = view.findViewById(R.id.category_image);
+        ImageView category_image = view.findViewById(R.id.category_image);
 
         if (getActivity()!=null) {
             Typeface face_Bold;
@@ -162,6 +159,7 @@ public class FoodItemFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(foodItemAdapter);
         foodItemAdapter.setOnItemClickListener(onItemClickListener);
+        recyclerView.setHasFixedSize(true);
 
 
     }
@@ -292,55 +290,59 @@ public class FoodItemFragment extends Fragment {
 
     private void showDialog(final FoodItem foodItem){
 
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        dialog.setContentView(R.layout.food_item_dialog);
+        if (getActivity()!=null) {
+            final Dialog dialog = new Dialog(getActivity());
+            if (dialog.getWindow()!=null)
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialog.setContentView(R.layout.food_item_dialog);
 
 
-        initDialogViews(dialog);
-        changeTxtViewFonts();
+            initDialogViews(dialog);
+            changeTxtViewFonts();
 
 
-        Picasso.get().load(foodItem.getImage_url()).into(food_image);
-        priceTxt.setText(String.format(getString(R.string.foodDetailActivity_food_price),foodItem.getPrice()));
-        nameTxt.setText(foodItem.getName());
-        descriptionTxt.setText(foodItem.getDescription());
-        descriptionTxt.setMovementMethod(new ScrollingMovementMethod());
+            Picasso.get().load(foodItem.getImage_url()).into(food_image);
+            priceTxt.setText(String.format(getString(R.string.foodDetailActivity_food_price), foodItem.getPrice()));
+            nameTxt.setText(foodItem.getName());
+            descriptionTxt.setText(foodItem.getDescription());
+            descriptionTxt.setMovementMethod(new ScrollingMovementMethod());
 
 
-        numberButton.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
-            @Override
-            public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
+            numberButton.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
+                @Override
+                public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
 
-                int newPrice = foodItem.getPrice()*newValue;
-                priceTxt.setText(String.format(getString(R.string.foodDetailActivity_food_price),newPrice));
+                    int newPrice = foodItem.getPrice() * newValue;
+                    priceTxt.setText(String.format(getString(R.string.foodDetailActivity_food_price), newPrice));
 
-            }
-        });
-
-        cancel_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        add_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addToCart(foodItem);
-                itemCount+=1;
-                if (itemCount==1){
-                    ((MenuActivity)getActivity()).spaceNavigationView.showBadgeAtIndex(1, itemCount, Color.RED);
-                }else {
-                    ((MenuActivity)getActivity()).spaceNavigationView.changeBadgeTextAtIndex(1, itemCount);
                 }
+            });
 
-                dialog.dismiss();
-            }
-        });
+            cancel_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
 
-        dialog.show();
+            add_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addToCart(foodItem);
+                    itemCount += 1;
+                    if (itemCount == 1) {
+                        ((MenuActivity) getActivity()).spaceNavigationView.showBadgeAtIndex(1, itemCount, Color.RED);
+                    } else {
+                        ((MenuActivity) getActivity()).spaceNavigationView.changeBadgeTextAtIndex(1, itemCount);
+                    }
+
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
+
+        }
 
     }
 

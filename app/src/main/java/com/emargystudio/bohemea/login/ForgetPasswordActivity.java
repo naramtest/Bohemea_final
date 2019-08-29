@@ -7,14 +7,12 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import android.util.Log;
 
 import com.emargystudio.bohemea.R;
 import com.emargystudio.bohemea.helperClasses.Common;
 
 public class ForgetPasswordActivity extends AppCompatActivity {
 
-    private static final String TAG = "ForgetPasswordActivity";
     Fragment ResetRequestFragment;
     Fragment UpdatePassword;
     Fragment fragment;
@@ -30,7 +28,6 @@ public class ForgetPasswordActivity extends AppCompatActivity {
             String appLinkAction = appLinkIntent.getAction();
             Uri appLinkData = appLinkIntent.getData();
             if (Intent.ACTION_VIEW.equals(appLinkAction) && appLinkData != null) {
-                Log.d(TAG, "onCreate: "+appLinkData.getLastPathSegment());
                 UpdatePassword = new UpdatePasswordFragment();
                 Common.code=appLinkData.getLastPathSegment();
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

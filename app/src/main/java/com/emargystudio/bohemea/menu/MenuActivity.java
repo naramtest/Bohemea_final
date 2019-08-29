@@ -28,7 +28,6 @@ public class MenuActivity extends AppCompatActivity {
 
     public SpaceNavigationView spaceNavigationView;
     Fragment fragment;
-    Fragment foodCategoriesFragment;
     Fragment foodItemFragment;
 
 

@@ -8,7 +8,6 @@
     <string name="phone_number_empty">مطلوب</string>
     <string name="am_string">صباحا</string>
     <string name="pm_string">مساءً</string>
-    <string name="token_dosenot_ready">اتصالك بالانترنت بطيء الرجاء المحاولة لاحقا</string>
 
 
     <!--phone alert-->
@@ -27,7 +26,6 @@
     <string name="a_login_email_hint">البريد الالكتروني</string>
     <string name="a_login_forgot_password">نسيت كلمة السر؟</string>
     <string name="alert_phone_title">على وشك الانتهاء</string>
-    <string name="a_register_phone_number">رقم الهاتف</string>
     <string name="a_register_sign_up">التسجيل</string>
     <string name="a_register_username">اسم المستخدم</string>
     <string name="a_register_email_facebook_used_error">البريد الالكتروني الذي قمت بادخاله مستخدم من قبل حساب فيسبوك اخر مسجل لدينا</string>
@@ -66,7 +64,6 @@
     <string name="f_data_time">الوقت</string>
     <string name="f_data_date">التاريخ</string>
     <string name="table_frag_alert_send_message">هل أنت متأكد بأنك تريد اختيار هذه الطاولة</string>
-    <string name="f_table_header">اختر طاولتك المفضلة</string>
     <string name="table_frag_alert_send_table_number">طاولة رقم: %1$s</string>
     <string name="table_frag_alert_send_yesBtn">نعم</string>
     <string name="table_frag_alert_send_cancel_btn">موافق</string>
@@ -93,7 +90,6 @@
     <string name="a_cart_back_menu_btn">العودة إلى القائمة</string>
     <string name="a_cart_empty_text">لم تقم بإضافة أي عناصر إلى سلتك</string>
     <string name="cart_update_dialog_cancel">تراجع</string>
-    <string name="cart_update_dialog_update">تعديل</string>
     <string name="food_menu_adapter_price_text">السعر : %1$d ل .س</string>
     <string name="a_cart_fast_order_done">شكرا لإستخدامك تطبيقنا ، طلبك سيكون جاهزاسيكون حاهزا خلال وقت قصير</string>
     <string name="a_cart_order_now_btn">اطلب الان</string>
@@ -135,7 +131,6 @@
     <string name="f_res_history_approved">تمت تأكيده</string>
     <string name="history_summary_no_orders">لا يوجد طلبات</string>
     <string name="history_summary_submit_btn">إرسال</string>
-    <string name="res_history_show_btn">المزيد</string>
     <string name="order_history_header">تفاصيل الحجز</string>
     <string name="order_history_name">الإسم</string>
     <string name="order_history_total">المجموع الكلي</string>
@@ -149,9 +144,7 @@
 
     <string name="order_his_table_number">طاولة رقم: %1$d</string>
     <string name="order_his_for_number">عدد الأشخاص: %1$d</string>
-    <string name="a_cart_place_btn">اضف طلب</string>
     <string name="a_main_ads">إعلانات</string>
-    <string name="cart_act_btn_make_res_first">قم بالحجز قبل ان تتابع</string>
     <string name="cart_snackbar_undo">تراجع</string>
     <string name="order_his_cancel_dialog_done">تم</string>
     <string name="order_his_cancel_dialog_no">كلا</string>

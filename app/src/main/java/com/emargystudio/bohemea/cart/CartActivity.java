@@ -11,13 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -62,7 +60,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -395,8 +392,7 @@ public class CartActivity extends AppCompatActivity {
     //this dialog is showing when send pre order from for later button
     public void alertDone() {
         AlertDialog.Builder alert = new AlertDialog.Builder(CartActivity.this);
-        LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View alertLayout = li.inflate(R.layout.alert_done, null);
+        View alertLayout = View.inflate(CartActivity.this,R.layout.alert_done, null);
 
         TextView header = alertLayout.findViewById(R.id.dialog_header);
         TextView first = alertLayout.findViewById(R.id.first_b);
@@ -426,8 +422,7 @@ public class CartActivity extends AppCompatActivity {
     //this dialog shows only the first time this app opened
     public void alertFirstTime() {
         AlertDialog.Builder alert = new AlertDialog.Builder(CartActivity.this);
-        LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View alertLayout = li.inflate(R.layout.alert_first_time, null);
+        View alertLayout = View.inflate(CartActivity.this,R.layout.alert_first_time, null);
         CheckBox checkBox = alertLayout.findViewById(R.id.dont_show_checkBox);
 
         TextView header = alertLayout.findViewById(R.id.dialog_header);
@@ -484,8 +479,7 @@ public class CartActivity extends AppCompatActivity {
     //when sending order from the order now button
     public void alertFastOrderDone() {
         AlertDialog.Builder alert = new AlertDialog.Builder(CartActivity.this);
-        LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View alertLayout = li.inflate(R.layout.alert_fast_order_done, null);
+        View alertLayout = View.inflate(CartActivity.this,R.layout.alert_fast_order_done, null);
 
         TextView header = alertLayout.findViewById(R.id.dialog_header);
         TextView first = alertLayout.findViewById(R.id.first_b);
@@ -515,8 +509,7 @@ public class CartActivity extends AppCompatActivity {
     //allow user to edit his order
     private void showDialog(final FoodOrder foodOrder , final int position) {
         final AlertDialog.Builder alert = new AlertDialog.Builder(CartActivity.this);
-        LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View alertLayout = li.inflate(R.layout.alert_update, null);
+        View alertLayout = View.inflate(CartActivity.this,R.layout.alert_update, null);
         final TextView txt_price = alertLayout.findViewById(R.id.price_txt);
         final ElegantNumberButton numberButton = alertLayout.findViewById(R.id.number_button);
         TextView updateBtn = alertLayout.findViewById(R.id.update_txt);
@@ -691,10 +684,9 @@ public class CartActivity extends AppCompatActivity {
     private void laterOrderDialog(){
         reservationQuery(user.getUserId());
         final AlertDialog.Builder alert = new AlertDialog.Builder(CartActivity.this);
-        LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // find views
-        View alertLayout = li.inflate(R.layout.choose_reservation_dialog, null);
+        View alertLayout = View.inflate(CartActivity.this,R.layout.choose_reservation_dialog, null);
         RecyclerView dialogRv = alertLayout.findViewById(R.id.new_reservation_rv);
         TextView addNew = alertLayout.findViewById(R.id.add_new_reservation_btn);
         TextView header = alertLayout.findViewById(R.id.new_reservation_header);
