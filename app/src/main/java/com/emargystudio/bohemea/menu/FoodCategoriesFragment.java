@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 
 public class FoodCategoriesFragment extends Fragment {
 
+    private static final String TAG = "FoodCategoriesFragment";
 
     private ArrayList<FoodCategory> foodCategories;
     private FoodCategoryAdapter foodCategoryAdapter;
@@ -97,13 +99,14 @@ public class FoodCategoriesFragment extends Fragment {
 
     private void categoryQuery(){
         progressBar.setVisibility(View.VISIBLE);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URLS.food_category_query,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLS.food_category_query,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         progressBar.setVisibility(View.GONE);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
+
                             if(!jsonObject.getBoolean("error")){
                                 JSONArray jsonObjectCategory =  jsonObject.getJSONArray("categorys");
                                 for(int i = 0 ; i<jsonObjectCategory.length(); i++){
@@ -135,22 +138,7 @@ public class FoodCategoriesFragment extends Fragment {
                     }
                 }
         );
-        stringRequest.setRetryPolicy(new RetryPolicy() {
-            @Override
-            public int getCurrentTimeout() {
-                return 20000;
-            }
 
-            @Override
-            public int getCurrentRetryCount() {
-                return 20000;
-            }
-
-            @Override
-            public void retry(VolleyError error) {
-
-            }
-        });
         VolleyHandler.getInstance(getContext()).addRequetToQueue(stringRequest);
     }
 

@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
@@ -239,7 +240,6 @@ public class FoodItemFragment extends Fragment {
                                             jfood.getString("ar_description"),
                                             jfood.getInt("price")));
 
-                                    Log.d(TAG, "onResponse: "+jfood.getString("ar_description"));
                                 }
 
                                 foodItemAdapter.notifyDataSetChanged();
@@ -259,6 +259,22 @@ public class FoodItemFragment extends Fragment {
                     }
                 }
         );
+        stringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 20000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 20000;
+            }
+
+            @Override
+            public void retry(VolleyError error) {
+
+            }
+        });
         VolleyHandler.getInstance(getContext()).addRequetToQueue(stringRequest);
 
     }

@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
@@ -89,7 +90,6 @@ public class HistoryActivity extends AppCompatActivity {
             @Override
             public void onCentreButtonClick() {
                 spaceNavigationView.setActiveSpaceItemColor(ContextCompat.getColor(HistoryActivity.this,R.color.inactive_color));
-                spaceNavigationView.changeCurrentItem(-1);
                 startActivity(new Intent(activityA, MenuActivity.class));
 
             }
@@ -147,6 +147,18 @@ public class HistoryActivity extends AppCompatActivity {
         TextView number = alertLayout.findViewById(R.id.number1);
         TextView goToReservationBtn = alertLayout.findViewById(R.id.reservation_btn);
 
+        TextView header = alertLayout.findViewById(R.id.dialog_header);
+        TextView first = alertLayout.findViewById(R.id.first_b);
+        TextView second = alertLayout.findViewById(R.id.second_b);
+        TextView third = alertLayout.findViewById(R.id.third_b);
+
+        Typeface regular = Typeface.createFromAsset(HistoryActivity.this.getAssets(), "fonts/Cairo-Regular.ttf");
+        Typeface extraBold = Typeface.createFromAsset(HistoryActivity.this.getAssets(), "fonts/Cairo-Bold.ttf");
+
+        header.setTypeface(extraBold);
+        first.setTypeface(regular);
+        second.setTypeface(regular);
+        third.setTypeface(regular);
 
         Linkify.addLinks(number  , Linkify.PHONE_NUMBERS);
         number.setLinkTextColor(Color.parseColor("#3498db"));
@@ -170,5 +182,9 @@ public class HistoryActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(HistoryActivity.this,MainActivity.class));
+        finish();
+    }
 }

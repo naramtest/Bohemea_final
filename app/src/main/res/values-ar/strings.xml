@@ -69,7 +69,7 @@
     <string name="f_table_header">اختر طاولتك المفضلة</string>
     <string name="table_frag_alert_send_table_number">طاولة رقم: %1$s</string>
     <string name="table_frag_alert_send_yesBtn">نعم</string>
-    <string name="table_frag_alert_send_cancel_btn">تراجع</string>
+    <string name="table_frag_alert_send_cancel_btn">موافق</string>
     <string name="alert_done_menu_btn">قائمة الطعام</string>
     <string name="alert_done_menu">الان بإمكانك الاطلاع على قائمتنا</string>
     <string name="tabel_taken">محجوز</string>

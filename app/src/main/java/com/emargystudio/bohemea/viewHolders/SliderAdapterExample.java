@@ -23,7 +23,7 @@ public class SliderAdapterExample extends SliderViewAdapter<SliderAdapterExample
 
     @Override
     public SliderAdapterVH onCreateViewHolder(ViewGroup parent) {
-        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_slider_layout_item, null);
+        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_slider_layout_item, parent,false);
         return new SliderAdapterVH(inflate);
     }
 
@@ -84,7 +84,7 @@ public class SliderAdapterExample extends SliderViewAdapter<SliderAdapterExample
         View itemView;
         ImageView imageViewBackground;
 
-        public SliderAdapterVH(View itemView) {
+        SliderAdapterVH(View itemView) {
             super(itemView);
             imageViewBackground = itemView.findViewById(R.id.iv_auto_image_slider);
 

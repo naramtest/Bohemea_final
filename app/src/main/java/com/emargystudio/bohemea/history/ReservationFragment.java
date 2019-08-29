@@ -47,7 +47,7 @@ public class ReservationFragment extends Fragment {
     private ArrayList<Reservation> reservations = new ArrayList<>();
     private ResHistoryAdapter resHistoryAdapter;
 
-    String lang = Locale.getDefault().getLanguage();
+    private String lang = Locale.getDefault().getLanguage();
 
 
     private ProgressBar progressBar;
@@ -99,6 +99,7 @@ public class ReservationFragment extends Fragment {
                 face_Regular = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cairo-Regular.ttf");
                 face_Bold = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cairo-Bold.ttf");
                 face_Light = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cairo-Light.ttf");
+
             }else {
                 face_Regular = Typeface.createFromAsset(getContext().getAssets(), "fonts/Akrobat-Regular.otf");
                 face_Bold = Typeface.createFromAsset(getContext().getAssets(), "fonts/Kabrio-Bold.ttf");

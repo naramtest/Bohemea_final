@@ -1,5 +1,6 @@
 package com.emargystudio.bohemea.viewHolders;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -15,16 +16,20 @@ import com.emargystudio.bohemea.R;
 import com.emargystudio.bohemea.helperClasses.CommonReservation;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class NewReservationAdapter extends RecyclerView.Adapter<NewReservationAdapter.NewReservationViewHolder>{
 
     private ArrayList<Reservation> reservations;
     private View.OnClickListener mOnItemClickListener;
     private Context context;
+    private String lang;
 
     public NewReservationAdapter(ArrayList<Reservation> reservations, Context context) {
         this.reservations = reservations;
         this.context = context;
+        lang = Locale.getDefault().getLanguage();
+
     }
 
     @NonNull
@@ -35,6 +40,7 @@ public class NewReservationAdapter extends RecyclerView.Adapter<NewReservationAd
         return new NewReservationViewHolder(itemView);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull NewReservationViewHolder holder, int position) {
 
@@ -68,11 +74,20 @@ public class NewReservationAdapter extends RecyclerView.Adapter<NewReservationAd
             dateTxt = itemView.findViewById(R.id.date_txt);
             timeTxt = itemView.findViewById(R.id.time_txt);
             countTxt = itemView.findViewById(R.id.count_txt);
+            Typeface face_ExtraBold ;
+            if (lang.equals("ar")){
+                face_ExtraBold = Typeface.createFromAsset(context.getAssets(), "fonts/Cairo-Bold.ttf");
 
-            Typeface face = Typeface.createFromAsset(context.getAssets(),"fonts/Akrobat-ExtraBold.otf");
-            dateTxt.setTypeface(face);
-            timeTxt.setTypeface(face);
-            countTxt.setTypeface(face);
+
+
+            }else{
+                face_ExtraBold = Typeface.createFromAsset(context.getAssets(), "fonts/Akrobat-ExtraBold.otf");
+
+
+            }
+            dateTxt.setTypeface(face_ExtraBold);
+            timeTxt.setTypeface(face_ExtraBold);
+            countTxt.setTypeface(face_ExtraBold);
             itemView.setTag(this);
             itemView.setOnClickListener(mOnItemClickListener);
 

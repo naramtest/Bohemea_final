@@ -1,18 +1,19 @@
 package com.emargystudio.bohemea;
 
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -126,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void checkUserStatus(final int user_id) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLS.send_reservation,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLS.checkUSerStatus,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -290,8 +291,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //also part of bottom navigation setup
+    @Override
+    protected void onResume() {
+        super.onResume();
+        spaceNavigationView.changeCurrentItem(0);
+    }
     //setup bottom navigation
-    private void bottomNavigationInit(Bundle savedInstanceState , final Activity activityA) {
+    private void bottomNavigationInit(final Bundle savedInstanceState , final Activity activityA) {
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
         spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.ic_home));
         spaceNavigationView.addSpaceItem(new SpaceItem("CART", R.drawable.ic_shopping_cart));
@@ -304,7 +311,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCentreButtonClick() {
                 spaceNavigationView.setActiveSpaceItemColor(ContextCompat.getColor(MainActivity.this,R.color.inactive_color));
-                spaceNavigationView.changeCurrentItem(-1);
                 startActivity(new Intent(activityA, MenuActivity.class));
             }
 
@@ -320,8 +326,6 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(new Intent(activityA, HistoryActivity.class));
                         break;
 
-
-
                     case 3:
                         startActivity(new Intent(activityA, ProfileActivity.class));
                         break;
@@ -331,6 +335,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onItemReselected(int itemIndex, String itemName) {
+                spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
+
             }
         });
     }
@@ -343,11 +349,39 @@ public class MainActivity extends AppCompatActivity {
         spaceNavigationView.onSaveInstanceState(outState);
     }
 
-    //also part of bottom navigation setup
+
+
     @Override
-    protected void onResume() {
-        super.onResume();
-        spaceNavigationView.changeCurrentItem(0);
+    public void onBackPressed() {
+        alertSend();
+
     }
 
+    private void alertSend() {
+
+
+            AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+            alert.setTitle("Close App");
+            alert.setMessage("Are you sure want to exit this app?");
+
+            alert.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent a = new Intent(Intent.ACTION_MAIN);
+                    a.addCategory(Intent.CATEGORY_HOME);
+                    a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(a);
+                }
+            });
+            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog dialog = alert.create();
+            dialog.show();
+
+
+    }
 }

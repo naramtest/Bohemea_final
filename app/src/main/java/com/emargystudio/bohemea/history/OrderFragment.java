@@ -29,6 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.emargystudio.bohemea.cart.CartActivity;
 import com.emargystudio.bohemea.model.FoodOrder;
 import com.emargystudio.bohemea.model.Reservation;
 import com.emargystudio.bohemea.model.User;
@@ -73,6 +74,9 @@ public class OrderFragment extends Fragment implements OrderHistoryAdapter.Event
 
     private ProgressBar progressBar;
     private Button submit,cancel;
+
+    private String lang = Locale.getDefault().getLanguage();
+
 
 
     public OrderFragment() {
@@ -130,8 +134,20 @@ public class OrderFragment extends Fragment implements OrderHistoryAdapter.Event
         TextView total_tag_txt = view.findViewById(R.id.total_tag_txt);
         TextView summaryTxt = view.findViewById(R.id.summaryTxt);
         if (getActivity()!=null){
-            Typeface face = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Akrobat-ExtraBold.otf");
-            Typeface face_bold = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Akrobat-Bold.otf");
+
+            Typeface face;
+            Typeface face_bold;
+
+            if (lang.equals("ar")){
+                face = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Cairo-SemiBold.ttf");
+                face_bold = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Cairo-Regular.ttf");
+            }else {
+                face = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Akrobat-ExtraBold.otf");
+                face_bold = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Akrobat-Bold.otf");
+            }
+
+
+
             date.setTypeface(face_bold);
             summaryTxt.setTypeface(face);
             hour.setTypeface(face_bold);
@@ -355,6 +371,17 @@ public class OrderFragment extends Fragment implements OrderHistoryAdapter.Event
         @SuppressLint("InflateParams") View alertLayout = li.inflate(R.layout.can_not_cancel_dialog, null);
         TextView number = alertLayout.findViewById(R.id.number1);
 
+        TextView header = alertLayout.findViewById(R.id.dialog_header);
+        TextView first = alertLayout.findViewById(R.id.first_b);
+        TextView second = alertLayout.findViewById(R.id.second_b);
+
+        Typeface regular = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cairo-Regular.ttf");
+        Typeface extraBold = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cairo-Bold.ttf");
+
+        header.setTypeface(extraBold);
+        first.setTypeface(regular);
+        second.setTypeface(regular);
+
         Linkify.addLinks(number  , Linkify.PHONE_NUMBERS);
         number.setLinkTextColor(Color.parseColor("#3498db"));
 
@@ -373,7 +400,7 @@ public class OrderFragment extends Fragment implements OrderHistoryAdapter.Event
 
 
     //edit order
-    public void submitOrder(){
+    private void submitOrder(){
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -381,7 +408,7 @@ public class OrderFragment extends Fragment implements OrderHistoryAdapter.Event
             }
         });
     }
-    public void updateOrder(){
+    private void updateOrder(){
         Gson gson=new Gson();
         ArrayList<FoodOrder> newFoodOrders = orderHistoryAdapter.getFoodOrders();
         final int total = getTotal(newFoodOrders);
@@ -422,7 +449,7 @@ public class OrderFragment extends Fragment implements OrderHistoryAdapter.Event
         VolleyHandler.getInstance(getContext()).addRequetToQueue(stringRequest);
     }
 
-    public int getTotal(ArrayList<FoodOrder> foodOrders){
+    private int getTotal(ArrayList<FoodOrder> foodOrders){
         int total = 0;
         for (int i = 0 ; i<foodOrders.size();i++){
             total+= foodOrders.get(i).getPrice()*foodOrders.get(i).getQuantity();

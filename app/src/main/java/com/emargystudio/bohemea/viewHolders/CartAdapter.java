@@ -28,7 +28,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     private Context context;
     public DetailsAdapterListener onClickListener;
 
-    String lang = Locale.getDefault().getLanguage();
+    private String lang = Locale.getDefault().getLanguage();
 
     public CartAdapter( Context context ,DetailsAdapterListener listener) {
         this.context = context;
@@ -47,11 +47,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public void onBindViewHolder(@NonNull final CartViewHolder holder, final int position) {
 
         Picasso.get().load(foodOrders.get(position).getFood_image()).fit().centerCrop().into(holder.cartImage);
-        if (lang.equals("ar")){
-            //holder.cartName.setText(foodOrders.get(position).get));
-        }else {
-            holder.cartName.setText(foodOrders.get(position).getFood_name());
-        }
+
+        holder.cartName.setText(foodOrders.get(position).getFood_name());
 
         int total = foodOrders.get(position).getPrice()*foodOrders.get(position).getQuantity();
         holder.cartPrice.setText(String.format(context.getString(R.string.foodDetailActivity_food_price),total));

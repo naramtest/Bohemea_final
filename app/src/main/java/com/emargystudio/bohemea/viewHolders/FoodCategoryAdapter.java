@@ -22,7 +22,7 @@ import java.util.Locale;
 
 public class FoodCategoryAdapter  extends RecyclerView.Adapter<FoodCategoryAdapter.FoodCategoryViewHolder>{
 
-    List<FoodCategory> foodCategories;
+    private List<FoodCategory> foodCategories;
     private View.OnClickListener mOnItemClickListener;
     private Context context;
     private String lang;
@@ -48,13 +48,18 @@ public class FoodCategoryAdapter  extends RecyclerView.Adapter<FoodCategoryAdapt
         Picasso.get().load(foodCategory.getImage_url()).into(holder.categoryImage);
         holder.item_count.setText(String.format(context.getString(R.string.food_category_item_count),foodCategory.getItem_count()));
 
-        if(lang.equals("ar")){
+
+        if (lang.equals("ar")){
+
+
             holder.category_name.setText(foodCategory.getAr_name());
 
-        }else if (lang.equals("en")){
+        }else{
+
             holder.category_name.setText(foodCategory.getName());
 
         }
+
 
     }
 
@@ -72,7 +77,6 @@ public class FoodCategoryAdapter  extends RecyclerView.Adapter<FoodCategoryAdapt
 
         ImageView categoryImage;
         TextView category_name , item_count;
-        //AppCompatImageButton nextButton;
 
 
         FoodCategoryViewHolder(@NonNull View itemView) {
@@ -80,11 +84,24 @@ public class FoodCategoryAdapter  extends RecyclerView.Adapter<FoodCategoryAdapt
           category_name = itemView.findViewById(R.id.category_name);
           categoryImage = itemView.findViewById(R.id.category_image);
           item_count = itemView.findViewById(R.id.item_count);
-          Typeface face = Typeface.createFromAsset(context.getAssets(),"fonts/Akrobat-Bold.otf");
-          Typeface face_light = Typeface.createFromAsset(context.getAssets(),"fonts/Akrobat-Light.otf");
-          category_name.setTypeface(face);
-          item_count.setTypeface(face_light);
-          //nextButton = itemView.findViewById(R.id.button_next);
+            Typeface face_Regular ;
+            Typeface face_ExtraBold;
+
+            if (lang.equals("ar")){
+                face_Regular = Typeface.createFromAsset(context.getAssets(), "fonts/Cairo-Light.ttf");
+                face_ExtraBold = Typeface.createFromAsset(context.getAssets(), "fonts/Cairo-Bold.ttf");
+
+
+
+            }else{
+                face_Regular = Typeface.createFromAsset(context.getAssets(), "fonts/Akrobat-Light.otf");
+                face_ExtraBold = Typeface.createFromAsset(context.getAssets(), "fonts/Akrobat-Bold.otf");
+
+
+            }
+
+          category_name.setTypeface(face_ExtraBold);
+          item_count.setTypeface(face_Regular);
 
             itemView.setTag(this);
             itemView.setOnClickListener(mOnItemClickListener);

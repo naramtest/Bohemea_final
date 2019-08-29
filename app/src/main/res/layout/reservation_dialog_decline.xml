@@ -8,6 +8,7 @@
     android:background="@color/white">
 
     <TextView
+        android:id="@+id/dialog_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/decline"
@@ -19,6 +20,7 @@
         android:textStyle="bold"/>
 
     <TextView
+        android:id="@+id/first_b"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -33,6 +35,8 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/second_b"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
@@ -61,6 +65,7 @@
         android:weightSum="2">
 
         <TextView
+            android:id="@+id/third_b"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"

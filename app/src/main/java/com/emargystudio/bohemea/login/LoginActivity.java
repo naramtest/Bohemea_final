@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.graphics.Color;
 
 import com.emargystudio.bohemea.helperClasses.Common;
+import com.facebook.accountkit.ui.AccountKitActivity;
+import com.facebook.accountkit.ui.AccountKitConfiguration;
+import com.facebook.accountkit.ui.LoginType;
 import com.google.android.material.textfield.TextInputLayout;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -61,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String KEY_EMAIL = "email";
     private static final String KEY_PASSWORD = "password";
     private static final String KEY_EMPTY = "";
+
 
     //facebook var
     CallbackManager callbackManager;
@@ -482,8 +486,16 @@ public class LoginActivity extends AppCompatActivity {
         final EditText edtPhone = alertLayout.findViewById(R.id.edtPhone);
         TextView loginBtn = alertLayout.findViewById(R.id.login);
 
+
+
         final TextInputLayout layout = alertLayout.findViewById(R.id.edtPhoneLayout);
 
+        Typeface face = Typeface.createFromAsset(LoginActivity.this.getAssets(),"fonts/Cairo-Regular.ttf");
+        Typeface face_book = Typeface.createFromAsset(LoginActivity.this.getAssets(),"fonts/Cairo-Bold.ttf");
+
+        edtPhone.setTypeface(face);
+        loginBtn.setTypeface(face_book);
+        layout.setTypeface(face);
         // this is set the view from XML inside AlertDialog
         alert.setView(alertLayout);
         final AlertDialog dialog = alert.create();
@@ -553,6 +565,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+
+
     }
+
+
+
 
 }

@@ -41,9 +41,10 @@ public class WhiteActivity extends AppCompatActivity {
         }
 
 
-        Typeface face_Regular = Typeface.createFromAsset(WhiteActivity.this.getAssets(), "fonts/Akrobat-Regular.otf");
+        Typeface face_Regular = Typeface.createFromAsset(WhiteActivity.this.getAssets(), "fonts/Cairo-Regular.ttf");
         blockedTxt.setTypeface(face_Regular);
         updateText.setTypeface(face_Regular);
+
         callUsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -139,7 +139,7 @@ public class TableFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (!selectedTable.equals("0")){
-                    alertSend(user.getUserId(), reservation, selectedTable,"no movie");
+                    alertSend(user.getUserId(), reservation, selectedTable);
                 }else {
                     Toast.makeText(getContext(), getString(R.string.f_table_choose_table_first), Toast.LENGTH_SHORT).show();
                 }
@@ -325,7 +325,7 @@ public class TableFragment extends Fragment {
         });
     }
 
-    private void alertSend(final int user_id, final Reservation reservation, final String table_id, final String movie_name) {
+    private void alertSend(final int user_id, final Reservation reservation, final String table_id) {
         if (getContext() != null) {
 
             AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
@@ -335,10 +335,10 @@ public class TableFragment extends Fragment {
             alert.setPositiveButton(R.string.table_frag_alert_send_yesBtn, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    sendReservation(user_id, reservation, table_id, movie_name);
+                    sendReservation(user_id, reservation, table_id, "no movie");
                 }
             });
-            alert.setNegativeButton(R.string.table_frag_alert_send_cancel_btn, new DialogInterface.OnClickListener() {
+            alert.setNegativeButton(R.string.cart_update_dialog_cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
@@ -513,6 +513,19 @@ public class TableFragment extends Fragment {
             View alertLayout = li.inflate(R.layout.alert_reser_done, null);
             TextView menu = alertLayout.findViewById(R.id.menu_container);
             RelativeLayout menuTxt = alertLayout.findViewById(R.id.menu);
+
+            TextView header = alertLayout.findViewById(R.id.dialog_header);
+            TextView first = alertLayout.findViewById(R.id.first_b);
+            TextView second = alertLayout.findViewById(R.id.second_b);
+            TextView third = alertLayout.findViewById(R.id.third_b);
+
+            Typeface regular = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cairo-Regular.ttf");
+            Typeface extraBold = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cairo-Bold.ttf");
+
+            header.setTypeface(extraBold);
+            first.setTypeface(regular);
+            second.setTypeface(regular);
+            third.setTypeface(regular);
 
             if (isOrdered) {
                 menuTxt.setVisibility(View.GONE);

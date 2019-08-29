@@ -62,6 +62,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -92,6 +93,11 @@ public class CartActivity extends AppCompatActivity {
 
     // to calculate the total price of all the item on the cart list
     private int total1;
+
+    Typeface face_Regular ;
+    Typeface face_ExtraBold;
+    Typeface face_Bold ;
+    Typeface face_light;
 
 
     private AppDatabase mDb;
@@ -151,7 +157,7 @@ public class CartActivity extends AppCompatActivity {
 
                 // showing snack bar with Undo option
                 Snackbar snackbar = Snackbar
-                        .make(coordinatorLayout, name + getString(R.string.cart_snackbar_remove), Snackbar.LENGTH_LONG);
+                        .make(coordinatorLayout, name +" "+getString(R.string.cart_snackbar_remove), Snackbar.LENGTH_LONG);
                 snackbar.setAction(R.string.cart_snackbar_undo, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -264,14 +270,13 @@ public class CartActivity extends AppCompatActivity {
         emptyCartBtn = findViewById(R.id.empty_cart_btn);
         coordinatorLayout = findViewById(R.id.coordinator_layout);
 
-        Typeface face_Regular ;
-        Typeface face_ExtraBold;
-        Typeface face_Bold ;
+
 
         if (lang.equals("ar")){
             face_Regular = Typeface.createFromAsset(CartActivity.this.getAssets(), "fonts/Cairo-Regular.ttf");
             face_ExtraBold = Typeface.createFromAsset(CartActivity.this.getAssets(), "fonts/Cairo-Bold.ttf");
             face_Bold = Typeface.createFromAsset(CartActivity.this.getAssets(), "fonts/Cairo-SemiBold.ttf");
+            face_light = Typeface.createFromAsset(CartActivity.this.getAssets(), "fonts/Cairo-Light.ttf");
 
             recyclerView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
             total_text.setTextSize(16);
@@ -279,6 +284,7 @@ public class CartActivity extends AppCompatActivity {
             face_Regular = Typeface.createFromAsset(CartActivity.this.getAssets(), "fonts/Akrobat-Regular.otf");
             face_ExtraBold = Typeface.createFromAsset(CartActivity.this.getAssets(), "fonts/Akrobat-ExtraBold.otf");
             face_Bold = Typeface.createFromAsset(CartActivity.this.getAssets(), "fonts/Akrobat-Bold.otf");
+            face_light = Typeface.createFromAsset(CartActivity.this.getAssets(), "fonts/Cairo-Light.ttf");
 
         }
 
@@ -391,6 +397,18 @@ public class CartActivity extends AppCompatActivity {
         AlertDialog.Builder alert = new AlertDialog.Builder(CartActivity.this);
         LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View alertLayout = li.inflate(R.layout.alert_done, null);
+
+        TextView header = alertLayout.findViewById(R.id.dialog_header);
+        TextView first = alertLayout.findViewById(R.id.first_b);
+        TextView second = alertLayout.findViewById(R.id.second_b);
+
+        Typeface regular = Typeface.createFromAsset(CartActivity.this.getAssets(), "fonts/Cairo-Regular.ttf");
+        Typeface extraBold = Typeface.createFromAsset(CartActivity.this.getAssets(), "fonts/Cairo-Bold.ttf");
+
+        header.setTypeface(extraBold);
+        first.setTypeface(regular);
+        second.setTypeface(regular);
+
         alert.setView(alertLayout);
         alert.setNegativeButton(R.string.cart_done_dailog_done, new DialogInterface.OnClickListener() {
             @Override
@@ -411,6 +429,19 @@ public class CartActivity extends AppCompatActivity {
         LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View alertLayout = li.inflate(R.layout.alert_first_time, null);
         CheckBox checkBox = alertLayout.findViewById(R.id.dont_show_checkBox);
+
+        TextView header = alertLayout.findViewById(R.id.dialog_header);
+        TextView first = alertLayout.findViewById(R.id.first_b);
+        TextView second = alertLayout.findViewById(R.id.second_b);
+
+        Typeface regular = Typeface.createFromAsset(CartActivity.this.getAssets(), "fonts/Cairo-Regular.ttf");
+        Typeface extraBold = Typeface.createFromAsset(CartActivity.this.getAssets(), "fonts/Cairo-Bold.ttf");
+
+        header.setTypeface(extraBold);
+        first.setTypeface(regular);
+        second.setTypeface(regular);
+
+
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -430,7 +461,7 @@ public class CartActivity extends AppCompatActivity {
             }
         });
 
-        alert.setPositiveButton("ORDER NOW", new DialogInterface.OnClickListener() {
+        alert.setPositiveButton(getString(R.string.a_cart_order_now_btn), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -455,6 +486,17 @@ public class CartActivity extends AppCompatActivity {
         AlertDialog.Builder alert = new AlertDialog.Builder(CartActivity.this);
         LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View alertLayout = li.inflate(R.layout.alert_fast_order_done, null);
+
+        TextView header = alertLayout.findViewById(R.id.dialog_header);
+        TextView first = alertLayout.findViewById(R.id.first_b);
+
+
+        Typeface regular = Typeface.createFromAsset(CartActivity.this.getAssets(), "fonts/Cairo-Regular.ttf");
+        Typeface extraBold = Typeface.createFromAsset(CartActivity.this.getAssets(), "fonts/Cairo-Bold.ttf");
+
+        header.setTypeface(extraBold);
+        first.setTypeface(regular);
+
         alert.setView(alertLayout);
         alert.setNegativeButton(R.string.cart_done_dailog_done, new DialogInterface.OnClickListener() {
             @Override
@@ -482,14 +524,11 @@ public class CartActivity extends AppCompatActivity {
         TextView headerTxt = alertLayout.findViewById(R.id.edit_cart_header);
 
 
-        Typeface face = Typeface.createFromAsset(getAssets(),"fonts/Akrobat-ExtraBold.otf");
-        Typeface face_light = Typeface.createFromAsset(getAssets(),"fonts/Akrobat-Regular.otf");
-        Typeface face_bold = Typeface.createFromAsset(getAssets(),"fonts/Kabrio-Bold.ttf");
 
-        headerTxt.setTypeface(face);
-        txt_price.setTypeface(face_light);
-        updateBtn.setTypeface(face_bold);
-        cancelBtn.setTypeface(face_bold);
+        headerTxt.setTypeface(face_Bold);
+        txt_price.setTypeface(face_Regular);
+        updateBtn.setTypeface(face_Bold);
+        cancelBtn.setTypeface(face_Bold);
 
 
 
@@ -500,6 +539,7 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
                 int total = foodOrder.getPrice()*newValue;
+                Common.total = Common.total+total;
                 txt_price.setText(String.format(getString(R.string.food_menu_adapter_price_text), total));            }
         });
 
@@ -657,6 +697,10 @@ public class CartActivity extends AppCompatActivity {
         View alertLayout = li.inflate(R.layout.choose_reservation_dialog, null);
         RecyclerView dialogRv = alertLayout.findViewById(R.id.new_reservation_rv);
         TextView addNew = alertLayout.findViewById(R.id.add_new_reservation_btn);
+        TextView header = alertLayout.findViewById(R.id.new_reservation_header);
+
+        addNew.setTypeface(face_Regular);
+        header.setTypeface(face_Bold);
 
         //rv setup
         dialogRv.setLayoutManager(new LinearLayoutManager(CartActivity.this));
@@ -849,5 +893,11 @@ public class CartActivity extends AppCompatActivity {
         BigDecimal bd = new BigDecimal(value);
         bd = bd.setScale(2, RoundingMode.HALF_UP);
         return bd.doubleValue();
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(CartActivity.this,MainActivity.class));
+        finish();
     }
 }

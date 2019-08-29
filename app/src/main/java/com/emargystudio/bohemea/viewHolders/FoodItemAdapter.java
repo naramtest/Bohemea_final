@@ -17,6 +17,7 @@ import com.emargystudio.bohemea.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Locale;
 
 
 public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.FoodItemViewHolder>{
@@ -24,10 +25,12 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.FoodIt
     private List<FoodItem> foodItems;
     private View.OnClickListener mOnItemClickListener;
     private Context context;
+    private String lang;
 
     public FoodItemAdapter(List<FoodItem> foodItems, Context context) {
         this.foodItems = foodItems;
         this.context = context;
+        lang = Locale.getDefault().getLanguage();
     }
 
     @NonNull
@@ -67,8 +70,20 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.FoodIt
             super(itemView);
           category_name = itemView.findViewById(R.id.item_name);
           categoryImage = itemView.findViewById(R.id.item_image);
-          Typeface face = Typeface.createFromAsset(context.getAssets(),"fonts/Akrobat-Bold.otf");
-          category_name.setTypeface(face);
+            Typeface face_ExtraBold;
+
+            if (lang.equals("ar")){
+                face_ExtraBold = Typeface.createFromAsset(context.getAssets(), "fonts/Cairo-Bold.ttf");
+
+
+
+            }else{
+                face_ExtraBold = Typeface.createFromAsset(context.getAssets(), "fonts/Akrobat-Bold.otf");
+
+
+            }
+
+            category_name.setTypeface(face_ExtraBold);
             itemView.setTag(this);
             itemView.setOnClickListener(mOnItemClickListener);
 

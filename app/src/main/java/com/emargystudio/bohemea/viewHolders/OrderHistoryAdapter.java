@@ -1,6 +1,7 @@
 package com.emargystudio.bohemea.viewHolders;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.emargystudio.bohemea.R;
 import com.emargystudio.bohemea.helperClasses.Common;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapter.OrderHistoryViewHolder> {
 
@@ -25,6 +27,8 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     private Context context;
     private EventHandler handler;
     private ArrayList<FoodOrder> foodOrders;
+    private String lang;
+
 
 
 
@@ -32,6 +36,8 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         this.context = context;
         this.foodOrders = foodOrders;
         this.handler = handler;
+        lang = Locale.getDefault().getLanguage();
+
     }
 
     @NonNull
@@ -78,11 +84,23 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         OrderHistoryViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            Typeface face_ExtraBold ;
+            if (lang.equals("ar")){
+                face_ExtraBold = Typeface.createFromAsset(context.getAssets(), "fonts/Cairo-Regular.ttf");
+
+
+
+            }else{
+                face_ExtraBold = Typeface.createFromAsset(context.getAssets(), "fonts/Akrobat-Regular.otf");
+
+
+            }
+
             foodName = itemView.findViewById(R.id.foodName);
             foodPrice = itemView.findViewById(R.id.foodPrice);
             numberButton = itemView.findViewById(R.id.number_button);
 
-
+            foodName.setTypeface(face_ExtraBold);
         }
 
     }

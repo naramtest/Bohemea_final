@@ -24,6 +24,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.emargystudio.bohemea.history.HistoryActivity;
 import com.emargystudio.bohemea.localDataBases.AppExecutors;
 import com.emargystudio.bohemea.MainActivity;
+import com.emargystudio.bohemea.login.LoginActivity;
 import com.emargystudio.bohemea.model.User;
 import com.emargystudio.bohemea.R;
 import com.emargystudio.bohemea.WhiteActivity;
@@ -157,12 +158,19 @@ public class FCMService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         String type = remoteMessage.getData().get("type");
+        if (type!=null && type.equals("user_unblocked")) {
+
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
             sharedPreferenceManger = SharedPreferenceManger.getInstance(getApplicationContext());
             user = sharedPreferenceManger.getUserData();
             String userIDString = remoteMessage.getData().get("user_id");
             if (userIDString != null) {
                 if (Integer.parseInt(userIDString) == user.getUserId()) {
                     if (type!=null && type.equals("user_blocked")){
+
 
                         sharedPreferenceManger.logUserOut();
                         sharedPreferenceManger.logUserDeleteTokens();
@@ -172,7 +180,8 @@ public class FCMService extends FirebaseMessagingService {
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
 
-                    }else {
+                    }
+                    else {
                     notificationManager =
                             (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     int notificationId = new Random().nextInt(60000);

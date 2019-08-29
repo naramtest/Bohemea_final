@@ -28,6 +28,7 @@ public class ResHistoryAdapter extends RecyclerView.Adapter<ResHistoryAdapter.Ri
 
     private Context context;
     private ArrayList<Reservation> reservations;
+    private String lang = Locale.getDefault().getLanguage();
 
 
     public ResHistoryAdapter(Context context, ArrayList<Reservation> reservations) {
@@ -126,13 +127,29 @@ public class ResHistoryAdapter extends RecyclerView.Adapter<ResHistoryAdapter.Ri
             cardView = itemView.findViewById(R.id.res_container);
             show     = itemView.findViewById(R.id.show_txt);
 
-            Typeface face_bold = Typeface.createFromAsset(context.getAssets(),"fonts/Akrobat-ExtraBold.otf");
-            Typeface face = Typeface.createFromAsset(context.getAssets(),"fonts/Akrobat-Light.otf");
+            Typeface face_bold;
+            Typeface face_Regular;
 
-            res_date.setTypeface(face_bold);
-            price.setTypeface(face);
-            status.setTypeface(face_bold);
-            show.setTypeface(face_bold);
+            Typeface face_light;
+            if (lang.equals("ar")){
+                face_bold = Typeface.createFromAsset(context.getAssets(),"fonts/Cairo-Bold.ttf");
+                face_Regular = Typeface.createFromAsset(context.getAssets(),"fonts/Cairo-Regular.ttf");
+                face_light = Typeface.createFromAsset(context.getAssets(),"fonts/Cairo-Light.ttf");
+                res_date.setTypeface(face_Regular);
+                price.setTypeface(face_light);
+                status.setTypeface(face_Regular);
+                show.setTypeface(face_bold);
+                status.setTextSize(16);
+            }else {
+                face_bold = Typeface.createFromAsset(context.getAssets(),"fonts/Akrobat-ExtraBold.otf");
+                face_light = Typeface.createFromAsset(context.getAssets(),"fonts/Akrobat-Light.otf");
+                res_date.setTypeface(face_bold);
+                price.setTypeface(face_light);
+                status.setTypeface(face_bold);
+                show.setTypeface(face_bold);
+            }
+
+
 
 
         }

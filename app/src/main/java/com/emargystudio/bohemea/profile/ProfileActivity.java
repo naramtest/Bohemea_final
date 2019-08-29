@@ -165,7 +165,6 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onCentreButtonClick() {
                 spaceNavigationView.setActiveSpaceItemColor(ContextCompat.getColor(ProfileActivity.this,R.color.inactive_color));
-                spaceNavigationView.changeCurrentItem(-1);
                 startActivity(new Intent(activityA, MenuActivity.class));
             }
 
@@ -212,5 +211,11 @@ public class ProfileActivity extends AppCompatActivity {
             Picasso.get().load(user.getUserPhoto()).into(user_image);
             Common.isImageChanged = false;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(ProfileActivity.this,MainActivity.class));
+        finish();
     }
 }

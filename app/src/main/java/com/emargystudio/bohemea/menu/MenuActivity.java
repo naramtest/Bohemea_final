@@ -131,12 +131,14 @@ public class MenuActivity extends AppCompatActivity {
         foodItemFragment = getSupportFragmentManager().findFragmentByTag(getString(R.string.foodItemFragment_name));
 
         if (foodCategoriesFragment!= null && foodCategoriesFragment.isVisible()){
+            startActivity(new Intent(MenuActivity.this,MainActivity.class));
             finish();
         }else if(foodItemFragment != null && foodItemFragment.isVisible()){
 
             getSupportFragmentManager().popBackStack();
         }else if (count == 0){
-            super.onBackPressed();
+            startActivity(new Intent(MenuActivity.this,MainActivity.class));
+            finish();
         }
 
 

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".menu.FoodItemFragment"
+
+    >
+
+    <ImageView
+        android:id="@+id/category_image"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:src="@drawable/test"
+        android:scaleType="centerCrop"
+        />
+
+    <TextView
+        android:id="@+id/category_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:textSize="28sp"
+        android:textStyle="bold"
+
+        />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/menu_list_bg"
+        android:scaleType="fitXY"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/food_category_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="60dp"
+
+        android:layout_marginTop="100dp"
+        android:clipToPadding="false"
+        android:layout_marginStart="60dp"
+        android:background="@android:color/transparent"
+        android:paddingBottom="100dp"/>
+
+</FrameLayout>

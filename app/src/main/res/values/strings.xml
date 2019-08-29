@@ -2,6 +2,7 @@
     <string name="app_name">Bohemea</string>
     <string name="facebook_app_id" translatable="false">1518499574947975</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb1518499574947975</string>
+    <string name="ACCOUNT_KIT_CLIENT_TOKEN" translatable="false">ae9e560b8490b2a15bf70079042f1181</string>
 
     <!-- Fragment Strings -->
     <string name="reset_request_fragment" translatable="false">reset_request</string>
@@ -90,7 +91,7 @@
     <string name="table_frag_alert_send_table_number">Table Number: %1$s</string>
     <string name="table_frag_alert_send_message">Are you sure you want to pick this table</string>
     <string name="table_frag_alert_send_yesBtn">Yes</string>
-    <string name="table_frag_alert_send_cancel_btn">Cancel</string>
+    <string name="table_frag_alert_send_cancel_btn">OK</string>
     <string name="alert_done_menu_btn">MENU</string>
     <string name="alert_done_menu">Now go and check our menu</string>
     <string name="tabel_taken">Reserved</string>

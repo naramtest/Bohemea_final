@@ -244,6 +244,15 @@ public class PreferencesActivity extends AppCompatActivity {
         final EditText confirmPasswordEdt = alertLayout.findViewById(R.id.confirm_password_edt);
         TextView doneBtn = alertLayout.findViewById(R.id.done);
 
+        final TextInputLayout layout = alertLayout.findViewById(R.id.confirm_password_layout);
+
+
+        Typeface face = Typeface.createFromAsset(PreferencesActivity.this.getAssets(),"fonts/Cairo-Regular.ttf");
+        Typeface face_book = Typeface.createFromAsset(PreferencesActivity.this.getAssets(),"fonts/Cairo-Bold.ttf");
+
+        confirmPasswordEdt.setTypeface(face);
+        doneBtn.setTypeface(face_book);
+        layout.setTypeface(face);
         // this is set the view from XML inside AlertDialog
         alert.setView(alertLayout);
         final AlertDialog dialog = alert.create();

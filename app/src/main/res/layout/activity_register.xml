@@ -93,27 +93,6 @@
                 android:textColor="#FFFFFF" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/phone_number_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="25dp"
-            android:hint="@string/a_register_phone_number"
-            android:textColorHint="#FFFFFF"
-            android:theme="@style/editTextColored">
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/phone_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_phone"
-                android:drawablePadding="16dp"
-                android:inputType="phone"
-                android:textColor="#FFFFFF" />
-        </com.google.android.material.textfield.TextInputLayout>
-
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/password_container"

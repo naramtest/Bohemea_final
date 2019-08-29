@@ -2,11 +2,21 @@ package com.emargystudio.bohemea.login;
 
 import android.content.Intent;
 
+import com.facebook.accountkit.Account;
+import com.facebook.accountkit.AccountKit;
+import com.facebook.accountkit.AccountKitCallback;
+import com.facebook.accountkit.AccountKitError;
+import com.facebook.accountkit.AccountKitLoginResult;
+import com.facebook.accountkit.PhoneNumber;
+import com.facebook.accountkit.ui.AccountKitActivity;
+import com.facebook.accountkit.ui.AccountKitConfiguration;
+import com.facebook.accountkit.ui.LoginType;
 import com.google.android.material.textfield.TextInputLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +34,7 @@ import com.emargystudio.bohemea.helperClasses.SharedPreferenceManger;
 import com.emargystudio.bohemea.helperClasses.URLS;
 import com.emargystudio.bohemea.helperClasses.VolleyHandler;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,14 +45,22 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
-    TextInputLayout usernameContainer ,emailContainer , passwordContainer ,phoneContainer;
-    EditText usernameEdt , emailEdt , passwordEdt , phoneEdt;
+    TextInputLayout usernameContainer ,emailContainer , passwordContainer ;
+    EditText usernameEdt , emailEdt , passwordEdt ;
     Button signUpBtn;
     ProgressBar progressBar;
 
 
     //var
     private static final String KEY_EMPTY = "";
+    private static final int APP_REQUEST_CODE = 99;
+
+
+    String username ;
+    String email;
+    String password;
+
+
 
 
 
@@ -53,12 +72,11 @@ public class RegisterActivity extends AppCompatActivity {
         usernameContainer = findViewById(R.id.username_container);
         emailContainer = findViewById(R.id.email_container);
         passwordContainer = findViewById(R.id.password_container);
-        phoneContainer = findViewById(R.id.phone_number_container);
+
 
         usernameEdt = findViewById(R.id.username);
         emailEdt = findViewById(R.id.email);
         passwordEdt = findViewById(R.id.password);
-        phoneEdt = findViewById(R.id.phone_number);
         signUpBtn = findViewById(R.id.sign_up);
         progressBar = findViewById(R.id.progressBar2);
 
@@ -69,23 +87,22 @@ public class RegisterActivity extends AppCompatActivity {
         usernameEdt.setTypeface(face);
         emailEdt.setTypeface(face);
         passwordEdt.setTypeface(face);
-        phoneEdt.setTypeface(face);
         signUpBtn.setTypeface(face_book);
         emailContainer.setTypeface(face);
         passwordContainer.setTypeface(face);
-        phoneContainer.setTypeface(face);
+
 
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                    String username = usernameEdt.getText().toString();
-                    String email = emailEdt.getText().toString();
-                    String password = passwordEdt.getText().toString();
-                    String phone = phoneEdt.getText().toString();
+                    username = usernameEdt.getText().toString();
+                    email = emailEdt.getText().toString();
+                    password = passwordEdt.getText().toString();
 
-                    if (validateInputs(username,email,password,phone)){
-                        registerUser(username, email, password, phone);
+
+                    if (validateInputs(username,email,password)){
+                        foodQuery(email);
                     }
             }
         });
@@ -188,7 +205,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     //check edit text validation
-    private boolean validateInputs(String username, String email, String password, String phone) {
+    private boolean validateInputs(String username, String email, String password) {
         if (KEY_EMPTY.equals(email)) {
             emailEdt.setError(getString(R.string.phone_number_empty));
             emailEdt.requestFocus();
@@ -207,11 +224,7 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
 
-        if (KEY_EMPTY.equals(phone)) {
-            phoneEdt.setError(getString(R.string.phone_number_empty));
-            phoneEdt.requestFocus();
-            return false;
-        }
+
         if (password.length()<= 5){
             passwordEdt.setError(getString(R.string.a_register_password_short));
             passwordEdt.requestFocus();
@@ -228,5 +241,127 @@ public class RegisterActivity extends AppCompatActivity {
 
     boolean isEmailValid(CharSequence email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    public void phoneLogin() {
+        final Intent intent = new Intent(this, AccountKitActivity.class);
+        AccountKitConfiguration.AccountKitConfigurationBuilder configurationBuilder =
+                new AccountKitConfiguration.AccountKitConfigurationBuilder(
+                        LoginType.PHONE,
+                        AccountKitActivity.ResponseType.TOKEN); // or .ResponseType.TOKEN
+        // ... perform additional configuration ...
+        intent.putExtra(
+                AccountKitActivity.ACCOUNT_KIT_ACTIVITY_CONFIGURATION,
+                configurationBuilder.build());
+        startActivityForResult(intent, APP_REQUEST_CODE);
+    }
+
+
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == APP_REQUEST_CODE) { // confirm that this response matches your request
+            AccountKitLoginResult loginResult = data.getParcelableExtra(AccountKitLoginResult.RESULT_KEY);
+            String toastMessage;
+            if (loginResult.getError() != null) {
+                toastMessage = loginResult.getError().getErrorType().getMessage();
+            } else if (loginResult.wasCancelled()) {
+                toastMessage = getString(R.string.error);
+            } else {
+
+                toastMessage = getString(R.string.alert_phone_done_btn);
+
+                // If you have an authorization code, retrieve it from
+                // loginResult.getAuthorizationCode()
+                // and pass it to your server and exchange it for an access token.
+
+                // Success! Start your next activity...
+                AccountKit.getCurrentAccount(new AccountKitCallback<Account>() {
+                    @Override
+                    public void onSuccess(final Account account) {
+
+                        // Get phone number
+                        PhoneNumber phoneNumber = account.getPhoneNumber();
+                        if (phoneNumber != null) {
+                            String phoneNumberString = phoneNumber.toString();
+                            registerUser(username, email, password, phoneNumberString);
+
+                        }
+
+                        // Get email
+
+                    }
+
+                    @Override
+                    public void onError(final AccountKitError error) {
+                        // Handle Error
+                    }
+                });
+            }
+
+            // Surface the result to your user in an appropriate way.
+            Toast.makeText(
+                    this,
+                    toastMessage,
+                    Toast.LENGTH_LONG)
+                    .show();
+        }
+    }
+
+
+    private void foodQuery(final String email){
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URLS.checkEmail,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+
+                            if(!jsonObject.getBoolean("error")){
+
+                                JSONArray jsonObjectCategory =  jsonObject.getJSONArray("emails");
+                                boolean isExists = false;
+                                for (int i =0; i<jsonObjectCategory.length();i++){
+                                    JSONObject jsonObject1 = jsonObjectCategory.getJSONObject(i);
+                                    if (jsonObject1.getString("user_email").equals(email)){
+                                        isExists = true;
+                                        if (jsonObject1.getInt("is_facebook")==1){
+
+                                            Toast.makeText(RegisterActivity.this, getString(R.string.a_register_email_facebook_used_error), Toast.LENGTH_LONG).show();
+
+                                        }else {
+                                            Toast.makeText(RegisterActivity.this, getString(R.string.a_register_email_used_error), Toast.LENGTH_LONG).show();
+
+                                        }
+                                    }
+                                }
+
+                                if (!isExists){
+                                    phoneLogin();
+                                }
+
+
+                            }else{
+                                Toast.makeText(RegisterActivity.this,getString(R.string.internet_off),Toast.LENGTH_LONG).show();
+                            }
+
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(RegisterActivity.this,getString(R.string.internet_off),Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
+        VolleyHandler.getInstance(RegisterActivity.this).addRequetToQueue(stringRequest);
+
     }
 }
